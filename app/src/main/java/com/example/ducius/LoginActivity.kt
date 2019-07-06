@@ -9,6 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 
 class LoginActivity : AppCompatActivity() {
 
+    companion object{
+        const val MAX_PASSWORD_CHAR = 8
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -22,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
             override fun beforeTextChanged(text: CharSequence, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(text: CharSequence, start: Int, before: Int, count: Int) {
-                loginButton.isEnabled = (usernameEditText.text.isNotEmpty() && passwordEditText.text.length >= 8)
+                loginButton.isEnabled = (usernameEditText.text.isNotEmpty() && passwordEditText.text.length >= MAX_PASSWORD_CHAR)
             }
         })
 
@@ -33,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                loginButton.isEnabled = (usernameEditText.text.isNotEmpty() && passwordEditText.text.length >= 8)
+                loginButton.isEnabled = (usernameEditText.text.isNotEmpty() && passwordEditText.text.length >= MAX_PASSWORD_CHAR)
             }
         })
 
