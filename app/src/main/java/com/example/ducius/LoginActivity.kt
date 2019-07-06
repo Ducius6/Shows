@@ -1,10 +1,10 @@
 package com.example.ducius
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_login.*
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.appcompat.app.AppCompatActivity
 
 
 class LoginActivity : AppCompatActivity() {
@@ -17,12 +17,12 @@ class LoginActivity : AppCompatActivity() {
 
         usernameEditText.addTextChangedListener(object : TextWatcher {
 
-            override fun afterTextChanged(s: Editable) {}
+            override fun afterTextChanged(editableText: Editable) {}
 
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun beforeTextChanged(text: CharSequence, start: Int, count: Int, after: Int) {}
 
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int){
-                loginButton.isEnabled = (usernameEditText.text.length>=1 && passwordEditText.text.length>=8)
+            override fun onTextChanged(text: CharSequence, start: Int, before: Int, count: Int) {
+                loginButton.isEnabled = (usernameEditText.text.isNotEmpty() && passwordEditText.text.length >= 8)
             }
         })
 
@@ -32,8 +32,8 @@ class LoginActivity : AppCompatActivity() {
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int){
-                loginButton.isEnabled = (usernameEditText.text.length>=1 && passwordEditText.text.length>=8)
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                loginButton.isEnabled = (usernameEditText.text.isNotEmpty() && passwordEditText.text.length >= 8)
             }
         })
 
