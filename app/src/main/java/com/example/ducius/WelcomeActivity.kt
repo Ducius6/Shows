@@ -12,9 +12,7 @@ class WelcomeActivity : AppCompatActivity() {
         const val USERNAME = "USERNAME"
 
         fun newInstance(context: Context, username: String): Intent {
-            val intent = Intent(context, WelcomeActivity::class.java)
-            intent.putExtra(USERNAME, username)
-            return intent
+            return Intent(context, WelcomeActivity::class.java).putExtra(USERNAME, username)
         }
     }
 
@@ -22,7 +20,6 @@ class WelcomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
 
-        welcomeText.text = "Welcome " + intent.getStringExtra(USERNAME)
-
+        welcomeText.text = String.format("Welcome %s", intent.getStringExtra(USERNAME))
     }
 }

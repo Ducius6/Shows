@@ -6,12 +6,9 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 
+const val MAX_PASSWORD_CHAR = 8
 
 class LoginActivity : AppCompatActivity() {
-
-    companion object{
-        const val MAX_PASSWORD_CHAR = 8
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +23,8 @@ class LoginActivity : AppCompatActivity() {
             override fun beforeTextChanged(text: CharSequence, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(text: CharSequence, start: Int, before: Int, count: Int) {
-                loginButton.isEnabled = (usernameEditText.text.isNotEmpty() && passwordEditText.text.length >= MAX_PASSWORD_CHAR)
+                loginButton.isEnabled =
+                    (usernameEditText.text.isNotEmpty() && passwordEditText.text.length >= MAX_PASSWORD_CHAR)
             }
         })
 
@@ -37,14 +35,17 @@ class LoginActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                loginButton.isEnabled = (usernameEditText.text.isNotEmpty() && passwordEditText.text.length >= MAX_PASSWORD_CHAR)
+                loginButton.isEnabled =
+                    (usernameEditText.text.isNotEmpty() && passwordEditText.text.length >= MAX_PASSWORD_CHAR)
             }
         })
 
         loginButton.setOnClickListener {
-            startActivity(WelcomeActivity.newInstance(this, usernameEditText.text.toString()))
+            if (android.util.Patterns.EMAIL_ADDRESS.matcher(usernameEditText.text).matches()) {
+                startActivity(WelcomeActivity.newInstance(this, usernameEditText.text.toString()))
+            } else {
+                usernameInputLayout.error = "This username already exist!"
+            }
         }
-
-        //usernameInputLayout.error = "This username already exist!"
     }
 }

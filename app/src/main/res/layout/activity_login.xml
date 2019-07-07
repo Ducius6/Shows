@@ -7,7 +7,6 @@
         android:layout_height="match_parent"
         tools:context=".LoginActivity">
 
-
     <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -19,7 +18,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
-
 
     <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/usernameInputLayout"
@@ -43,25 +41,23 @@
                 android:lineSpacingExtra="6sp"
                 android:fontFamily="@font/karla_bold"
                 android:textColor="#2e2e2e"
-                android:inputType="text"
-        />
+                android:inputType="text"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:id="@+id/warningTextView"
-              app:layout_constraintTop_toBottomOf="@id/usernameInputLayout"
-              app:layout_constraintLeft_toLeftOf="parent"
-              android:layout_marginStart="15dp"
-              android:layout_marginTop="8dp"
-              android:text="This username already exist!"
-              android:textColor="#ff758c"
-              android:textSize="12sp"
-              android:lineSpacingExtra="6sp"
-              android:visibility="invisible"
-    />
-
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/warningTextView"
+            app:layout_constraintTop_toBottomOf="@id/usernameInputLayout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="8dp"
+            android:text="This username already exist!"
+            android:textColor="#ff758c"
+            android:textSize="12sp"
+            android:lineSpacingExtra="6sp"
+            android:visibility="invisible"/>
 
     <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordInputLayout"
@@ -85,13 +81,12 @@
                 android:paddingBottom="13dp"
                 android:fontFamily="@font/karla_bold"
                 android:lineSpacingExtra="6sp"
-                android:inputType="textPassword"
-        />
+                android:inputType="textPassword"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <Button android:layout_width="match_parent"
+    <Button
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/loginButton"
             android:text="LOG IN"
@@ -105,6 +100,5 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/passwordInputLayout"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
