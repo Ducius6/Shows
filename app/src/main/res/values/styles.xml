@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ErrorAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/pink</item>
+        <item name="android:text">"This username already exist!"</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
 </resources>
