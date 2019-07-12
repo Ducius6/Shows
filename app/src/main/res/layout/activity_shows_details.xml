@@ -15,20 +15,21 @@
             android:background="@color/white"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" android:layout_marginEnd="8dp"
+            android:layout_marginStart="@dimen/dimens8dp"
+            android:layout_marginEnd="@dimen/dimens8dp"
             app:layout_constraintEnd_toEndOf="parent"></androidx.appcompat.widget.Toolbar>
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/showDesc"
-            android:textSize="16sp"
-            android:textColor="#505050"
-            android:lineSpacingExtra="8sp"
+            android:textSize="@dimen/dimens16sp"
+            android:textColor="@color/text_color2"
+            android:lineSpacingExtra="@dimen/dimens8sp"
             app:layout_constraintTop_toBottomOf="@id/showsDetailsToolbar"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="1dp"/>
+            android:layout_marginHorizontal="@dimen/dimens24dp"
+            android:layout_marginTop="@dimen/dimens1dp"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -36,23 +37,23 @@
             android:id="@+id/episodesTextView"
             app:layout_constraintTop_toBottomOf="@id/showDesc"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="18dp"
-            android:layout_marginLeft="24dp"
-            android:textSize="20sp"
-            android:textColor="#2e2e2e"
-            android:text="Episodes"/>
+            android:layout_marginTop="@dimen/dimens18dp"
+            android:layout_marginLeft="@dimen/dimens24dp"
+            android:textSize="@dimen/dimens20sp"
+            android:textColor="@color/textColor"
+            android:text="@string/episodes"/>
 
     <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/sleepyIcon"
             app:layout_constraintTop_toBottomOf="@id/episodesTextView"
-            android:layout_marginTop="33dp"
+            android:layout_marginTop="@dimen/dimens33dp"
             android:src="@drawable/img_placeholder_episodes"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/dimens8dp"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"/>
+            android:layout_marginStart="@dimen/dimens8dp"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -61,11 +62,11 @@
             app:layout_constraintTop_toBottomOf="@id/sleepyIcon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="15dp"
-            android:textSize="15sp"
-            android:textColor="#505050"
-            android:lineSpacingExtra="7sp"
-            android:text="Someone has fallen asleep."/>
+            android:layout_marginTop="@dimen/dimens15dp"
+            android:textSize="@dimen/dimens16sp"
+            android:textColor="@color/text_color2"
+            android:lineSpacingExtra="@dimen/dimens8sp"
+            android:text="@string/someone_has_fallen_asleep"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -74,10 +75,10 @@
             app:layout_constraintTop_toBottomOf="@id/asleepTextView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:textSize="15sp"
-            android:textColor="#505050"
-            android:lineSpacingExtra="7sp"
-            android:text="Don't wake him up."/>
+            android:textSize="@dimen/dimens15sp"
+            android:textColor="@color/text_color2"
+            android:lineSpacingExtra="@dimen/dimens8sp"
+            android:text="@string/don_t_wake_him_up"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -86,11 +87,12 @@
             app:layout_constraintTop_toBottomOf="@id/wakeUpTextView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:textSize="15sp"
-            android:textColor="#ff758c"
-            android:lineSpacingExtra="7sp"
+            android:textSize="@dimen/dimens15sp"
+            android:textColor="@color/pink"
+            android:lineSpacingExtra="@dimen/dimens8sp"
             android:clickable="true"
-            android:text="Add some episodes"/>
+            android:text="@string/add_some_episodes"
+            android:focusable="true"/>
 
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
@@ -98,18 +100,18 @@
             android:id="@+id/episodesRecyclerView"
             app:layout_constraintTop_toBottomOf="@id/episodesTextView"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="16dp"></androidx.recyclerview.widget.RecyclerView>
+            android:layout_marginTop="@dimen/dimens16dp"></androidx.recyclerview.widget.RecyclerView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="@dimen/dimens56dp"
+            android:layout_height="@dimen/dimens56dp"
             android:id="@+id/addEpisodeFloatingButton"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="22dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="@dimen/dimens22dp"
+            android:layout_marginEnd="@dimen/dimens24dp"
             android:src="@drawable/ic_add"
-            app:borderWidth="0dp"
-            android:backgroundTint="#ff758c"/>
+            app:borderWidth="@dimen/dimens0dp"
+            android:backgroundTint="@color/pink"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

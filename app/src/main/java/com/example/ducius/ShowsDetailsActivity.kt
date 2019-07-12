@@ -27,12 +27,12 @@ class ShowsDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shows_details)
 
-        show = intent.getSerializableExtra(SHOW_REFERENCE) as Show
+        show = intent.getParcelableExtra(SHOW_REFERENCE) as Show
         setSupportActionBar(showsDetailsToolbar)
         if (supportActionBar != null) {
-            supportActionBar!!.setDisplayShowHomeEnabled(true)
-            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-            supportActionBar!!.title = show!!.name
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.title = show.name
         }
 
         showDesc.text = show.description

@@ -9,12 +9,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/episodeName"
-            android:textColor="#2e2e2e"
-            android:textSize="16sp"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/dimens16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="17dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginTop="@dimen/dimens17dp"
+            android:layout_marginStart="@dimen/dimens24dp"
+            android:layout_marginBottom="@dimen/dimens120dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

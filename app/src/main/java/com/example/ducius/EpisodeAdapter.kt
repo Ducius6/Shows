@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_episode.view.*
 
-class EpisodeAdapter(private val listOfEpisodes: ArrayList<Episode>) :
+class EpisodeAdapter(private val listOfEpisodes: List<Episode>) :
     RecyclerView.Adapter<EpisodeAdapter.EpisodeViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EpisodeAdapter.EpisodeViewHolder {

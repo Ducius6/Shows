@@ -44,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
             if (android.util.Patterns.EMAIL_ADDRESS.matcher(usernameEditText.text).matches()) {
                 startActivity(WelcomeActivity.newInstance(this, usernameEditText.text.toString()))
             } else {
-                usernameInputLayout.error = "This username already exist!"
+                usernameInputLayout.error = getString(R.string.username_exists)
             }
         }
     }

@@ -10,16 +10,16 @@
     <TextView android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:id="@+id/showsTextView"
-              android:textSize="28sp"
-              android:text="Shows"
-              android:textColor="#2e2e2e"
-              android:lineSpacingExtra="12sp"
+              android:textSize="@dimen/dimens28sp"
+              android:text="@string/shows"
+              android:textColor="@color/textColor"
+              android:lineSpacingExtra="@dimen/dimens12sp"
               app:layout_constraintTop_toTopOf="parent"
               app:layout_constraintLeft_toLeftOf="parent"
               app:layout_constraintLeft_toRightOf="parent"
-              android:layout_marginStart="16dp"
-              app:layout_goneMarginEnd="1dp"
-              android:layout_marginTop="19dp"/>
+              android:layout_marginStart="@dimen/dimens16dp"
+              app:layout_goneMarginEnd="@dimen/dimens1dp"
+              android:layout_marginTop="@dimen/dimens18dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
@@ -27,7 +27,7 @@
             android:id="@+id/showsRecyclerView"
             app:layout_constraintTop_toBottomOf="@+id/showsTextView"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginTop="23dp"
-            android:layout_marginStart="16dp"></androidx.recyclerview.widget.RecyclerView>
+            android:layout_marginTop="@dimen/dimens23dp"
+            android:layout_marginStart="@dimen/dimens16dp"></androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

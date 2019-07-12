@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Shows-Duje</string>
+    <string name="dialog_question">Are you sure you want to go back?</string>
+    <string name="positive">Yes</string>
+    <string name="negative">No</string>
+    <string name="username_exists">This username already exist!</string>
+    <string name="password">Password</string>
+    <string name="log_in">LOG IN</string>
+    <string name="shows">Shows</string>
+    <string name="episodes">Episodes</string>
+    <string name="someone_has_fallen_asleep">Someone has fallen asleep.</string>
+    <string name="don_t_wake_him_up">Don\'t wake him up.</string>
+    <string name="add_some_episodes">Add some episodes</string>
+    <string name="you_re_in">You’re in!</string>
+    <string name="episode_description">Episode description</string>
 </resources>

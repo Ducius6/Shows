@@ -24,8 +24,8 @@ class AddEpisodeActivity : AppCompatActivity() {
 
         setSupportActionBar(episodeToolbar)
         if (supportActionBar != null) {
-            supportActionBar!!.setDisplayShowHomeEnabled(true)
-            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
 
         episodeTitleEditText.addTextChangedListener(object : TextWatcher {
@@ -74,11 +74,13 @@ class AddEpisodeActivity : AppCompatActivity() {
 
     fun createDialog() {
         val builder = AlertDialog.Builder(this)
-        builder.setMessage("Are you sure you want to go back?")
+        builder.setMessage(getString(R.string.dialog_question))
             .setCancelable(false)
-            .setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, _ -> this@AddEpisodeActivity.finish() })
-            .setNegativeButton("No", DialogInterface.OnClickListener { dialog, _ -> dialog.cancel() })
-        val alert = builder.create()
-        alert.show()
+            .setPositiveButton(
+                getString(R.string.positive),
+                DialogInterface.OnClickListener { dialog, _ -> this@AddEpisodeActivity.finish() })
+            .setNegativeButton(
+                getString(R.string.negative),
+                DialogInterface.OnClickListener { dialog, _ -> dialog.cancel() }).create().show()
     }
 }

@@ -24,9 +24,9 @@
             app:layout_constraintTop_toBottomOf="@id/episodeToolbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:paddingTop="30dp"
-            android:paddingBottom="15dp"
-            android:textSize="16sp"
+            android:paddingTop="@dimen/dimens30dp"
+            android:paddingBottom="@dimen/dimens15dp"
+            android:textSize="@dimen/dimens16sp"
             android:hint="Episode title"/>
 
     <EditText
@@ -36,10 +36,10 @@
             app:layout_constraintTop_toBottomOf="@id/episodeTitleEditText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:paddingTop="30dp"
-            android:paddingBottom="15dp"
-            android:textSize="16sp"
-            android:hint="Episode description"/>
+            android:paddingTop="@dimen/dimens30dp"
+            android:paddingBottom="@dimen/dimens15dp"
+            android:textSize="@dimen/dimens16sp"
+            android:hint="@string/episode_description"/>
 
     <Button
             android:layout_width="match_parent"
@@ -51,14 +51,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@drawable/rounded_button"
-            android:paddingTop="18dp"
-            android:paddingBottom="17dp"
-            android:layout_marginHorizontal="16dp"
-            android:textSize="16sp"
+            android:paddingTop="@dimen/dimens18dp"
+            android:paddingBottom="@dimen/dimens17dp"
+            android:layout_marginHorizontal="@dimen/dimens16dp"
+            android:textSize="@dimen/dimens16sp"
             android:textColor="@color/white"
             android:letterSpacing="0.02"
-            android:lineSpacingExtra="4sp"
+            android:lineSpacingExtra="@dimen/dimens4sp"
             android:gravity="center_horizontal"
-            android:layout_marginBottom="32dp"/>
+            android:layout_marginBottom="@dimen/dimens32dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
