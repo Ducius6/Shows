@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".ShowsDetailsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:id="@+id/showsDetailsToolbar"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"></androidx.appcompat.widget.Toolbar>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/showDesc"
+            android:textSize="16sp"
+            android:textColor="#505050"
+            android:lineSpacingExtra="8sp"
+            app:layout_constraintTop_toBottomOf="@id/showsDetailsToolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="1dp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/episodesTextView"
+            app:layout_constraintTop_toBottomOf="@id/showDesc"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="18dp"
+            android:layout_marginLeft="24dp"
+            android:textSize="20sp"
+            android:textColor="#2e2e2e"
+            android:text="Episodes"/>
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sleepyIcon"
+            app:layout_constraintTop_toBottomOf="@id/episodesTextView"
+            android:layout_marginTop="33dp"
+            android:src="@drawable/img_placeholder_episodes"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/asleepTextView"
+            app:layout_constraintTop_toBottomOf="@id/sleepyIcon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="15dp"
+            android:textSize="15sp"
+            android:textColor="#505050"
+            android:lineSpacingExtra="7sp"
+            android:text="Someone has fallen asleep."/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/wakeUpTextView"
+            app:layout_constraintTop_toBottomOf="@id/asleepTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="15sp"
+            android:textColor="#505050"
+            android:lineSpacingExtra="7sp"
+            android:text="Don't wake him up."/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addSomeEpisodes"
+            app:layout_constraintTop_toBottomOf="@id/wakeUpTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="15sp"
+            android:textColor="#ff758c"
+            android:lineSpacingExtra="7sp"
+            android:clickable="true"
+            android:text="Add some episodes"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/episodesRecyclerView"
+            app:layout_constraintTop_toBottomOf="@id/episodesTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp"></androidx.recyclerview.widget.RecyclerView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:id="@+id/addEpisodeFloatingButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="22dp"
+            android:layout_marginEnd="24dp"
+            android:src="@drawable/ic_add"
+            app:borderWidth="0dp"
+            android:backgroundTint="#ff758c"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

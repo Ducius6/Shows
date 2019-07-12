@@ -11,9 +11,8 @@ class WelcomeActivity : AppCompatActivity() {
     companion object {
         const val USERNAME = "USERNAME"
 
-        fun newInstance(context: Context, username: String): Intent {
-            return Intent(context, WelcomeActivity::class.java).putExtra(USERNAME, username)
-        }
+        fun newInstance(context: Context, username: String): Intent =
+            Intent(context, WelcomeActivity::class.java).putExtra(USERNAME, username)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

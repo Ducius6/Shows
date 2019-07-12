@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".AddEpisodeActivity">
+
+    <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:id="@+id/episodeToolbar"
+            app:title="Add Episode"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"></androidx.appcompat.widget.Toolbar>
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/episodeTitleEditText"
+            app:layout_constraintTop_toBottomOf="@id/episodeToolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingTop="30dp"
+            android:paddingBottom="15dp"
+            android:textSize="16sp"
+            android:hint="Episode title"/>
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/episodeDescEditText"
+            app:layout_constraintTop_toBottomOf="@id/episodeTitleEditText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingTop="30dp"
+            android:paddingBottom="15dp"
+            android:textSize="16sp"
+            android:hint="Episode description"/>
+
+    <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SAVE"
+            android:id="@+id/saveButton"
+            android:enabled="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/rounded_button"
+            android:paddingTop="18dp"
+            android:paddingBottom="17dp"
+            android:layout_marginHorizontal="16dp"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:letterSpacing="0.02"
+            android:lineSpacingExtra="4sp"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="32dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,12 @@
+package com.example.ducius
+
+import java.io.Serializable
+
+data class Show(
+    val ID: Int,
+    val name: String,
+    val airDate: String,
+    val imageId: Int,
+    val description: String,
+    var listOfEpisodes: ArrayList<Episode>
+) : Serializable {}
