@@ -28,6 +28,7 @@
             app:layout_constraintTop_toBottomOf="@+id/showsTextView"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginTop="@dimen/dimens23dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_marginStart="@dimen/dimens16dp"></androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

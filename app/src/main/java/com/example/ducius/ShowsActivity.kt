@@ -23,11 +23,9 @@ class ShowsActivity : AppCompatActivity(), ShowsAdapter.OnShowClicked {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shows)
 
-        showsRecyclerView.layoutManager = LinearLayoutManager(this)
         showsRecyclerView.adapter = ShowsAdapter(listOfShows, this)
     }
 
-    override fun OnClick(show: Show) {
-        startActivity(ShowsDetailsActivity.newInstance(this, show))
-    }
+    override fun OnClick(show: Show) = startActivity(ShowsDetailsActivity.newInstance(this, show))
+
 }

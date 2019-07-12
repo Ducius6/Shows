@@ -37,13 +37,12 @@ class ShowsDetailsActivity : AppCompatActivity() {
 
         showDesc.text = show.description
         episodeAdapter = EpisodeAdapter(show.listOfEpisodes)
-        episodesRecyclerView.layoutManager = LinearLayoutManager(this)
         episodesRecyclerView.adapter = episodeAdapter
         if (show.listOfEpisodes.isEmpty()) {
             sleepyIcon.visibility = View.VISIBLE
             asleepTextView.visibility = View.VISIBLE
         } else {
-            sleepyIcon.visibility = View.INVISIBLE
+            removeItems()
         }
 
         addEpisodeFloatingButton.setOnClickListener {
@@ -66,14 +65,18 @@ class ShowsDetailsActivity : AppCompatActivity() {
                             data.getStringExtra(AddEpisodeActivity.EPISODE_DESC)
                         )
                     )
-                    sleepyIcon.visibility = View.INVISIBLE
-                    asleepTextView.visibility = View.INVISIBLE
-                    wakeUpTextView.visibility = View.INVISIBLE
-                    addSomeEpisodes.visibility = View.INVISIBLE
+                    removeItems()
                     episodeAdapter.notifyDataSetChanged()
                 }
             }
         }
+    }
+
+    private fun removeItems() {
+        sleepyIcon.visibility = View.GONE
+        asleepTextView.visibility = View.GONE
+        wakeUpTextView.visibility = View.GONE
+        addSomeEpisodes.visibility = View.GONE
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
