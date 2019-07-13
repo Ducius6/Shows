@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimens8dp">
+
+    <FrameLayout
+            android:layout_width="@dimen/dimens64dp"
+            android:layout_height="@dimen/dimens90dp"
+            android:id="@+id/showFrameLayout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:foregroundGravity="left">
+
+        <ImageView
+                android:layout_width="@dimen/dimens64dp"
+                android:layout_height="@dimen/dimens90dp"
+                android:id="@+id/showImageView"
+                android:scaleType="centerCrop"/>
+    </FrameLayout>
+
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/showName"
+              android:textSize="@dimen/dimens20sp"
+              android:textColor="@color/text_color2"
+              app:layout_constraintTop_toTopOf="parent"
+              app:layout_constraintLeft_toRightOf="@id/showFrameLayout"
+              android:layout_marginTop="@dimen/dimens8dp"
+              android:layout_marginStart="@dimen/dimens16dp"/>
+
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/showAirDate"
+              android:textSize="@dimen/dimens15sp"
+              android:textColor="@color/text_color3"
+              app:layout_constraintTop_toBottomOf="@id/showName"
+              app:layout_constraintLeft_toRightOf="@id/showFrameLayout"
+              android:layout_marginStart="@dimen/dimens16dp"
+              android:layout_marginTop="@dimen/dimens8dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
