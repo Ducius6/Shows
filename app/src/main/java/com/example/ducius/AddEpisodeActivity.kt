@@ -77,10 +77,10 @@ class AddEpisodeActivity : AppCompatActivity() {
         builder.setMessage(getString(R.string.dialog_question))
             .setCancelable(false)
             .setPositiveButton(
-                getString(R.string.positive),
-                DialogInterface.OnClickListener { dialog, _ -> this@AddEpisodeActivity.finish() })
+                getString(R.string.positive)
+            ) { _, _ -> this@AddEpisodeActivity.finish() }
             .setNegativeButton(
-                getString(R.string.negative),
-                DialogInterface.OnClickListener { dialog, _ -> dialog.cancel() }).create().show()
+                getString(R.string.negative)
+            ) { dialog, _ -> dialog.cancel() }.create().show()
     }
 }

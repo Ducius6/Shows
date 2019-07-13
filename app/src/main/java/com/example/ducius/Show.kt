@@ -18,8 +18,7 @@ data class Show(
         parcel.readInt(),
         parcel.readString(),
         parcel.createTypedArrayList(Episode)
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(ID)
@@ -30,9 +29,7 @@ data class Show(
         parcel.writeTypedList(listOfEpisodes)
     }
 
-    override fun describeContents(): Int {
-        return 0
-    }
+    override fun describeContents(): Int = 0
 
     companion object CREATOR : Parcelable.Creator<Show> {
         override fun createFromParcel(parcel: Parcel): Show {

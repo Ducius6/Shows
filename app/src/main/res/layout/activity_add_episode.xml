@@ -28,7 +28,7 @@
             android:paddingTop="@dimen/dimens30dp"
             android:paddingBottom="@dimen/dimens15dp"
             android:textSize="@dimen/dimens16sp"
-            android:hint="Episode title"/>
+            android:hint="@string/episode_title"/>
 
     <EditText
             android:layout_width="match_parent"
@@ -46,7 +46,7 @@
     <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SAVE"
+            android:text="@string/save"
             android:id="@+id/saveButton"
             android:enabled="false"
             app:layout_constraintBottom_toBottomOf="parent"
