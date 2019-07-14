@@ -17,6 +17,61 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"></androidx.appcompat.widget.Toolbar>
 
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cameraImageView"
+            app:layout_constraintTop_toBottomOf="@id/episodeToolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/dimens45dp"
+            android:src="@drawable/ic_camera"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/uploadPhotoTextView"
+            app:layout_constraintTop_toBottomOf="@id/cameraImageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/dimens8dp"
+            android:text="@string/upload_photo"
+            android:textColor="@color/pink"
+            android:lineSpacingExtra="@dimen/dimens7sp"
+            android:textSize="@dimen/dimens15sp"/>
+
+    <FrameLayout
+            android:layout_width="@dimen/dimens150dp"
+            android:layout_height="@dimen/dimens104dp"
+            android:id="@+id/episodeFrameLayout"
+            android:layout_marginTop="@dimen/dimens10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/episodeToolbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
+            android:foregroundGravity="center_horizontal">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/episodeImageView"
+                android:scaleType="centerCrop"/>
+    </FrameLayout>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/changePhotoTextView"
+            app:layout_constraintTop_toBottomOf="@id/episodeFrameLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/dimens8dp"
+            android:text="@string/change_photo"
+            android:textColor="@color/pink"
+            android:lineSpacingExtra="@dimen/dimens7sp"
+            android:textSize="@dimen/dimens15sp"
+            android:visibility="gone"/>
+
     <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,18 +80,43 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginHorizontal="@dimen/dimens16dp"
-            android:paddingTop="@dimen/dimens30dp"
+            android:layout_marginTop="215dp"
             android:paddingBottom="@dimen/dimens15dp"
             android:textSize="@dimen/dimens16sp"
             android:hint="@string/episode_title"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/seasonAndEpisodeTextView"
+            app:layout_constraintTop_toBottomOf="@id/episodeTitleEditText"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="@dimen/dimens20dp"
+            android:layout_marginTop="@dimen/dimens17dp"
+            android:textSize="17sp"
+            android:text="@string/season_episode"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pickSeasonAndEp"
+            app:layout_constraintTop_toBottomOf="@id/seasonAndEpisodeTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/dimens2dp"
+            android:layout_marginStart="@dimen/dimens24dp"
+            android:text="@string/default_season_episode"
+            android:textColor="@color/pink"
+            android:lineSpacingExtra="@dimen/dimens6sp"
+            android:textStyle="normal"/>
 
     <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/episodeDescEditText"
-            app:layout_constraintTop_toBottomOf="@id/episodeTitleEditText"
+            app:layout_constraintTop_toBottomOf="@id/pickSeasonAndEp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/dimens3dp"
             android:layout_marginHorizontal="@dimen/dimens16dp"
             android:paddingTop="@dimen/dimens30dp"
             android:paddingBottom="@dimen/dimens15dp"

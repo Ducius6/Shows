@@ -13,6 +13,17 @@
     <string name="add_some_episodes">Add some episodes</string>
     <string name="you_re_in">You’re in!</string>
     <string name="episode_description">Episode description</string>
-    <string name="save">SAVE</string>
+    <string name="upload_photo">Upload Photo</string>
+    <string name="change_photo">Change photo</string>
+    <string name="default_season_episode">S 01, E 01</string>
     <string name="episode_title">Episode title</string>
+    <string name="save">SAVE</string>
+    <string name="season_episode">Season &amp; episode</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="season">Season</string>
+    <string name="episode">Episode</string>
+    <string name="remember_me">Remember me</string>
+    <string name="date_format">ddMMyyyy_HHmmss</string>
+    <string name="something_went_wrong">Something went wrong</string>
 </resources>

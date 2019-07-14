@@ -3,7 +3,20 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/seasonEpisodeNumber"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="@dimen/dimens24dp"
+            android:layout_marginTop="@dimen/dimens17dp"
+            android:layout_marginBottom="@dimen/dimens120dp"
+            android:textColor="@color/pink"
+            android:textSize="@dimen/dimens16sp"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -11,10 +24,10 @@
             android:id="@+id/episodeName"
             android:textColor="@color/textColor"
             android:textSize="@dimen/dimens16sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/seasonEpisodeNumber"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="@dimen/dimens17dp"
-            android:layout_marginStart="@dimen/dimens24dp"
+            android:layout_marginStart="@dimen/dimens17dp"
             android:layout_marginBottom="@dimen/dimens120dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

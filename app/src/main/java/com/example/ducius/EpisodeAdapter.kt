@@ -16,7 +16,10 @@ class EpisodeAdapter(private val listOfEpisodes: List<Episode>) :
     override fun getItemCount(): Int = listOfEpisodes.size
 
     override fun onBindViewHolder(holder: EpisodeAdapter.EpisodeViewHolder, position: Int) {
-        holder.itemView.episodeName.text = listOfEpisodes.get(position).title
+        with(holder.itemView){
+            episodeName.text = listOfEpisodes.get(position).title
+            seasonEpisodeNumber.text = listOfEpisodes.get(position).seasonEpisode
+        }
     }
 
     inner class EpisodeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

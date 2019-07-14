@@ -62,7 +62,8 @@ class ShowsDetailsActivity : AppCompatActivity() {
                     show.listOfEpisodes.add(
                         Episode(
                             data.getStringExtra(AddEpisodeActivity.EPISODE_TITLE),
-                            data.getStringExtra(AddEpisodeActivity.EPISODE_DESC)
+                            data.getStringExtra(AddEpisodeActivity.EPISODE_DESC),
+                            data.getStringExtra(AddEpisodeActivity.SEASON_EPISODE_NUMBER)
                         )
                     )
                     removeItems()

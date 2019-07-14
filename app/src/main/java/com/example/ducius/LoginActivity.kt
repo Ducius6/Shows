@@ -42,7 +42,7 @@ class LoginActivity : AppCompatActivity() {
 
         loginButton.setOnClickListener {
             if (android.util.Patterns.EMAIL_ADDRESS.matcher(usernameEditText.text).matches()) {
-                startActivity(WelcomeActivity.newInstance(this, usernameEditText.text.toString()))
+                startActivity(ShowsActivity.newInstance(this))
             } else {
                 usernameInputLayout.error = getString(R.string.username_exists)
             }
