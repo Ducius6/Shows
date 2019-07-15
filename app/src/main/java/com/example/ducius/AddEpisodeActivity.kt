@@ -11,6 +11,7 @@ import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_add_episode.*
 import android.content.DialogInterface
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.opengl.Visibility
 import android.os.Build
@@ -26,17 +27,22 @@ import androidx.core.content.FileProvider
 import kotlinx.android.synthetic.main.camera_gallery_dialog_layout.view.*
 import kotlinx.android.synthetic.main.picker_layout.view.*
 import java.io.File
+import java.io.FileNotFoundException
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-const val MIN_SEASON_EPISODE = 1
-const val MAX_SEASON = 20
-const val MAX_EPISODE = 99
-const val TEN = 10
-const val REQUEST_CAMERA_PERMISSION = 99
-const val TAKE_PIC_REQUEST_CODE = 6
+private const val MIN_SEASON_EPISODE = 1
+private const val MAX_SEASON = 20
+private const val MAX_EPISODE = 99
+private const val TEN = 10
+private const val REQUEST_CAMERA_PERMISSION = 99
+private const val TAKE_PIC_REQUEST_CODE = 6
+private const val REQUEST_GALLERY_PERMISSION = 66
+private const val PIC_FROM_GALLERY_REQUEST_CODE = 7
+private const val EPISODE_BITMAP_KEY = "episode_bitmap"
+private var episodeBitmap: Bitmap? = null
 
 class AddEpisodeActivity : AppCompatActivity() {
 
@@ -61,6 +67,11 @@ class AddEpisodeActivity : AppCompatActivity() {
         cameraInflater.cameraTextView.setOnClickListener {
             cameraAndGalleryDialog.dismiss()
             handleCameraPermission()
+        }
+
+        cameraInflater.galleryTextView.setOnClickListener {
+            cameraAndGalleryDialog.dismiss()
+            handleGalleryPermission()
         }
 
         cameraImageView.setOnClickListener {
@@ -215,11 +226,57 @@ class AddEpisodeActivity : AppCompatActivity() {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && requestCode == REQUEST_CAMERA_PERMISSION) {
-            openCamera()
+    private fun handleGalleryPermission() {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            openGallery()
         } else {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            ) {
+                AlertDialog.Builder(this)
+                    .setTitle("Please allow this app to open your gallery")
+                    .setNeutralButton("OK") { dialog, _ ->
+                        dialog.dismiss()
+                        ActivityCompat.requestPermissions(
+                            this,
+                            arrayOf(
+                                android.Manifest.permission.READ_EXTERNAL_STORAGE
+                            ),
+                            REQUEST_GALLERY_PERMISSION
+                        )
+                    }.create().show()
+            } else {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                    REQUEST_GALLERY_PERMISSION
+                )
+            }
+        }
+    }
+
+    private fun openGallery() {
+        val photoPickerIntent = Intent(Intent.ACTION_PICK)
+        photoPickerIntent.type = "image/*"
+        startActivityForResult(photoPickerIntent, PIC_FROM_GALLERY_REQUEST_CODE)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (grantResults.isNotEmpty() && requestCode == REQUEST_CAMERA_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+            openCamera()
+        } else if (requestCode == REQUEST_CAMERA_PERMISSION) {
             handleCameraPermission()
+        }
+        if (grantResults.isNotEmpty() && requestCode == REQUEST_GALLERY_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            openGallery()
+        } else if (requestCode == REQUEST_GALLERY_PERMISSION) {
+            handleGalleryPermission()
         }
     }
 
@@ -242,14 +299,27 @@ class AddEpisodeActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == TAKE_PIC_REQUEST_CODE) {
-                val bitmap = BitmapFactory.decodeFile(pathToFile)
-                episodeImageView.setImageBitmap(bitmap)
-                cameraImageView.visibility = View.GONE
-                uploadPhotoTextView.visibility = View.GONE
-                episodeFrameLayout.visibility = View.VISIBLE
-                changePhotoTextView.visibility = View.VISIBLE
+                episodeBitmap = BitmapFactory.decodeFile(pathToFile)
+                episodeImageView.setImageBitmap(episodeBitmap)
+                changeViewsVisibility()
+            } else if (requestCode == PIC_FROM_GALLERY_REQUEST_CODE) {
+                try {
+                    episodeBitmap = BitmapFactory.decodeStream(contentResolver.openInputStream(data?.getData()))
+                    episodeImageView.setImageBitmap(episodeBitmap)
+                    changeViewsVisibility()
+                } catch (e: FileNotFoundException) {
+                    e.printStackTrace()
+                    Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
+                }
             }
         }
+    }
+
+    private fun changeViewsVisibility() {
+        cameraImageView.visibility = View.GONE
+        uploadPhotoTextView.visibility = View.GONE
+        episodeFrameLayout.visibility = View.VISIBLE
+        changePhotoTextView.visibility = View.VISIBLE
     }
 
     private fun createPhotoFile(): File? {
@@ -265,5 +335,19 @@ class AddEpisodeActivity : AppCompatActivity() {
             e.printStackTrace()
         }
         return imageFile
+    }
+
+    override fun onSaveInstanceState(savedInstanceState: Bundle) {
+        super.onSaveInstanceState(savedInstanceState)
+        savedInstanceState.putParcelable(EPISODE_BITMAP_KEY, episodeBitmap)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        val bitmap: Bitmap? = savedInstanceState.getParcelable(EPISODE_BITMAP_KEY)
+        if (bitmap != null) {
+            episodeImageView.setImageBitmap(bitmap)
+            changeViewsVisibility()
+        }
     }
 }

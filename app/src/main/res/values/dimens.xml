@@ -48,4 +48,5 @@
     <dimen name="dimens105dp">105dp</dimen>
     <dimen name="dimens66dp">66dp</dimen>
     <dimen name="dimens37dp">37dp</dimen>
+    <dimen name="dimens215dp">215dp</dimen>
 </resources>

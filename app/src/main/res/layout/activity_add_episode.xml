@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:id="@+id/episodeToolbar"
-            app:title="Add Episode"
+            app:title="@string/add_episode"
             android:background="@color/white"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"></androidx.appcompat.widget.Toolbar>
@@ -80,7 +80,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginHorizontal="@dimen/dimens16dp"
-            android:layout_marginTop="215dp"
+            android:layout_marginTop="@dimen/dimens215dp"
             android:paddingBottom="@dimen/dimens15dp"
             android:textSize="@dimen/dimens16sp"
             android:hint="@string/episode_title"/>
