@@ -20,13 +20,13 @@ class ShowsAdapter(private val listOfShows: ArrayList<Show>, private val clickLi
             showName.text = listOfShows.get(position).name
             showImageView.setImageResource(listOfShows.get(position).imageId)
             showAirDate.text = listOfShows.get(position).airDate
-            rootView.setOnClickListener { clickListener.OnClick(listOfShows.get(position)) }
+            rootView.setOnClickListener { clickListener.onClick(listOfShows.get(position)) }
         }
     }
 
     inner class ShowViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     interface OnShowClicked {
-        fun OnClick(show: Show)
+        fun onClick(show: Show)
     }
 }

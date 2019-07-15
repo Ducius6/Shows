@@ -87,14 +87,15 @@ class LoginActivity : AppCompatActivity() {
     }
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
+
+        savedInstanceState.putString(SAVED_USERNAME, usernameInputLayout.editText?.text.toString())
+        savedInstanceState.putString(SAVED_PASSWORD, passwordInputLayout.editText?.text.toString())
         super.onSaveInstanceState(savedInstanceState)
-        savedInstanceState.putString(SAVED_USERNAME, usernameEditText.text.toString())
-        savedInstanceState.putString(SAVED_PASSWORD, passwordEditText.text.toString())
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
+
         usernameEditText.setText(savedInstanceState.getString(SAVED_USERNAME))
-        passwordEditText.setText(savedInstanceState.getString(SAVED_PASSWORD))
+        passwordInputLayout.editText?.setText(savedInstanceState.getString(SAVED_PASSWORD))
     }
 }

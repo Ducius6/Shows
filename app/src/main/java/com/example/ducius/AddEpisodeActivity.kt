@@ -13,8 +13,6 @@ import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.opengl.Visibility
-import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -26,6 +24,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import kotlinx.android.synthetic.main.camera_gallery_dialog_layout.view.*
 import kotlinx.android.synthetic.main.picker_layout.view.*
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
@@ -41,7 +40,7 @@ private const val REQUEST_CAMERA_PERMISSION = 99
 private const val TAKE_PIC_REQUEST_CODE = 6
 private const val REQUEST_GALLERY_PERMISSION = 66
 private const val PIC_FROM_GALLERY_REQUEST_CODE = 7
-private const val EPISODE_BITMAP_KEY = "episode_bitmap"
+private const val EPISODE_BYTE_ARRAY_KEY = "episode_bitmap"
 private var episodeBitmap: Bitmap? = null
 
 class AddEpisodeActivity : AppCompatActivity() {
@@ -106,8 +105,8 @@ class AddEpisodeActivity : AppCompatActivity() {
             .setView(inflater)
             .setCancelable(true)
             .setPositiveButton(getString(R.string.save), DialogInterface.OnClickListener { dialog, _ ->
-                var episode: String
-                var season: String
+                val episode: String
+                val season: String
                 if (inflater.episodeNumberPicker.value < TEN) {
                     episode = String.format("0%s", inflater.episodeNumberPicker.value.toString())
                 } else {
@@ -152,7 +151,7 @@ class AddEpisodeActivity : AppCompatActivity() {
         })
 
         saveButton.setOnClickListener {
-            var intent = Intent()
+            val intent = Intent()
             intent.putExtra(EPISODE_TITLE, episodeTitleEditText.text.toString())
             intent.putExtra(EPISODE_DESC, episodeDescEditText.text.toString())
             intent.putExtra(SEASON_EPISODE_NUMBER, pickSeasonAndEp.text)
@@ -339,14 +338,18 @@ class AddEpisodeActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         super.onSaveInstanceState(savedInstanceState)
-        savedInstanceState.putParcelable(EPISODE_BITMAP_KEY, episodeBitmap)
+        val stream: ByteArrayOutputStream? = ByteArrayOutputStream()
+        if (episodeBitmap != null) {
+            episodeBitmap?.compress(Bitmap.CompressFormat.WEBP, 100, stream)
+            savedInstanceState.putByteArray(EPISODE_BYTE_ARRAY_KEY, stream?.toByteArray())
+        }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        val bitmap: Bitmap? = savedInstanceState.getParcelable(EPISODE_BITMAP_KEY)
-        if (bitmap != null) {
-            episodeImageView.setImageBitmap(bitmap)
+        if (savedInstanceState.getByteArray(EPISODE_BYTE_ARRAY_KEY) != null) {
+            val array = savedInstanceState.getByteArray(EPISODE_BYTE_ARRAY_KEY)
+            episodeImageView.setImageBitmap(BitmapFactory.decodeByteArray(array, 0, array.size))
             changeViewsVisibility()
         }
     }

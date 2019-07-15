@@ -33,6 +33,6 @@ class ShowsActivity : AppCompatActivity(), ShowsAdapter.OnShowClicked {
         showsRecyclerView.adapter = ShowsAdapter(listOfShows, this)
     }
 
-    override fun OnClick(show: Show) = startActivity(ShowsDetailsActivity.newInstance(this, show))
+    override fun onClick(show: Show) = startActivity(ShowsDetailsActivity.newInstance(this, show))
 
 }
