@@ -1,5 +1,7 @@
 package com.example.ducius
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,6 +10,11 @@ import kotlinx.android.synthetic.main.activity_shows.*
 class ShowsActivity : AppCompatActivity(), ShowsAdapter.OnShowClicked {
 
     val listOfShows = arrayListOf<Show>()
+
+    companion object {
+        fun newInstance(context: Context): Intent =
+            Intent(context, ShowsActivity::class.java)
+    }
 
     init {
         with(listOfShows) {
@@ -26,6 +33,6 @@ class ShowsActivity : AppCompatActivity(), ShowsAdapter.OnShowClicked {
         showsRecyclerView.adapter = ShowsAdapter(listOfShows, this)
     }
 
-    override fun OnClick(show: Show) = startActivity(ShowsDetailsActivity.newInstance(this, show))
+    override fun onClick(show: Show) = startActivity(ShowsDetailsActivity.newInstance(this, show))
 
 }

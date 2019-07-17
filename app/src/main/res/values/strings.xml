@@ -3,7 +3,7 @@
     <string name="dialog_question">Are you sure you want to go back?</string>
     <string name="positive">Yes</string>
     <string name="negative">No</string>
-    <string name="username_exists">This username already exist!</string>
+    <string name="invalid_password">Invalid password!</string>
     <string name="password">Password</string>
     <string name="log_in">LOG IN</string>
     <string name="shows">Shows</string>
@@ -13,6 +13,19 @@
     <string name="add_some_episodes">Add some episodes</string>
     <string name="you_re_in">You’re in!</string>
     <string name="episode_description">Episode description</string>
-    <string name="save">SAVE</string>
+    <string name="upload_photo">Upload Photo</string>
+    <string name="change_photo">Change photo</string>
+    <string name="default_season_episode">S 01, E 01</string>
     <string name="episode_title">Episode title</string>
+    <string name="save">SAVE</string>
+    <string name="season_episode">Season &amp; episode</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="season">Season</string>
+    <string name="episode">Episode</string>
+    <string name="remember_me">Remember me</string>
+    <string name="date_format">ddMMyyyy_HHmmss</string>
+    <string name="add_episode">Add Episode</string>
+    <string name="external_storage_permission">Please allow this app to use camera and external storage</string>
+    <string name="something_went_wrong">Something went wrong</string>
 </resources>

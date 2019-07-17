@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -40,6 +39,7 @@
                     android:id="@+id/usernameEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:freezesText="true"
                     android:textSize="@dimen/dimens16sp"
                     android:paddingTop="@dimen/dimens3dp"
                     android:paddingBottom="@dimen/dimens13dp"
@@ -49,20 +49,6 @@
                     android:inputType="text"/>
 
         </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/warningTextView"
-                app:layout_constraintTop_toBottomOf="@id/usernameInputLayout"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginStart="@dimen/dimens15dp"
-                android:layout_marginTop="@dimen/dimens8dp"
-                android:text="@string/username_exists"
-                android:textColor="@color/pink"
-                android:textSize="@dimen/dimens12sp"
-                android:lineSpacingExtra="@dimen/dimens6sp"
-                android:visibility="invisible"/>
 
         <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/passwordInputLayout"
@@ -90,13 +76,23 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/rememberMeCheckBox"
+                app:layout_constraintTop_toBottomOf="@id/passwordInputLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="@dimen/dimens16dp"
+                android:layout_marginTop="@dimen/dimens16dp"
+                android:text="@string/remember_me"/>
+
         <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/loginButton"
                 android:text="@string/log_in"
                 android:layout_marginHorizontal="@dimen/dimens16dp"
-                android:layout_marginTop="@dimen/dimens72dp"
+                android:layout_marginTop="@dimen/dimens33dp"
                 android:paddingTop="@dimen/dimens15dp"
                 android:paddingBottom="@dimen/dimens13dp"
                 android:textSize="@dimen/dimens16sp"
@@ -104,7 +100,7 @@
                 android:background="@drawable/rounded_button"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/passwordInputLayout"/>
+                app:layout_constraintTop_toBottomOf="@id/rememberMeCheckBox"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

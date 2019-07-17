@@ -11,9 +11,12 @@
                android:layout_height="@dimen/dimens120dp"
                android:id="@+id/placeholder"
                android:src="@drawable/ic_placeholder_registration"
-               app:layout_constraintTop_toTopOf="parent" android:layout_marginEnd="@dimen/dimens120dp"
-               app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="@dimen/dimens182dp"
-               app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="@dimen/dimens120dp"/>
+               app:layout_constraintTop_toTopOf="parent"
+               android:layout_marginEnd="@dimen/dimens120dp"
+               app:layout_constraintEnd_toEndOf="parent"
+               android:layout_marginTop="@dimen/dimens182dp"
+               app:layout_constraintStart_toStartOf="parent"
+               android:layout_marginStart="@dimen/dimens120dp"/>
 
     <TextView android:layout_width="match_parent"
               android:layout_height="wrap_content"
@@ -37,8 +40,10 @@
               android:textSize="@dimen/dimens15sp"
               android:lineSpacingExtra="@dimen/dimens8sp"
               android:gravity="center_horizontal"
-              app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="@dimen/dimens91dp"
-              app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="@dimen/dimens91dp"
+              app:layout_constraintStart_toStartOf="parent"
+              android:layout_marginEnd="@dimen/dimens91dp"
+              app:layout_constraintEnd_toEndOf="parent"
+              android:layout_marginStart="@dimen/dimens91dp"
               android:fontFamily="@font/karla"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

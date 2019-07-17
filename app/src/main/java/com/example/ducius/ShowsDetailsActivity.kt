@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_shows_details.*
 
 class ShowsDetailsActivity : AppCompatActivity() {
@@ -62,7 +61,8 @@ class ShowsDetailsActivity : AppCompatActivity() {
                     show.listOfEpisodes.add(
                         Episode(
                             data.getStringExtra(AddEpisodeActivity.EPISODE_TITLE),
-                            data.getStringExtra(AddEpisodeActivity.EPISODE_DESC)
+                            data.getStringExtra(AddEpisodeActivity.EPISODE_DESC),
+                            data.getStringExtra(AddEpisodeActivity.SEASON_EPISODE_NUMBER)
                         )
                     )
                     removeItems()

@@ -3,8 +3,9 @@ package com.example.ducius
 import android.os.Parcel
 import android.os.Parcelable
 
-data class Episode(val title: String, val description: String) : Parcelable {
+data class Episode(val title: String, val description: String, val seasonEpisode:String) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString(),
         parcel.readString(),
         parcel.readString()
     )
@@ -12,6 +13,7 @@ data class Episode(val title: String, val description: String) : Parcelable {
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(title)
         parcel.writeString(description)
+        parcel.writeString(seasonEpisode)
     }
 
     override fun describeContents(): Int = 0
