@@ -29,6 +29,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginTop="@dimen/dimens23dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:layout_marginStart="@dimen/dimens16dp"></androidx.recyclerview.widget.RecyclerView>
+            android:layout_marginStart="@dimen/dimens16dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

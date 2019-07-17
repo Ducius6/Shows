@@ -14,7 +14,8 @@
             android:layout_marginStart="@dimen/dimens24dp"
             android:layout_marginBottom="@dimen/dimens30dp"
             android:textColor="@color/text_color4"
-            android:text="@string/camera" android:fontFamily="sans-serif-medium"/>
+            android:text="@string/camera"
+            android:fontFamily="sans-serif-medium"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -24,6 +25,7 @@
             android:id="@+id/galleryTextView"
             android:textSize="@dimen/dimens18sp"
             android:textColor="@color/text_color4"
-            android:text="@string/gallery" android:fontFamily="sans-serif-medium"/>
+            android:text="@string/gallery"
+            android:fontFamily="sans-serif-medium"/>
 
 </LinearLayout>

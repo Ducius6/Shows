@@ -25,6 +25,7 @@
     <string name="episode">Episode</string>
     <string name="remember_me">Remember me</string>
     <string name="date_format">ddMMyyyy_HHmmss</string>
-    <string name="something_went_wrong">Something went wrong</string>
     <string name="add_episode">Add Episode</string>
+    <string name="external_storage_permission">Please allow this app to use camera and external storage</string>
+    <string name="something_went_wrong">Something went wrong</string>
 </resources>

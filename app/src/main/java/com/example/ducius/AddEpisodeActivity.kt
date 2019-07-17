@@ -16,7 +16,6 @@ import android.graphics.BitmapFactory
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
@@ -151,10 +150,11 @@ class AddEpisodeActivity : AppCompatActivity() {
         })
 
         saveButton.setOnClickListener {
-            val intent = Intent()
-            intent.putExtra(EPISODE_TITLE, episodeTitleEditText.text.toString())
-            intent.putExtra(EPISODE_DESC, episodeDescEditText.text.toString())
-            intent.putExtra(SEASON_EPISODE_NUMBER, pickSeasonAndEp.text)
+            val intent = Intent().apply {
+                putExtra(EPISODE_TITLE, episodeTitleEditText.text.toString())
+                putExtra(EPISODE_DESC, episodeDescEditText.text.toString())
+                putExtra(SEASON_EPISODE_NUMBER, pickSeasonAndEp.text)
+            }
             setResult(RESULT_OK, intent)
             finish()
         }
@@ -180,7 +180,7 @@ class AddEpisodeActivity : AppCompatActivity() {
             ) { _, _ -> this@AddEpisodeActivity.finish() }
             .setNegativeButton(
                 getString(R.string.negative)
-            ) { dialog, _ -> dialog.cancel() }.create().show()
+            ) { dialog, _ -> dialog.cancel() }.show()
     }
 
     private fun handleCameraPermission() {
@@ -203,7 +203,7 @@ class AddEpisodeActivity : AppCompatActivity() {
                 )
             ) {
                 AlertDialog.Builder(this)
-                    .setTitle("Please allow this app to use camera and external storage")
+                    .setTitle(getString(R.string.external_storage_permission))
                     .setNeutralButton("OK") { dialog, _ ->
                         dialog.dismiss()
                         ActivityCompat.requestPermissions(
@@ -239,7 +239,7 @@ class AddEpisodeActivity : AppCompatActivity() {
                 )
             ) {
                 AlertDialog.Builder(this)
-                    .setTitle("Please allow this app to open your gallery")
+                    .setTitle(getString(R.string.external_storage_permission))
                     .setNeutralButton("OK") { dialog, _ ->
                         dialog.dismiss()
                         ActivityCompat.requestPermissions(
@@ -308,17 +308,17 @@ class AddEpisodeActivity : AppCompatActivity() {
                     changeViewsVisibility()
                 } catch (e: FileNotFoundException) {
                     e.printStackTrace()
-                    Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
 
     private fun changeViewsVisibility() {
-        cameraImageView.visibility = View.GONE
-        uploadPhotoTextView.visibility = View.GONE
-        episodeFrameLayout.visibility = View.VISIBLE
-        changePhotoTextView.visibility = View.VISIBLE
+        cameraImageView.gone()
+        uploadPhotoTextView.gone()
+        episodeFrameLayout.visible()
+        changePhotoTextView.visible()
     }
 
     private fun createPhotoFile(): File? {

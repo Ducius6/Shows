@@ -83,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
         val settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         usernameEditText.setText(settings.getString(PREF_USERNAME, defaultUsernameValue))
         passwordEditText.setText(settings.getString(PREF_PASSWORD, defaultPasswordValue))
-        if (!usernameEditText.text.toString().trim().equals("") && !passwordEditText.text.toString().trim().equals("")) loginButton.performClick()
+        if (usernameEditText.text.toString().trim().isNotEmpty() && passwordEditText.text.toString().trim().isNotEmpty()) loginButton.performClick()
     }
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {

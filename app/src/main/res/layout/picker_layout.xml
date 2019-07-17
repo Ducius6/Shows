@@ -42,7 +42,7 @@
             android:id="@+id/seasonNumberPicker"
             app:layout_constraintTop_toBottomOf="@id/seasonPickerTextView"
             app:layout_constraintStart_toStartOf="@id/seasonPickerTextView"
-            android:layout_marginBottom="@dimen/dimens105dp"></NumberPicker>
+            android:layout_marginBottom="@dimen/dimens105dp"/>
 
     <NumberPicker
             android:layout_width="wrap_content"
@@ -50,6 +50,6 @@
             android:id="@+id/episodeNumberPicker"
             app:layout_constraintTop_toBottomOf="@id/episodePickerTextView"
             app:layout_constraintStart_toStartOf="@id/episodePickerTextView"
-            android:layout_marginBottom="@dimen/dimens105dp"></NumberPicker>
+            android:layout_marginBottom="@dimen/dimens105dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
