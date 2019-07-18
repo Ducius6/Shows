@@ -1,4 +1,4 @@
-package com.example.ducius
+package com.example.ducius.ui
 
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_login.*
@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Context
+import com.example.ducius.R
 
 private const val MAX_PASSWORD_CHAR = 8
 private const val PREFS_NAME = "preferences"
@@ -81,8 +82,18 @@ class LoginActivity : AppCompatActivity() {
 
     private fun loadPreferences() {
         val settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        usernameEditText.setText(settings.getString(PREF_USERNAME, defaultUsernameValue))
-        passwordEditText.setText(settings.getString(PREF_PASSWORD, defaultPasswordValue))
+        usernameEditText.setText(
+            settings.getString(
+                PREF_USERNAME,
+                defaultUsernameValue
+            )
+        )
+        passwordEditText.setText(
+            settings.getString(
+                PREF_PASSWORD,
+                defaultPasswordValue
+            )
+        )
         if (usernameEditText.text.toString().trim().isNotEmpty() && passwordEditText.text.toString().trim().isNotEmpty()) loginButton.performClick()
     }
 

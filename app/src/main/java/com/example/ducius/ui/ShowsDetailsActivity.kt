@@ -1,6 +1,5 @@
-package com.example.ducius
+package com.example.ducius.ui
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +8,9 @@ import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.example.ducius.R
+import com.example.ducius.model.Show
+import com.example.ducius.shared.gone
 import kotlinx.android.synthetic.main.activity_shows_details.*
 
 class ShowsDetailsActivity : AppCompatActivity() {
@@ -51,7 +53,7 @@ class ShowsDetailsActivity : AppCompatActivity() {
             }
         })
 
-        if(viewModel.liveData.value?.get(show.ID) != null){
+        if (viewModel.liveData.value?.get(show.ID) != null) {
             if (viewModel.liveData.value?.get(show.ID)!!.isEmpty()) {
                 sleepyIcon.visibility = View.VISIBLE
                 asleepTextView.visibility = View.VISIBLE

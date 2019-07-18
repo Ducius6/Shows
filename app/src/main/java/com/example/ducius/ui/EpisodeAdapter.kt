@@ -1,9 +1,11 @@
-package com.example.ducius
+package com.example.ducius.ui
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ducius.R
+import com.example.ducius.model.Episode
 import kotlinx.android.synthetic.main.item_episode.view.*
 
 class EpisodeAdapter :
@@ -11,7 +13,7 @@ class EpisodeAdapter :
 
     private var listOfEpisodes = listOf<Episode>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EpisodeAdapter.EpisodeViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EpisodeViewHolder {
         return EpisodeViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_episode, parent, false))
     }
 
@@ -22,7 +24,7 @@ class EpisodeAdapter :
         notifyDataSetChanged()
     }
 
-    override fun onBindViewHolder(holder: EpisodeAdapter.EpisodeViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: EpisodeViewHolder, position: Int) {
         with(holder.itemView) {
             episodeName.text = listOfEpisodes.get(position).title
             seasonEpisodeNumber.text = listOfEpisodes.get(position).seasonEpisode

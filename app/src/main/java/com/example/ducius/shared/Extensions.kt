@@ -1,4 +1,4 @@
-package com.example.ducius
+package com.example.ducius.shared
 
 import android.view.View
 

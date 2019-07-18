@@ -1,4 +1,4 @@
-package com.example.ducius
+package com.example.ducius.ui
 
 import android.content.Context
 import android.content.Intent
@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.example.ducius.R
+import com.example.ducius.model.Show
 import kotlinx.android.synthetic.main.activity_shows.*
 
 class ShowsActivity : AppCompatActivity(), ShowsAdapter.OnShowClicked {
@@ -27,12 +29,17 @@ class ShowsActivity : AppCompatActivity(), ShowsAdapter.OnShowClicked {
 
         viewModel = ViewModelProviders.of(this).get(ShowsViewModel::class.java)
         viewModel.liveData.observe(this, Observer { shows ->
-            if (shows != null){
+            if (shows != null) {
                 adapter.setData(shows)
             }
         })
     }
 
-    override fun onClick(show: Show) = startActivity(ShowsDetailsActivity.newInstance(this, show))
+    override fun onClick(show: Show) = startActivity(
+        ShowsDetailsActivity.newInstance(
+            this,
+            show
+        )
+    )
 
 }

@@ -1,4 +1,4 @@
-package com.example.ducius
+package com.example.ducius.model
 
 import java.io.Serializable
 

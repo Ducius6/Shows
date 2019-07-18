@@ -1,4 +1,4 @@
-package com.example.ducius
+package com.example.ducius.ui
 
 import android.app.Activity
 import android.app.Dialog
@@ -22,6 +22,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.example.ducius.R
+import com.example.ducius.model.Episode
+import com.example.ducius.model.repository.EpisodesRepository
+import com.example.ducius.shared.gone
+import com.example.ducius.shared.visible
 import kotlinx.android.synthetic.main.camera_gallery_dialog_layout.view.*
 import kotlinx.android.synthetic.main.picker_layout.view.*
 import java.io.ByteArrayOutputStream
@@ -59,7 +64,7 @@ class AddEpisodeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_episode)
 
-        val showId = intent.getIntExtra(SHOW_ID,0)
+        val showId = intent.getIntExtra(SHOW_ID, 0)
 
         val cameraInflater = LayoutInflater.from(this).inflate(R.layout.camera_gallery_dialog_layout, null)
 
@@ -127,7 +132,12 @@ class AddEpisodeActivity : AppCompatActivity() {
 
         pickSeasonAndEp.setOnClickListener {
             dialog.show()
-            dialog.getButton(Dialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this, R.color.pink))
+            dialog.getButton(Dialog.BUTTON_POSITIVE).setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.pink
+                )
+            )
         }
 
         episodeTitleEditText.addTextChangedListener(object : TextWatcher {
@@ -155,7 +165,11 @@ class AddEpisodeActivity : AppCompatActivity() {
         })
 
         saveButton.setOnClickListener {
-            val episode = Episode(episodeTitleEditText.text.toString(), episodeDescEditText.text.toString(), pickSeasonAndEp.text.toString())
+            val episode = Episode(
+                episodeTitleEditText.text.toString(),
+                episodeDescEditText.text.toString(),
+                pickSeasonAndEp.text.toString()
+            )
             EpisodesRepository.addEpisode(episode, showId)
             finish()
         }
