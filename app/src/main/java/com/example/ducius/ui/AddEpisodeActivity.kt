@@ -42,6 +42,7 @@ private const val TEN = 10
 private const val REQUEST_CAMERA_PERMISSION = 99
 private const val TAKE_PIC_REQUEST_CODE = 6
 private const val REQUEST_GALLERY_PERMISSION = 66
+private const val URI_TEXT = "uri"
 private const val PIC_FROM_GALLERY_REQUEST_CODE = 7
 private var episodeBitmap: Bitmap? = null
 
@@ -351,14 +352,14 @@ class AddEpisodeActivity : AppCompatActivity() {
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         super.onSaveInstanceState(savedInstanceState)
         if (uri != null) {
-            savedInstanceState.putString("uri", uri.toString())
+            savedInstanceState.putString(URI_TEXT, uri.toString())
         }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        if (savedInstanceState.getString("uri") != null) {
-            uri = Uri.parse(savedInstanceState.getString("uri"))
+        if (savedInstanceState.getString(URI_TEXT) != null) {
+            uri = Uri.parse(savedInstanceState.getString(URI_TEXT))
             val bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri)
             episodeImageView.setImageBitmap(bitmap)
             changeViewsVisibility()

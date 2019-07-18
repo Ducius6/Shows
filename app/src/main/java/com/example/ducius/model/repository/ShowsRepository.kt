@@ -14,7 +14,6 @@ object ShowsRepository {
 
     private lateinit var showsList: MutableList<Show>
 
-
     init {
         showsList = mutableListOf()
         with(showsList){
@@ -72,6 +71,4 @@ object ShowsRepository {
         showsLiveData.value =
             showsList
     }
-
-
 }

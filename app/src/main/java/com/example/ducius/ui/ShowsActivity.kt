@@ -41,5 +41,4 @@ class ShowsActivity : AppCompatActivity(), ShowsAdapter.OnShowClicked {
             show
         )
     )
-
 }
