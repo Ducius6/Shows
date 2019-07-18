@@ -7,13 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_shows_details.*
 
 class ShowsDetailsActivity : AppCompatActivity() {
 
     companion object {
-        const val SHOW_REFERENCE = "USERNAME"
-        const val REQUEST_CODE = 99
+        const val SHOW_REFERENCE = "show_reference"
 
         fun newInstance(context: Context, show: Show): Intent =
             Intent(context, ShowsDetailsActivity::class.java).putExtra(SHOW_REFERENCE, show)
@@ -21,12 +22,14 @@ class ShowsDetailsActivity : AppCompatActivity() {
 
     lateinit var show: Show
     lateinit var episodeAdapter: EpisodeAdapter
+    private lateinit var viewModel: EpisodesViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shows_details)
 
-        show = intent.getParcelableExtra(SHOW_REFERENCE) as Show
+        show = intent.getSerializableExtra(SHOW_REFERENCE) as Show
         setSupportActionBar(showsDetailsToolbar)
         if (supportActionBar != null) {
             supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -35,17 +38,30 @@ class ShowsDetailsActivity : AppCompatActivity() {
         }
 
         showDesc.text = show.description
-        episodeAdapter = EpisodeAdapter(show.listOfEpisodes)
+        episodeAdapter = EpisodeAdapter()
         episodesRecyclerView.adapter = episodeAdapter
-        if (show.listOfEpisodes.isEmpty()) {
-            sleepyIcon.visibility = View.VISIBLE
-            asleepTextView.visibility = View.VISIBLE
-        } else {
-            removeItems()
+
+        viewModel = ViewModelProviders.of(this).get(EpisodesViewModel::class.java)
+        viewModel.liveData.observe(this, Observer { episodes ->
+            if (episodes != null) {
+                episodes.get(show.ID)?.let {
+                    episodeAdapter.setData(episodes = it)
+                    removeItems()
+                }
+            }
+        })
+
+        if(viewModel.liveData.value?.get(show.ID) != null){
+            if (viewModel.liveData.value?.get(show.ID)!!.isEmpty()) {
+                sleepyIcon.visibility = View.VISIBLE
+                asleepTextView.visibility = View.VISIBLE
+            } else {
+                removeItems()
+            }
         }
 
         addEpisodeFloatingButton.setOnClickListener {
-            startActivityForResult(Intent(this, AddEpisodeActivity::class.java), REQUEST_CODE)
+            startActivity(AddEpisodeActivity.newInstance(this, show.ID))
         }
 
         addSomeEpisodes.setOnClickListener {
@@ -53,30 +69,11 @@ class ShowsDetailsActivity : AppCompatActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                if (data != null) {
-                    show.listOfEpisodes.add(
-                        Episode(
-                            data.getStringExtra(AddEpisodeActivity.EPISODE_TITLE),
-                            data.getStringExtra(AddEpisodeActivity.EPISODE_DESC),
-                            data.getStringExtra(AddEpisodeActivity.SEASON_EPISODE_NUMBER)
-                        )
-                    )
-                    removeItems()
-                    episodeAdapter.notifyDataSetChanged()
-                }
-            }
-        }
-    }
-
     private fun removeItems() {
-        sleepyIcon.visibility = View.GONE
-        asleepTextView.visibility = View.GONE
-        wakeUpTextView.visibility = View.GONE
-        addSomeEpisodes.visibility = View.GONE
+        sleepyIcon.gone()
+        asleepTextView.gone()
+        wakeUpTextView.gone()
+        addSomeEpisodes.gone()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

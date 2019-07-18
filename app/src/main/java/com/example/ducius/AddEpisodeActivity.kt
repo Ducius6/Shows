@@ -2,6 +2,7 @@ package com.example.ducius
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -42,19 +43,23 @@ private const val PIC_FROM_GALLERY_REQUEST_CODE = 7
 private const val EPISODE_BYTE_ARRAY_KEY = "episode_bitmap"
 private var episodeBitmap: Bitmap? = null
 
+
 class AddEpisodeActivity : AppCompatActivity() {
 
-    var pathToFile: String? = null
+    private var pathToFile: String? = null
 
     companion object {
-        const val EPISODE_TITLE = "episode_title"
-        const val EPISODE_DESC = "episode_desc"
-        const val SEASON_EPISODE_NUMBER = "season_episode"
+        private const val SHOW_ID = "show_id"
+
+        fun newInstance(context: Context, showID: Int): Intent =
+            Intent(context, AddEpisodeActivity::class.java).putExtra(SHOW_ID, showID)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_episode)
+
+        val showId = intent.getIntExtra(SHOW_ID,0)
 
         val cameraInflater = LayoutInflater.from(this).inflate(R.layout.camera_gallery_dialog_layout, null)
 
@@ -150,12 +155,8 @@ class AddEpisodeActivity : AppCompatActivity() {
         })
 
         saveButton.setOnClickListener {
-            val intent = Intent().apply {
-                putExtra(EPISODE_TITLE, episodeTitleEditText.text.toString())
-                putExtra(EPISODE_DESC, episodeDescEditText.text.toString())
-                putExtra(SEASON_EPISODE_NUMBER, pickSeasonAndEp.text)
-            }
-            setResult(RESULT_OK, intent)
+            val episode = Episode(episodeTitleEditText.text.toString(), episodeDescEditText.text.toString(), pickSeasonAndEp.text.toString())
+            EpisodesRepository.addEpisode(episode, showId)
             finish()
         }
     }
