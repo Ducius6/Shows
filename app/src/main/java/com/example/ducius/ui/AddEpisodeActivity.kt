@@ -43,7 +43,6 @@ private const val REQUEST_CAMERA_PERMISSION = 99
 private const val TAKE_PIC_REQUEST_CODE = 6
 private const val REQUEST_GALLERY_PERMISSION = 66
 private const val PIC_FROM_GALLERY_REQUEST_CODE = 7
-private const val EPISODE_BYTE_ARRAY_KEY = "episode_bitmap"
 private var episodeBitmap: Bitmap? = null
 
 
