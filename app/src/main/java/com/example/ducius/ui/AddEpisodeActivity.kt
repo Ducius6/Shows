@@ -14,6 +14,7 @@ import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -29,10 +30,7 @@ import com.example.ducius.shared.gone
 import com.example.ducius.shared.visible
 import kotlinx.android.synthetic.main.camera_gallery_dialog_layout.view.*
 import kotlinx.android.synthetic.main.picker_layout.view.*
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.IOException
+import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -51,6 +49,7 @@ private var episodeBitmap: Bitmap? = null
 
 class AddEpisodeActivity : AppCompatActivity() {
 
+    private var uri: Uri? = null
     private var pathToFile: String? = null
 
     companion object {
@@ -300,10 +299,8 @@ class AddEpisodeActivity : AppCompatActivity() {
             val photoFile = createPhotoFile()
             if (photoFile != null) {
                 pathToFile = photoFile.absolutePath
-                takePic.putExtra(
-                    MediaStore.EXTRA_OUTPUT,
-                    FileProvider.getUriForFile(this, "com.example.ducius.fileprovider", photoFile)
-                )
+                uri = FileProvider.getUriForFile(this, "com.example.ducius.fileprovider", photoFile)
+                takePic.putExtra(MediaStore.EXTRA_OUTPUT, uri)
                 startActivityForResult(takePic, TAKE_PIC_REQUEST_CODE)
             }
         }
@@ -317,6 +314,7 @@ class AddEpisodeActivity : AppCompatActivity() {
                 episodeImageView.setImageBitmap(episodeBitmap)
                 changeViewsVisibility()
             } else if (requestCode == PIC_FROM_GALLERY_REQUEST_CODE) {
+                uri = data?.data
                 try {
                     episodeBitmap = BitmapFactory.decodeStream(contentResolver.openInputStream(data?.getData()))
                     episodeImageView.setImageBitmap(episodeBitmap)
@@ -353,18 +351,17 @@ class AddEpisodeActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         super.onSaveInstanceState(savedInstanceState)
-        val stream: ByteArrayOutputStream? = ByteArrayOutputStream()
-        if (episodeBitmap != null) {
-            episodeBitmap?.compress(Bitmap.CompressFormat.WEBP, 100, stream)
-            savedInstanceState.putByteArray(EPISODE_BYTE_ARRAY_KEY, stream?.toByteArray())
+        if (uri != null) {
+            savedInstanceState.putString("uri", uri.toString())
         }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        if (savedInstanceState.getByteArray(EPISODE_BYTE_ARRAY_KEY) != null) {
-            val array = savedInstanceState.getByteArray(EPISODE_BYTE_ARRAY_KEY)
-            episodeImageView.setImageBitmap(BitmapFactory.decodeByteArray(array, 0, array.size))
+        if (savedInstanceState.getString("uri") != null) {
+            uri = Uri.parse(savedInstanceState.getString("uri"))
+            val bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri)
+            episodeImageView.setImageBitmap(bitmap)
             changeViewsVisibility()
         }
     }
