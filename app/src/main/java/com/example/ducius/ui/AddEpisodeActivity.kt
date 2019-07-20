@@ -23,17 +23,18 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.lifecycle.ViewModelProviders
 import com.example.ducius.R
 import com.example.ducius.model.Episode
-import com.example.ducius.model.repository.EpisodesRepository
 import com.example.ducius.shared.gone
 import com.example.ducius.shared.visible
 import kotlinx.android.synthetic.main.camera_gallery_dialog_layout.view.*
 import kotlinx.android.synthetic.main.picker_layout.view.*
-import java.io.*
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.*
-
+import java.util.Date
 
 private const val MIN_SEASON_EPISODE = 1
 private const val MAX_SEASON = 20
@@ -51,6 +52,7 @@ class AddEpisodeActivity : AppCompatActivity() {
 
     private var uri: Uri? = null
     private var pathToFile: String? = null
+    private lateinit var viewModel: AddEpisodeViewModel
 
     companion object {
         private const val SHOW_ID = "show_id"
@@ -163,13 +165,14 @@ class AddEpisodeActivity : AppCompatActivity() {
             }
         })
 
+        viewModel = ViewModelProviders.of(this).get(AddEpisodeViewModel::class.java)
         saveButton.setOnClickListener {
             val episode = Episode(
                 episodeTitleEditText.text.toString(),
                 episodeDescEditText.text.toString(),
                 pickSeasonAndEp.text.toString()
             )
-            EpisodesRepository.addEpisode(episode, showId)
+            viewModel.addEpisode(episode, showId)
             finish()
         }
     }
@@ -360,7 +363,7 @@ class AddEpisodeActivity : AppCompatActivity() {
         super.onRestoreInstanceState(savedInstanceState)
         if (savedInstanceState.getString(URI_TEXT) != null) {
             uri = Uri.parse(savedInstanceState.getString(URI_TEXT))
-            val bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri)
+            val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
             episodeImageView.setImageBitmap(bitmap)
             changeViewsVisibility()
         }

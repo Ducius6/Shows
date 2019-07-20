@@ -36,11 +36,11 @@ object EpisodesRepository {
     }
 
     fun addEpisode(episode: Episode, showId: Int) {
-        if(episodesMap.get(showId) == null){
+        if (episodesMap.get(showId) == null) {
             val list = mutableListOf<Episode>()
             list.add(episode)
             episodesMap.put(showId, list)
-        }else{
+        } else {
             val list = episodesMap.get(showId)
             list?.add(episode)
             list?.let { episodesMap.put(showId, it) }

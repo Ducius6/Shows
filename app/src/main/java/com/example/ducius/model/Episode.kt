@@ -1,5 +1,6 @@
 package com.example.ducius.model
 
+import android.net.Uri
 import java.io.Serializable
 
 data class Episode(

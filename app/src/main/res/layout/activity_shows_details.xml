@@ -17,7 +17,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="@dimen/dimens8dp"
             android:layout_marginEnd="@dimen/dimens8dp"
-            app:layout_constraintEnd_toEndOf="parent"></androidx.appcompat.widget.Toolbar>
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
             android:layout_width="wrap_content"

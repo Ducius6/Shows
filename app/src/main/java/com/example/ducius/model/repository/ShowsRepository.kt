@@ -12,10 +12,9 @@ object ShowsRepository {
 
     fun getShows(): LiveData<List<Show>> = showsLiveData
 
-    private lateinit var showsList: MutableList<Show>
+    private var showsList: MutableList<Show> = mutableListOf()
 
     init {
-        showsList = mutableListOf()
         with(showsList){
             add(
                 Show(

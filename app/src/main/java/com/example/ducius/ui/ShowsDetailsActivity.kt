@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.ducius.R
@@ -22,8 +21,8 @@ class ShowsDetailsActivity : AppCompatActivity() {
             Intent(context, ShowsDetailsActivity::class.java).putExtra(SHOW_REFERENCE, show)
     }
 
-    lateinit var show: Show
-    lateinit var episodeAdapter: EpisodeAdapter
+    private lateinit var show: Show
+    private lateinit var episodeAdapter: EpisodeAdapter
     private lateinit var viewModel: EpisodesViewModel
 
 
@@ -52,15 +51,6 @@ class ShowsDetailsActivity : AppCompatActivity() {
                 }
             }
         })
-
-        if (viewModel.liveData.value?.get(show.ID) != null) {
-            if (viewModel.liveData.value?.get(show.ID)!!.isEmpty()) {
-                sleepyIcon.visibility = View.VISIBLE
-                asleepTextView.visibility = View.VISIBLE
-            } else {
-                removeItems()
-            }
-        }
 
         addEpisodeFloatingButton.setOnClickListener {
             startActivity(AddEpisodeActivity.newInstance(this, show.ID))
