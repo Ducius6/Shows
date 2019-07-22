@@ -43,7 +43,6 @@ private const val TEN = 10
 private const val REQUEST_CAMERA_PERMISSION = 99
 private const val TAKE_PIC_REQUEST_CODE = 6
 private const val REQUEST_GALLERY_PERMISSION = 66
-private const val URI_TEXT = "uri"
 private const val PIC_FROM_GALLERY_REQUEST_CODE = 7
 private var episodeBitmap: Bitmap? = null
 
@@ -65,7 +64,21 @@ class AddEpisodeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_episode)
 
+        viewModel = ViewModelProviders.of(this).get(AddEpisodeViewModel::class.java)
+
+
         val showId = intent.getIntExtra(SHOW_ID, 0)
+
+        if(viewModel.episodeImageURi != null){
+            uri = Uri.parse(viewModel.episodeImageURi)
+            val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
+            episodeImageView.setImageBitmap(bitmap)
+            changeViewsVisibility()
+        }
+
+        if(viewModel.seasonEpisode != null){
+            pickSeasonAndEp.text = viewModel.seasonEpisode
+        }
 
         val cameraInflater = LayoutInflater.from(this).inflate(R.layout.camera_gallery_dialog_layout, null)
 
@@ -128,6 +141,7 @@ class AddEpisodeActivity : AppCompatActivity() {
                     season = inflater.seasonNumberPicker.value.toString()
                 }
                 pickSeasonAndEp.text = String.format("S %s, E %s", season, episode)
+                viewModel.saveSeasonAndEpisode(String.format("S %s, E %s", season, episode))
                 dialog.cancel()
             }).create()
 
@@ -165,7 +179,6 @@ class AddEpisodeActivity : AppCompatActivity() {
             }
         })
 
-        viewModel = ViewModelProviders.of(this).get(AddEpisodeViewModel::class.java)
         saveButton.setOnClickListener {
             val episode = Episode(
                 episodeTitleEditText.text.toString(),
@@ -303,6 +316,7 @@ class AddEpisodeActivity : AppCompatActivity() {
             if (photoFile != null) {
                 pathToFile = photoFile.absolutePath
                 uri = FileProvider.getUriForFile(this, "com.example.ducius.fileprovider", photoFile)
+                viewModel.saveEpisodeImage(uri.toString())
                 takePic.putExtra(MediaStore.EXTRA_OUTPUT, uri)
                 startActivityForResult(takePic, TAKE_PIC_REQUEST_CODE)
             }
@@ -318,6 +332,7 @@ class AddEpisodeActivity : AppCompatActivity() {
                 changeViewsVisibility()
             } else if (requestCode == PIC_FROM_GALLERY_REQUEST_CODE) {
                 uri = data?.data
+                viewModel.saveEpisodeImage(uri.toString())
                 try {
                     episodeBitmap = BitmapFactory.decodeStream(contentResolver.openInputStream(data?.getData()))
                     episodeImageView.setImageBitmap(episodeBitmap)
@@ -350,22 +365,5 @@ class AddEpisodeActivity : AppCompatActivity() {
             e.printStackTrace()
         }
         return imageFile
-    }
-
-    override fun onSaveInstanceState(savedInstanceState: Bundle) {
-        super.onSaveInstanceState(savedInstanceState)
-        if (uri != null) {
-            savedInstanceState.putString(URI_TEXT, uri.toString())
-        }
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        if (savedInstanceState.getString(URI_TEXT) != null) {
-            uri = Uri.parse(savedInstanceState.getString(URI_TEXT))
-            val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
-            episodeImageView.setImageBitmap(bitmap)
-            changeViewsVisibility()
-        }
     }
 }
