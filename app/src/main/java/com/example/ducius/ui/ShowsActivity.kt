@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.ducius.R
 import com.example.ducius.model.Show
 import kotlinx.android.synthetic.main.activity_shows.*
+import java.text.FieldPosition
 
 class ShowsActivity : AppCompatActivity(), ShowsAdapter.OnShowClicked {
 
@@ -24,7 +25,7 @@ class ShowsActivity : AppCompatActivity(), ShowsAdapter.OnShowClicked {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shows)
 
-        adapter = ShowsAdapter(this)
+        adapter = ShowsAdapter(this, this)
         showsRecyclerView.adapter = adapter
 
         viewModel = ViewModelProviders.of(this).get(ShowsViewModel::class.java)
@@ -35,7 +36,7 @@ class ShowsActivity : AppCompatActivity(), ShowsAdapter.OnShowClicked {
         })
     }
 
-    override fun onClick(show: Show) = startActivity(
+    override fun onClick(show: Show, position: Int) = startActivity(
         ShowsDetailsActivity.newInstance(
             this,
             show

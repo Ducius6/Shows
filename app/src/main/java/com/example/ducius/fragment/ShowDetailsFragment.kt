@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.ducius.R
 import com.example.ducius.model.Show
 import com.example.ducius.shared.gone
-import com.example.ducius.shared.invisible
 import com.example.ducius.ui.EpisodeAdapter
 import com.example.ducius.ui.EpisodesViewModel
 import kotlinx.android.synthetic.main.fragment_show_details.*
@@ -25,6 +24,10 @@ class ShowDetailsFragment : Fragment() {
     private var twoPane: Boolean? = null
     private var firstTime: Boolean? = null
 
+    companion object {
+        const val SHOW_ID = "showID"
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_show_details, container, false)
     }
@@ -34,27 +37,29 @@ class ShowDetailsFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(this).get(EpisodesViewModel::class.java)
 
-        twoPane = arguments?.getBoolean("twopane")
-        firstTime = arguments?.getBoolean("firsttime")
+        twoPane = arguments?.getBoolean(ShowsContainerActivity.TWO_PANE)
+        firstTime = arguments?.getBoolean(ShowsContainerActivity.FIRST_TIME)
         if (firstTime != null) {
-            if (firstTime!!) {
-                show = viewModel.getFirstShow()
+            show = if (firstTime!!) {
+                viewModel.getFirstShow()
             } else {
-                show = arguments?.getSerializable("show") as Show
+                arguments?.getSerializable(ShowListFragment.SHOW) as Show
             }
         }
 
         twoPane.let {
-            if(twoPane!!.not()){
+            if (twoPane!!.not()) {
                 setHasOptionsMenu(true)
                 (activity as AppCompatActivity).setSupportActionBar(showsDetailsToolbar)
                 if ((activity as AppCompatActivity).supportActionBar != null) {
-                    (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
-                    (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                    (activity as AppCompatActivity).supportActionBar?.title = show.name
+                    with((activity as AppCompatActivity)){
+                        supportActionBar?.setDisplayShowHomeEnabled(true)
+                        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                        supportActionBar?.title = show.name
+                    }
                 }
-            }else{
-                showsDetailsToolbar.invisible()
+            } else if (twoPaneShowName != null) {
+                twoPaneShowName.text = show.name
             }
         }
 
@@ -74,8 +79,10 @@ class ShowDetailsFragment : Fragment() {
         addEpisodeFloatingButton.setOnClickListener {
             val addEpisodeFragment = AddEpisodeFragment()
             val bundle = Bundle()
-            bundle.putInt("showID", show.ID)
-            bundle.putBoolean("twopane", twoPane!!)
+            with(bundle){
+                putInt(SHOW_ID, show.ID)
+                putBoolean(ShowsContainerActivity.TWO_PANE, twoPane!!)
+            }
             addEpisodeFragment.arguments = bundle
             if (twoPane != null) {
                 if (twoPane!!) {

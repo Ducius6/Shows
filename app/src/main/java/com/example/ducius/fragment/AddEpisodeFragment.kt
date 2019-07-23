@@ -49,7 +49,7 @@ private const val REQUEST_GALLERY_PERMISSION = 66
 private const val PIC_FROM_GALLERY_REQUEST_CODE = 7
 private var episodeBitmap: Bitmap? = null
 
-class AddEpisodeFragment:Fragment() {
+class AddEpisodeFragment : Fragment() {
 
     private var uri: Uri? = null
     private var showID = 0
@@ -66,17 +66,17 @@ class AddEpisodeFragment:Fragment() {
         viewModel = ViewModelProviders.of(this).get(AddEpisodeViewModel::class.java)
 
         arguments.let {
-            showID = it!!.getInt("showID", 0)
+            showID = it!!.getInt(ShowDetailsFragment.SHOW_ID, 0)
         }
 
-        if(viewModel.episodeImageURi != null){
+        if (viewModel.episodeImageURi != null) {
             uri = Uri.parse(viewModel.episodeImageURi)
             val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, uri)
             episodeImageView.setImageBitmap(bitmap)
             changeViewsVisibility()
         }
 
-        if(viewModel.seasonEpisode != null){
+        if (viewModel.seasonEpisode != null) {
             pickSeasonAndEp.text = viewModel.seasonEpisode
         }
 
@@ -335,12 +335,14 @@ class AddEpisodeFragment:Fragment() {
                 uri = data?.data
                 viewModel.saveEpisodeImage(uri.toString())
                 try {
-                    episodeBitmap = BitmapFactory.decodeStream(activity?.contentResolver?.openInputStream(data?.getData()))
+                    episodeBitmap =
+                        BitmapFactory.decodeStream(activity?.contentResolver?.openInputStream(data?.getData()))
                     episodeImageView.setImageBitmap(episodeBitmap)
                     changeViewsVisibility()
                 } catch (e: FileNotFoundException) {
                     e.printStackTrace()
-                    Toast.makeText(requireContext(), getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.something_went_wrong), Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }

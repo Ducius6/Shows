@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.LoginActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ImageView
+                android:layout_width="@dimen/dimens80dp"
+                android:layout_height="@dimen/dimens80dp"
+                app:srcCompat="@drawable/ic_logo_mark"
+                android:id="@+id/logoImageView"
+                android:layout_marginTop="@dimen/dimens72dp"
+                android:layout_marginStart="@dimen/dimens148dp"
+                android:layout_marginEnd="@dimen/dimens132dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/usernameInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens64dp"
+                android:layout_marginHorizontal="@dimen/dimens120dp"
+                app:layout_constraintTop_toBottomOf="@id/logoImageView"
+                app:errorTextAppearance="@style/ErrorAppearance"
+                app:errorEnabled="true"
+                android:hint="@string/username">
+
+            <EditText
+                    android:id="@+id/usernameEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimens15dp"
+                    android:layout_marginEnd="@dimen/dimens16dp"
+                    android:textSize="@dimen/dimens16sp"
+                    android:textColor="@color/textColor"
+                    android:paddingTop="@dimen/dimens3dp"
+                    android:paddingBottom="@dimen/dimens13dp"
+                    android:fontFamily="@font/karla_bold"
+                    android:lineSpacingExtra="@dimen/dimens6sp"
+                    android:inputType="text"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/passwordInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens64dp"
+                android:layout_marginHorizontal="@dimen/dimens120dp"
+                app:layout_constraintTop_toBottomOf="@id/usernameInputLayout"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleDrawable="@drawable/ic_show_password"
+                android:hint="@string/password">
+
+            <EditText
+                    android:id="@+id/passwordEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimens15dp"
+                    android:layout_marginEnd="@dimen/dimens16dp"
+                    android:textSize="@dimen/dimens16sp"
+                    android:textColor="@color/textColor"
+                    android:paddingTop="@dimen/dimens3dp"
+                    android:paddingBottom="@dimen/dimens13dp"
+                    android:fontFamily="@font/karla_bold"
+                    android:lineSpacingExtra="@dimen/dimens6sp"
+                    android:inputType="textPassword"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/rememberMeCheckBox"
+                android:paddingStart="@dimen/dimens40dp"
+                app:layout_constraintTop_toBottomOf="@id/passwordInputLayout"
+                app:layout_constraintStart_toStartOf="@id/passwordInputLayout"
+                android:layout_marginStart="@dimen/dimens16dp"
+                android:layout_marginTop="@dimen/dimens16dp"
+                android:text="@string/remember_me"/>
+
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/loginButton"
+                android:text="@string/log_in"
+                android:paddingHorizontal="@dimen/dimens40dp"
+                android:layout_marginHorizontal="@dimen/dimens120dp"
+                android:layout_marginTop="@dimen/dimens33dp"
+                android:paddingTop="@dimen/dimens15dp"
+                android:paddingBottom="@dimen/dimens13dp"
+                android:textSize="@dimen/dimens16sp"
+                android:enabled="false"
+                android:textColor="@color/white"
+                android:background="@drawable/rounded_button"
+                app:layout_constraintTop_toBottomOf="@id/rememberMeCheckBox"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

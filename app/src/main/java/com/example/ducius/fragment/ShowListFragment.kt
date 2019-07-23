@@ -19,6 +19,10 @@ class ShowListFragment : Fragment(), ShowsAdapter.OnShowClicked {
     private lateinit var adapter: ShowsAdapter
     private var twoPane: Boolean? = null
 
+    companion object {
+        const val SHOW = "show"
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_show_list, container, false)
     }
@@ -26,9 +30,9 @@ class ShowListFragment : Fragment(), ShowsAdapter.OnShowClicked {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = ShowsAdapter(this)
+        adapter = ShowsAdapter(this, requireContext())
         showsRecyclerView.adapter = adapter
-        twoPane = arguments?.getBoolean("twopane")
+        twoPane = arguments?.getBoolean(ShowsContainerActivity.TWO_PANE)
 
         viewModel = ViewModelProviders.of(this).get(ShowsViewModel::class.java)
         viewModel.liveData.observe(this, Observer { shows ->
@@ -38,21 +42,24 @@ class ShowListFragment : Fragment(), ShowsAdapter.OnShowClicked {
         })
     }
 
-    override fun onClick(show: Show) {
+    override fun onClick(show: Show, position: Int) {
+        adapter.selectedPosition = position
+        adapter.notifyDataSetChanged()
         val fragment = ShowDetailsFragment()
         val bundle = Bundle()
-        bundle.putSerializable("show", show)
-        bundle.putBoolean("twopane", twoPane!!)
-        bundle.putBoolean("firsttime", false)
+        with(bundle) {
+            putSerializable(SHOW, show)
+            putBoolean(ShowsContainerActivity.TWO_PANE, twoPane!!)
+            putBoolean(ShowsContainerActivity.FIRST_TIME, false)
+        }
         fragment.arguments = bundle
-        if(twoPane != null){
-            if(twoPane!!){
+        if (twoPane != null) {
+            if (twoPane!!) {
                 fragmentManager?.beginTransaction()?.apply {
                     replace(R.id.detailsFragmentContainer, fragment)
-                    addToBackStack("showDetailsFragment")
                     commit()
                 }
-            }else{
+            } else {
                 fragmentManager?.beginTransaction()?.apply {
                     replace(R.id.phoneFragmentContainer, fragment)
                     addToBackStack("showDetailsFragment")
