@@ -2,6 +2,7 @@ package com.example.ducius.fragment
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import com.example.ducius.R
 import kotlinx.android.synthetic.main.activity_shows_container.*
 
@@ -32,6 +33,7 @@ class ShowsContainerActivity : AppCompatActivity() {
         }
 
         if (tabletSize) {
+            supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
             if (twoPane) {
                 addFragmentTwoPanelTablet()
             } else {
@@ -70,5 +72,10 @@ class ShowsContainerActivity : AppCompatActivity() {
             replace(R.id.detailsFragmentContainer, fragmentDetails)
             commit()
         }
+    }
+
+    override fun onBackPressed() {
+        if(supportFragmentManager.backStackEntryCount==0) finish()
+        super.onBackPressed()
     }
 }

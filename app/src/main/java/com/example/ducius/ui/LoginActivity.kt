@@ -26,7 +26,8 @@ class LoginActivity : AppCompatActivity() {
                 if (rememberMeCheckBox.isChecked) {
                     viewModel.savePreferences(usernameEditText.text.toString(), passwordEditText.text.toString())
                 }
-                startActivity(Intent(this, ShowsContainerActivity::class.java))
+                startActivity(Intent(this, ShowsContainerActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                finish()
             } else {
                 usernameInputLayout.error = getString(R.string.invalid_password)
             }

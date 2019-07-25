@@ -11,10 +11,11 @@
                  android:layout_weight="40"
                  android:id="@+id/masterFragmentContainer"/>
 
-    <RelativeLayout android:layout_width="@dimen/dimens2dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/gray"
-                    android:layout_marginVertical="@dimen/dimens80dp"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="@dimen/dimens2dp"
+            android:layout_height="match_parent"
+            android:background="@color/gray"
+            android:layout_marginVertical="@dimen/dimens80dp"/>
 
     <FrameLayout android:layout_width="@dimen/dimens1dp"
                  android:layout_height="match_parent"

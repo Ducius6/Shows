@@ -20,9 +20,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.content.PermissionChecker
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.ducius.R
@@ -80,7 +80,7 @@ class AddEpisodeFragment : Fragment() {
             pickSeasonAndEp.text = viewModel.seasonEpisode
         }
 
-        val cameraInflater = LayoutInflater.from(requireContext()).inflate(R.layout.camera_gallery_dialog_layout, null)
+        val cameraInflater = LayoutInflater.from(context).inflate(R.layout.camera_gallery_dialog_layout, null)
 
         val cameraAndGalleryDialog = AlertDialog.Builder(requireContext())
             .setView(cameraInflater)
@@ -119,11 +119,13 @@ class AddEpisodeFragment : Fragment() {
             (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
 
-        val inflater = LayoutInflater.from(requireContext()).inflate(R.layout.picker_layout, null)
-        inflater.seasonNumberPicker.maxValue = MAX_SEASON
-        inflater.seasonNumberPicker.minValue = MIN_SEASON_EPISODE
-        inflater.episodeNumberPicker.maxValue = MAX_EPISODE
-        inflater.episodeNumberPicker.minValue = MIN_SEASON_EPISODE
+        val inflater = LayoutInflater.from(context).inflate(R.layout.picker_layout, null)
+        with(inflater){
+            seasonNumberPicker.maxValue = MAX_SEASON
+            seasonNumberPicker.minValue = MIN_SEASON_EPISODE
+            episodeNumberPicker.maxValue = MAX_EPISODE
+            episodeNumberPicker.minValue = MIN_SEASON_EPISODE
+        }
 
         val dialog = AlertDialog.Builder(requireContext())
             .setView(inflater)
@@ -215,30 +217,27 @@ class AddEpisodeFragment : Fragment() {
     }
 
     private fun handleCameraPermission() {
-        if (ActivityCompat.checkSelfPermission(
+        if (PermissionChecker.checkSelfPermission(
                 requireContext(),
                 android.Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            ) == PackageManager.PERMISSION_GRANTED && PermissionChecker.checkSelfPermission(
                 requireContext(),
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             openCamera()
         } else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    requireActivity(),
+            if (shouldShowRequestPermissionRationale(
                     android.Manifest.permission.CAMERA
-                ) || ActivityCompat.shouldShowRequestPermissionRationale(
-                    requireActivity(),
+                ) || shouldShowRequestPermissionRationale(
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
             ) {
                 AlertDialog.Builder(requireContext())
                     .setTitle(getString(R.string.external_storage_permission))
-                    .setNeutralButton("OK") { dialog, _ ->
+                    .setNeutralButton(getString(R.string.OK)) { dialog, _ ->
                         dialog.dismiss()
-                        ActivityCompat.requestPermissions(
-                            requireActivity(),
+                        requestPermissions(
                             arrayOf(
                                 android.Manifest.permission.CAMERA,
                                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -247,8 +246,7 @@ class AddEpisodeFragment : Fragment() {
                         )
                     }.create().show()
             } else {
-                ActivityCompat.requestPermissions(
-                    requireActivity(),
+                requestPermissions(
                     arrayOf(android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
                     REQUEST_CAMERA_PERMISSION
                 )
@@ -257,33 +255,34 @@ class AddEpisodeFragment : Fragment() {
     }
 
     private fun handleGalleryPermission() {
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                android.Manifest.permission.READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED
+        if (context?.let {
+                PermissionChecker.checkSelfPermission(
+                    it,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            } == PackageManager.PERMISSION_GRANTED
         ) {
             openGallery()
         } else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    requireActivity(),
+            if (shouldShowRequestPermissionRationale(
                     android.Manifest.permission.READ_EXTERNAL_STORAGE
                 )
             ) {
-                AlertDialog.Builder(requireContext())
-                    .setTitle(getString(R.string.external_storage_permission))
-                    .setNeutralButton("OK") { dialog, _ ->
-                        dialog.dismiss()
-                        ActivityCompat.requestPermissions(
-                            requireActivity(),
-                            arrayOf(
-                                android.Manifest.permission.READ_EXTERNAL_STORAGE
-                            ),
-                            REQUEST_GALLERY_PERMISSION
-                        )
-                    }.create().show()
+                context?.let {
+                    AlertDialog.Builder(it)
+                        .setTitle(getString(R.string.external_storage_permission))
+                        .setNeutralButton(getString(R.string.OK)) { dialog, _ ->
+                            dialog.dismiss()
+                            requestPermissions(
+                                arrayOf(
+                                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+                                ),
+                                REQUEST_GALLERY_PERMISSION
+                            )
+                        }.create().show()
+                }
             } else {
-                ActivityCompat.requestPermissions(
-                    requireActivity(),
+                requestPermissions(
                     arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
                     REQUEST_GALLERY_PERMISSION
                 )
@@ -316,7 +315,7 @@ class AddEpisodeFragment : Fragment() {
             val photoFile = createPhotoFile()
             if (photoFile != null) {
                 pathToFile = photoFile.absolutePath
-                uri = FileProvider.getUriForFile(requireContext(), "com.example.ducius.fileprovider", photoFile)
+                uri = context?.let { FileProvider.getUriForFile(it, "com.example.ducius.fileprovider", photoFile) }
                 viewModel.saveEpisodeImage(uri.toString())
                 takePic.putExtra(MediaStore.EXTRA_OUTPUT, uri)
                 startActivityForResult(takePic, TAKE_PIC_REQUEST_CODE)
@@ -341,7 +340,7 @@ class AddEpisodeFragment : Fragment() {
                     changeViewsVisibility()
                 } catch (e: FileNotFoundException) {
                     e.printStackTrace()
-                    Toast.makeText(requireContext(), getString(R.string.something_went_wrong), Toast.LENGTH_SHORT)
+                    Toast.makeText(context, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT)
                         .show()
                 }
             }
@@ -364,7 +363,7 @@ class AddEpisodeFragment : Fragment() {
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
             )
         } catch (e: IOException) {
-            Toast.makeText(requireContext(), getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show()
             e.printStackTrace()
         }
         return imageFile

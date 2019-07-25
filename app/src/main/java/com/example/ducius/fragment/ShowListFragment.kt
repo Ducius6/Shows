@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.ducius.R
@@ -43,6 +44,7 @@ class ShowListFragment : Fragment(), ShowsAdapter.OnShowClicked {
     }
 
     override fun onClick(show: Show, position: Int) {
+        fragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         adapter.selectedPosition = position
         adapter.notifyDataSetChanged()
         val fragment = ShowDetailsFragment()
