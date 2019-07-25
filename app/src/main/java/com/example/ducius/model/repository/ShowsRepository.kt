@@ -14,8 +14,10 @@ object ShowsRepository {
 
     private var showsList: MutableList<Show> = mutableListOf()
 
+    fun getListOfShows(): MutableList<Show> = showsList
+
     init {
-        with(showsList){
+        with(showsList) {
             add(
                 Show(
                     1,

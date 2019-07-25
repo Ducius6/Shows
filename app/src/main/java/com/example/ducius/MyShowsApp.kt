@@ -12,5 +12,4 @@ class MyShowsApp : Application() {
         super.onCreate()
         instance = this
     }
-
 }

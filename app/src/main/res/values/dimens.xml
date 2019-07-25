@@ -11,7 +11,6 @@
     <dimen name="dimens32dp">32dp</dimen>
     <dimen name="dimens80dp">80dp</dimen>
     <dimen name="dimens72dp">72dp</dimen>
-    <dimen name="dimens148dp">148dp</dimen>
     <dimen name="dimens132dp">132dp</dimen>
     <dimen name="dimens3dp">3dp</dimen>
     <dimen name="dimens13dp">13dp</dimen>
@@ -49,4 +48,6 @@
     <dimen name="dimens66dp">66dp</dimen>
     <dimen name="dimens37dp">37dp</dimen>
     <dimen name="dimens215dp">215dp</dimen>
+    <dimen name="dimens148dp">148dp</dimen>
+    <dimen name="dimens48dp">48dp</dimen>
 </resources>

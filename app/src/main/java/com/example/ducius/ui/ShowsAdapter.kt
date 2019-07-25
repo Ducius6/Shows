@@ -1,15 +1,20 @@
 package com.example.ducius.ui
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ducius.R
 import com.example.ducius.model.Show
 import kotlinx.android.synthetic.main.item_show.view.*
 
-class ShowsAdapter(private val clickListener: OnShowClicked) :
+
+class ShowsAdapter(private val clickListener: OnShowClicked, private val context: Context) :
     RecyclerView.Adapter<ShowsAdapter.ShowViewHolder>() {
+
+    var selectedPosition = RecyclerView.NO_POSITION
 
     private var listOfShows = listOf<Show>()
 
@@ -24,8 +29,12 @@ class ShowsAdapter(private val clickListener: OnShowClicked) :
             showName.text = listOfShows.get(position).name
             showImageView.setImageResource(listOfShows.get(position).imageId)
             showAirDate.text = listOfShows.get(position).airDate
-            rootView.setOnClickListener { clickListener.onClick(listOfShows.get(position)) }
+            rootView.setOnClickListener { clickListener.onClick(listOfShows.get(position), position) }
         }
+        if (selectedPosition == position)
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.highlightgray))
+        else
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
     }
 
     fun setData(shows: List<Show>) {
@@ -36,6 +45,6 @@ class ShowsAdapter(private val clickListener: OnShowClicked) :
     inner class ShowViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     interface OnShowClicked {
-        fun onClick(show: Show)
+        fun onClick(show: Show, position: Int)
     }
 }

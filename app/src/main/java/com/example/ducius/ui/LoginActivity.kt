@@ -1,5 +1,6 @@
 package com.example.ducius.ui
 
+import android.content.Intent
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_login.*
 import android.text.Editable
@@ -7,6 +8,7 @@ import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.example.ducius.R
+import com.example.ducius.fragment.ShowsContainerActivity
 
 private const val MAX_PASSWORD_CHAR = 8
 
@@ -24,7 +26,8 @@ class LoginActivity : AppCompatActivity() {
                 if (rememberMeCheckBox.isChecked) {
                     viewModel.savePreferences(usernameEditText.text.toString(), passwordEditText.text.toString())
                 }
-                startActivity(ShowsActivity.newInstance(this))
+                startActivity(Intent(this, ShowsContainerActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                finish()
             } else {
                 usernameInputLayout.error = getString(R.string.invalid_password)
             }

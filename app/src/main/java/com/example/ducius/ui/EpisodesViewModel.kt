@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.example.ducius.model.Episode
+import com.example.ducius.model.Show
 import com.example.ducius.model.repository.EpisodesRepository
+import com.example.ducius.model.repository.ShowsRepository
 
 class EpisodesViewModel : ViewModel(), Observer<Map<Int, List<Episode>>> {
 
@@ -31,4 +33,6 @@ class EpisodesViewModel : ViewModel(), Observer<Map<Int, List<Episode>>> {
     override fun onCleared() {
         EpisodesRepository.getEpisodes().removeObserver(this)
     }
+
+    fun getFirstShow(): Show = ShowsRepository.getListOfShows().first()
 }
