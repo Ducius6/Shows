@@ -56,7 +56,7 @@ class AddEpisodeActivity : AppCompatActivity() {
     companion object {
         private const val SHOW_ID = "show_id"
 
-        fun newInstance(context: Context, showID: Int): Intent =
+        fun newInstance(context: Context, showID: String): Intent =
             Intent(context, AddEpisodeActivity::class.java).putExtra(SHOW_ID, showID)
     }
 
@@ -67,7 +67,7 @@ class AddEpisodeActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(AddEpisodeViewModel::class.java)
 
 
-        val showId = intent.getIntExtra(SHOW_ID, 0)
+        val showId = intent.getStringExtra(SHOW_ID)
 
         if(viewModel.episodeImageURi != null){
             uri = Uri.parse(viewModel.episodeImageURi)
@@ -180,12 +180,12 @@ class AddEpisodeActivity : AppCompatActivity() {
         })
 
         saveButton.setOnClickListener {
-            val episode = Episode(
-                episodeTitleEditText.text.toString(),
-                episodeDescEditText.text.toString(),
-                pickSeasonAndEp.text.toString()
-            )
-            viewModel.addEpisode(episode, showId)
+//            val episode = Episode(
+//                episodeTitleEditText.text.toString(),
+//                episodeDescEditText.text.toString(),
+//                pickSeasonAndEp.text.toString()
+//            )
+//            viewModel.addEpisode(episode, showId)
             finish()
         }
     }

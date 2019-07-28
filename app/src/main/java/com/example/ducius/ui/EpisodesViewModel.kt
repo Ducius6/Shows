@@ -4,35 +4,53 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
-import com.example.ducius.model.Episode
 import com.example.ducius.model.Show
 import com.example.ducius.model.repository.EpisodesRepository
 import com.example.ducius.model.repository.ShowsRepository
+import com.example.ducius.responses.EpisodeResponse
+import com.example.ducius.responses.ShowDetailsResponse
 
-class EpisodesViewModel : ViewModel(), Observer<Map<Int, List<Episode>>> {
+class EpisodesViewModel : ViewModel(), Observer<Any> {
 
-    private val episodesLiveData = MutableLiveData<Map<Int, List<Episode>>>()
+    private val episodesLiveData = MutableLiveData<EpisodeResponse>()
 
-    val liveData: LiveData<Map<Int, List<Episode>>>
+    private val showDetailsLiveData = MutableLiveData<ShowDetailsResponse>()
+
+    val episodeLiveData: LiveData<EpisodeResponse>
         get() {
             return episodesLiveData
         }
 
-    private var episodeMap = mapOf<Int, List<Episode>>()
+    val detailsLiveData: LiveData<ShowDetailsResponse>
+        get() {
+            return showDetailsLiveData
+        }
 
-    init {
-        episodesLiveData.value = episodeMap
-        EpisodesRepository.getEpisodes().observeForever(this)
+    fun getShowDetailsLiveData(showId: String) {
+        ShowsRepository.fetchShowDetails(showId)
     }
 
-    override fun onChanged(episodes: Map<Int, List<Episode>>?) {
-        episodeMap = episodes ?: mapOf()
-        episodesLiveData.value = episodeMap
+    fun getEpisodeData(showId: String) {
+        EpisodesRepository.fetchEpisodesData(showId)
+    }
+
+    init {
+        ShowsRepository.detailsLiveData().observeForever(this)
+        EpisodesRepository.episodesLiveData().observeForever(this)
+    }
+
+    override fun onChanged(any: Any?) {
+        if (any is EpisodeResponse) {
+            episodesLiveData.value = any
+        } else if (any is ShowDetailsResponse) {
+            showDetailsLiveData.value = any
+        }
     }
 
     override fun onCleared() {
-        EpisodesRepository.getEpisodes().removeObserver(this)
+        ShowsRepository.detailsLiveData().removeObserver(this)
+        EpisodesRepository.episodesLiveData().removeObserver(this)
     }
 
-    fun getFirstShow(): Show = ShowsRepository.getListOfShows().first()
+    fun getFirstShow(): Show? = ShowsRepository.showsLiveData().value?.showsList?.first()
 }

@@ -6,9 +6,13 @@ import kotlinx.android.synthetic.main.activity_login.*
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.ducius.R
+import com.example.ducius.RegisterActivity
 import com.example.ducius.fragment.ShowsContainerActivity
+import com.example.ducius.model.RegisterInfo
+import kotlinx.android.synthetic.main.activity_register.*
 
 private const val MAX_PASSWORD_CHAR = 8
 
@@ -16,18 +20,44 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var viewModel: LoginViewModel
 
+    companion object{
+        const val TOKEN = "token"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         viewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
+        if (intent.getSerializableExtra("user") != null) {
+            viewModel.getUserData(intent.getSerializableExtra("user") as RegisterInfo)
+            viewModel.liveData.observe(this, Observer {
+                if (it.isSucccessful) {
+                    val token = it.token
+                    val intent =
+                        Intent(this, ShowsContainerActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    intent.putExtra(TOKEN, token?.token)
+                    startActivity(intent)
+                    finish()
+                }
+            })
+        }
 
         loginButton.setOnClickListener {
             if (android.util.Patterns.EMAIL_ADDRESS.matcher(usernameEditText.text).matches()) {
                 if (rememberMeCheckBox.isChecked) {
                     viewModel.savePreferences(usernameEditText.text.toString(), passwordEditText.text.toString())
                 }
-                startActivity(Intent(this, ShowsContainerActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                finish()
+                viewModel.getUserData(RegisterInfo(usernameEditText.text.toString(), passwordEditText.text.toString()))
+                viewModel.liveData.observe(this, Observer {
+                    if (it.isSucccessful) {
+                        val token = it.token
+                        val intent =
+                            Intent(this, ShowsContainerActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        intent.putExtra(TOKEN, token?.token)
+                        startActivity(intent)
+                        finish()
+                    }
+                })
             } else {
                 usernameInputLayout.error = getString(R.string.invalid_password)
             }
@@ -40,6 +70,10 @@ class LoginActivity : AppCompatActivity() {
             loginButton.performClick()
         }
 
+        createAccountTextView.setOnClickListener {
+            startActivity(RegisterActivity.newInstance(this))
+        }
+
         usernameEditText.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(editableText: Editable) {}
@@ -48,7 +82,7 @@ class LoginActivity : AppCompatActivity() {
 
             override fun onTextChanged(text: CharSequence, start: Int, before: Int, count: Int) {
                 loginButton.isEnabled =
-                    (usernameEditText.text.isNotEmpty() && passwordEditText.text.length >= MAX_PASSWORD_CHAR)
+                    (usernameEditText.text.isNotEmpty())
             }
         })
 
@@ -60,7 +94,7 @@ class LoginActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 loginButton.isEnabled =
-                    (usernameEditText.text.isNotEmpty() && passwordEditText.text.length >= MAX_PASSWORD_CHAR)
+                    (usernameEditText.text.isNotEmpty())
             }
         })
     }

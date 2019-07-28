@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.ducius.R
+import com.example.ducius.responses.ShowsResponse
 import com.example.ducius.model.Show
 import com.example.ducius.ui.ShowsAdapter
 import com.example.ducius.ui.ShowsViewModel
@@ -19,9 +21,11 @@ class ShowListFragment : Fragment(), ShowsAdapter.OnShowClicked {
     private lateinit var viewModel: ShowsViewModel
     private lateinit var adapter: ShowsAdapter
     private var twoPane: Boolean? = null
+    private var bundle: Bundle = Bundle()
+    private var firstTime: Boolean? = null
 
     companion object {
-        const val SHOW = "show"
+        const val SHOW_ID = "showId"
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -34,13 +38,35 @@ class ShowListFragment : Fragment(), ShowsAdapter.OnShowClicked {
         adapter = ShowsAdapter(this, requireContext())
         showsRecyclerView.adapter = adapter
         twoPane = arguments?.getBoolean(ShowsContainerActivity.TWO_PANE)
+        firstTime = arguments?.getBoolean(ShowsContainerActivity.FIRST_TIME)
+
+        with(bundle) {
+            putBoolean(ShowsContainerActivity.TWO_PANE, twoPane!!)
+            putBoolean(ShowsContainerActivity.FIRST_TIME, firstTime!!)
+        }
 
         viewModel = ViewModelProviders.of(this).get(ShowsViewModel::class.java)
-        viewModel.liveData.observe(this, Observer { shows ->
-            if (shows != null) {
-                adapter.setData(shows)
+        viewModel.getShowData()
+        viewModel.liveData.observe(this, Observer {
+            updateUI(it)
+            if (twoPane!!) {
+                bundle.putString(SHOW_ID, it.showsList?.get(0)?.ID)
+                val fragmentDetails = ShowDetailsFragment()
+                fragmentDetails.arguments = bundle
+                fragmentManager?.beginTransaction()?.apply {
+                    replace(R.id.detailsFragmentContainer, fragmentDetails)
+                    commit()
+                }
             }
         })
+    }
+
+    private fun updateUI(showsResponse: ShowsResponse?) {
+        if (showsResponse?.isSuccessful == true) {
+            showsResponse.showsList?.let { adapter.setData(it) }
+        } else {
+            Toast.makeText(context, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onClick(show: Show, position: Int) {
@@ -50,7 +76,7 @@ class ShowListFragment : Fragment(), ShowsAdapter.OnShowClicked {
         val fragment = ShowDetailsFragment()
         val bundle = Bundle()
         with(bundle) {
-            putSerializable(SHOW, show)
+            putString(SHOW_ID, show.ID)
             putBoolean(ShowsContainerActivity.TWO_PANE, twoPane!!)
             putBoolean(ShowsContainerActivity.FIRST_TIME, false)
         }

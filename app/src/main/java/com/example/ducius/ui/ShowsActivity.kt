@@ -29,9 +29,9 @@ class ShowsActivity : AppCompatActivity(), ShowsAdapter.OnShowClicked {
         showsRecyclerView.adapter = adapter
 
         viewModel = ViewModelProviders.of(this).get(ShowsViewModel::class.java)
-        viewModel.liveData.observe(this, Observer { shows ->
-            if (shows != null) {
-                adapter.setData(shows)
+        viewModel.liveData.observe(this, Observer { showsResponse ->
+            if (showsResponse != null) {
+                showsResponse.showsList?.let { adapter.setData(it) }
             }
         })
     }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import com.example.ducius.R
+import com.example.ducius.ui.LoginActivity
 import kotlinx.android.synthetic.main.activity_shows_container.*
 
 
@@ -15,6 +16,7 @@ class ShowsContainerActivity : AppCompatActivity() {
     companion object {
         const val TWO_PANE = "twopane"
         const val FIRST_TIME = "firsttime"
+        lateinit var TOKEN: String
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +29,9 @@ class ShowsContainerActivity : AppCompatActivity() {
             twoPane = false
         }
 
-        with(bundle){
+        TOKEN = intent.getStringExtra(LoginActivity.TOKEN)
+
+        with(bundle) {
             putBoolean(TWO_PANE, twoPane)
             putBoolean(FIRST_TIME, true)
         }
@@ -64,18 +68,15 @@ class ShowsContainerActivity : AppCompatActivity() {
 
     private fun addFragmentTwoPanelTablet() {
         val fragmentMaster = ShowListFragment()
-        val fragmentDetails = ShowDetailsFragment()
         fragmentMaster.arguments = bundle
-        fragmentDetails.arguments = bundle
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.masterFragmentContainer, fragmentMaster)
-            replace(R.id.detailsFragmentContainer, fragmentDetails)
             commit()
         }
     }
 
     override fun onBackPressed() {
-        if(supportFragmentManager.backStackEntryCount==0) finish()
+        if (supportFragmentManager.backStackEntryCount == 0) finish()
         super.onBackPressed()
     }
 }

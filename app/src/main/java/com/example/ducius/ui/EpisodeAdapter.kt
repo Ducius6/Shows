@@ -27,7 +27,11 @@ class EpisodeAdapter :
     override fun onBindViewHolder(holder: EpisodeViewHolder, position: Int) {
         with(holder.itemView) {
             episodeName.text = listOfEpisodes.get(position).title
-            seasonEpisodeNumber.text = listOfEpisodes.get(position).seasonEpisode
+            seasonEpisodeNumber.text = String.format(
+                "S %s E %s",
+                listOfEpisodes.get(position).season,
+                listOfEpisodes.get(position).episodeNumber
+            )
         }
     }
 

@@ -24,9 +24,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.content.PermissionChecker
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.ducius.R
-import com.example.ducius.model.Episode
+import com.example.ducius.model.PostEpisode
 import com.example.ducius.shared.gone
 import com.example.ducius.shared.visible
 import com.example.ducius.ui.AddEpisodeViewModel
@@ -52,9 +53,11 @@ private var episodeBitmap: Bitmap? = null
 class AddEpisodeFragment : Fragment() {
 
     private var uri: Uri? = null
-    private var showID = 0
+    private var showID = ""
     private var pathToFile: String? = null
     private lateinit var viewModel: AddEpisodeViewModel
+    private var season: String = "1"
+    private var episode: String = "1"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_add_episode, container, false)
@@ -66,7 +69,7 @@ class AddEpisodeFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(AddEpisodeViewModel::class.java)
 
         arguments.let {
-            showID = it!!.getInt(ShowDetailsFragment.SHOW_ID, 0)
+            showID = it!!.getString(ShowDetailsFragment.SHOW_ID)
         }
 
         if (viewModel.episodeImageURi != null) {
@@ -120,7 +123,7 @@ class AddEpisodeFragment : Fragment() {
         }
 
         val inflater = LayoutInflater.from(context).inflate(R.layout.picker_layout, null)
-        with(inflater){
+        with(inflater) {
             seasonNumberPicker.maxValue = MAX_SEASON
             seasonNumberPicker.minValue = MIN_SEASON_EPISODE
             episodeNumberPicker.maxValue = MAX_EPISODE
@@ -131,8 +134,6 @@ class AddEpisodeFragment : Fragment() {
             .setView(inflater)
             .setCancelable(true)
             .setPositiveButton(getString(R.string.save), DialogInterface.OnClickListener { dialog, _ ->
-                val episode: String
-                val season: String
                 if (inflater.episodeNumberPicker.value < TEN) {
                     episode = String.format("0%s", inflater.episodeNumberPicker.value.toString())
                 } else {
@@ -183,13 +184,23 @@ class AddEpisodeFragment : Fragment() {
         })
 
         saveButton.setOnClickListener {
-            val episode = Episode(
-                episodeTitleEditText.text.toString(),
-                episodeDescEditText.text.toString(),
-                pickSeasonAndEp.text.toString()
-            )
-            viewModel.addEpisode(episode, showID)
-            activity?.onBackPressed()
+            val episode =
+                PostEpisode(
+                    showID,
+                    episodeTitleEditText.text.toString(),
+                    episodeDescEditText.text.toString(),
+                    "",
+                    episode,
+                    season
+                )
+            viewModel.postEpisodeData(episode, ShowsContainerActivity.TOKEN)
+            viewModel.liveData.observe(this, Observer {
+                if(it.isSuccessful){
+                    activity?.onBackPressed()
+                }else{
+                    Toast.makeText(context, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show()
+                }
+            })
         }
     }
 

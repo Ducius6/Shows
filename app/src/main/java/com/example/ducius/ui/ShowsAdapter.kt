@@ -8,8 +8,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ducius.R
 import com.example.ducius.model.Show
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_show.view.*
 
+private const val BASE_URL = "https://api.infinum.academy"
 
 class ShowsAdapter(private val clickListener: OnShowClicked, private val context: Context) :
     RecyclerView.Adapter<ShowsAdapter.ShowViewHolder>() {
@@ -27,8 +29,8 @@ class ShowsAdapter(private val clickListener: OnShowClicked, private val context
     override fun onBindViewHolder(holder: ShowViewHolder, position: Int) {
         with(holder.itemView) {
             showName.text = listOfShows.get(position).name
-            showImageView.setImageResource(listOfShows.get(position).imageId)
-            showAirDate.text = listOfShows.get(position).airDate
+            Picasso.get().load(BASE_URL + listOfShows.get(position).imageURL)
+                .into(showImageView)
             rootView.setOnClickListener { clickListener.onClick(listOfShows.get(position), position) }
         }
         if (selectedPosition == position)

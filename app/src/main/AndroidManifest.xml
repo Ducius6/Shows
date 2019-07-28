@@ -5,51 +5,53 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
+            android:name=".MyShowsApp"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
-            android:name=".MyShowsApp"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-
-        <activity android:name=".ui.AddEpisodeActivity"
+        <activity android:name=".RegisterActivity"
                   android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-
+        <activity
+                android:name=".ui.AddEpisodeActivity"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
                 android:name=".ui.ShowsDetailsActivity"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-
         <activity
                 android:name=".ui.ShowsActivity"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-
         <activity
                 android:name=".WelcomeActivity"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-
         <activity
                 android:name=".ui.LoginActivity"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+                android:name=".MainActivity"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+                android:name=".fragment.ShowsContainerActivity"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
-        <activity android:name=".MainActivity"
-                  android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-
-        <activity android:name=".fragment.ShowsContainerActivity"
-                  android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-
-        <provider android:authorities="com.example.ducius.fileprovider"
-                  android:name="androidx.core.content.FileProvider"
-                  android:exported="false"
-                  android:grantUriPermissions="true">
-            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
-                       android:resource="@xml/file_paths"/>
+        <provider
+                android:name="androidx.core.content.FileProvider"
+                android:authorities="com.example.ducius.fileprovider"
+                android:exported="false"
+                android:grantUriPermissions="true">
+            <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/file_paths"/>
         </provider>
     </application>
 
