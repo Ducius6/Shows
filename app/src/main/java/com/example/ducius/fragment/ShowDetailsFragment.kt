@@ -11,9 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.ducius.R
+import com.example.ducius.model.CompleteShow
 import com.example.ducius.model.ShowDetails
-import com.example.ducius.responses.EpisodeResponse
-import com.example.ducius.responses.ShowDetailsResponse
 import com.example.ducius.shared.gone
 import com.example.ducius.ui.EpisodeAdapter
 import com.example.ducius.ui.EpisodesViewModel
@@ -67,14 +66,9 @@ class ShowDetailsFragment : Fragment() {
         episodeAdapter = EpisodeAdapter()
         episodesRecyclerView.adapter = episodeAdapter
 
-        viewModel.getEpisodeData(showId)
-        viewModel.episodeLiveData.observe(this, Observer {
-            updateEpisodes(it)
-        })
-
-        viewModel.getShowDetailsLiveData(showId)
-        viewModel.detailsLiveData.observe(this, Observer {
-            updateShowDetails(it)
+        viewModel.getCompleteShow(showId)
+        viewModel.completeShowLiveData.observe(this, Observer {
+            updateShowAndEpisode(it)
         })
 
         addEpisodeFloatingButton.setOnClickListener {
@@ -107,22 +101,18 @@ class ShowDetailsFragment : Fragment() {
         }
     }
 
-    private fun updateShowDetails(showDetailsResponse: ShowDetailsResponse?) {
-        if (showDetailsResponse?.isSuccessful == true){
-            (activity as AppCompatActivity).supportActionBar?.title = showDetailsResponse.show?.name
-            showDesc.text = showDetailsResponse.show?.description
-            showDetails = showDetailsResponse.show
-            if(twoPaneShowName != null){
-                twoPaneShowName.text = showDetailsResponse.show?.name
+    private fun updateShowAndEpisode(completeShow: CompleteShow) {
+        if (completeShow.isSuccessful) {
+            showDetailsProgressBar.gone()
+            (activity as AppCompatActivity).supportActionBar?.title = completeShow.showDetailsResponse?.show?.name
+            showDesc.text = completeShow.showDetailsResponse?.show?.description
+            showDetails = completeShow.showDetailsResponse?.show
+            if (twoPaneShowName != null) {
+                twoPaneShowName.text = completeShow.showDetailsResponse?.show?.name
             }
-        }
-        removeItems()
-    }
-
-    private fun updateEpisodes(episodeResponse: EpisodeResponse?) {
-        if (episodeResponse?.isSuccessful == true) {
-            episodeResponse.listOfEpisodes?.let { episodeAdapter.setData(it) }
-        } else {
+            completeShow.episodeResponse?.listOfEpisodes?.let { episodeAdapter.setData(it) }
+            removeItems()
+        }else{
             Toast.makeText(context, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show()
         }
     }

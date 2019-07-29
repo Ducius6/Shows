@@ -12,15 +12,16 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.ducius.MyShowsApp
 import com.example.ducius.R
 import com.example.ducius.RegisterActivity
+import com.example.ducius.WelcomeActivity
 import com.example.ducius.fragment.ShowsContainerActivity
 import com.example.ducius.model.RegisterInfo
-import kotlinx.android.synthetic.main.activity_register.*
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var viewModel: LoginViewModel
+    private var user: RegisterInfo? = null
 
-    companion object{
+    companion object {
         const val TOKEN = "token"
         const val PREFS_NAME = "preferences"
 
@@ -30,11 +31,12 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         viewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
-        if (intent.getSerializableExtra(getString(R.string.user_var)) != null) {
+        user = intent.getSerializableExtra(getString(R.string.user_var)) as RegisterInfo?
+        if (user != null) {
             viewModel.getUserData(intent.getSerializableExtra(getString(R.string.user_var)) as RegisterInfo)
             viewModel.liveData.observe(this, Observer {
                 if (it.isSucccessful) {
-                    startActivity(Intent(this, ShowsContainerActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                    startActivity(user?.email?.let { it1 -> WelcomeActivity.newInstance(this, it1) })
                     finish()
                 }
             })
@@ -52,7 +54,12 @@ class LoginActivity : AppCompatActivity() {
                             putString(TOKEN, it.token?.token)
                             apply()
                         }
-                        startActivity(Intent(this, ShowsContainerActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                        startActivity(
+                            Intent(
+                                this,
+                                ShowsContainerActivity::class.java
+                            ).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        )
                         finish()
                     }
                 })

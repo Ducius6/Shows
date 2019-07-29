@@ -8,8 +8,6 @@ import com.squareup.moshi.JsonClass
 data class ShowDetailsResponse(
 
     @Json(name = "data")
-    val show: ShowDetails? = null,
+    val show: ShowDetails? = null
 
-    @Transient
-    val isSuccessful: Boolean = true
 )

@@ -2,6 +2,8 @@ package com.example.ducius.model.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.ducius.model.CompleteShow
+import com.example.ducius.responses.EpisodeResponse
 import com.example.ducius.responses.ShowDetailsResponse
 import com.example.ducius.retrofit.Api
 import com.example.ducius.retrofit.RetrofitClient
@@ -16,9 +18,13 @@ object ShowsRepository {
 
     private val showsResponseLiveData = MutableLiveData<ShowsResponse>()
 
-    private var showDetailsLiveData = MutableLiveData<ShowDetailsResponse>()
+    private var completeShowData = MutableLiveData<CompleteShow>()
 
-    fun detailsLiveData():LiveData<ShowDetailsResponse> = showDetailsLiveData
+    private var showDetailsResponse = ShowDetailsResponse()
+
+    private var episodeResponse = EpisodeResponse()
+
+    fun completeShowLiveData(): LiveData<CompleteShow> = completeShowData
 
     fun showsLiveData(): LiveData<ShowsResponse> = showsResponseLiveData
 
@@ -44,20 +50,42 @@ object ShowsRepository {
         })
     }
 
-    fun fetchShowDetails(showId: String) {
+    fun fetchShowDetailsAndListOfEpisodes(showId: String) {
         apiService?.getShow(showId)?.enqueue(object : Callback<ShowDetailsResponse> {
             override fun onFailure(call: Call<ShowDetailsResponse>, t: Throwable) {
                 t.printStackTrace()
                 t.localizedMessage
-                showDetailsLiveData.value = ShowDetailsResponse(isSuccessful = false)
+                completeShowData.value = CompleteShow(isSuccessful = false)
             }
 
             override fun onResponse(call: Call<ShowDetailsResponse>, response: Response<ShowDetailsResponse>) {
                 with(response) {
                     if (isSuccessful && body() != null) {
-                        showDetailsLiveData.value = ShowDetailsResponse(show = body()?.show, isSuccessful = true)
+                        fetchEpisodesData(showId)
+                        showDetailsResponse = ShowDetailsResponse(show = body()?.show)
                     } else {
-                        showDetailsLiveData.value = ShowDetailsResponse(isSuccessful = false)
+                        completeShowData.value = CompleteShow(isSuccessful = false)
+                    }
+                }
+            }
+        })
+    }
+
+    private fun fetchEpisodesData(showId: String) {
+        apiService?.getShowEpisodes(showId)?.enqueue(object : Callback<EpisodeResponse> {
+            override fun onFailure(call: Call<EpisodeResponse>, t: Throwable) {
+                t.printStackTrace()
+                t.localizedMessage
+                completeShowData.value = CompleteShow(isSuccessful = false)
+            }
+
+            override fun onResponse(call: Call<EpisodeResponse>, response: Response<EpisodeResponse>) {
+                with(response) {
+                    if (isSuccessful && body() != null) {
+                        episodeResponse = EpisodeResponse(listOfEpisodes = body()?.listOfEpisodes)
+                        completeShowData.value = CompleteShow(episodeResponse, showDetailsResponse, isSuccessful = true)
+                    } else {
+                        completeShowData.value = CompleteShow(isSuccessful = false)
                     }
                 }
             }

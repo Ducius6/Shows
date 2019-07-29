@@ -8,8 +8,5 @@ import com.squareup.moshi.JsonClass
 data class EpisodeResponse(
 
     @Json(name = "data")
-    val listOfEpisodes: List<Episode>? = arrayListOf(),
-
-    @Transient
-    val isSuccessful: Boolean = true
+    val listOfEpisodes: List<Episode>? = arrayListOf()
 )

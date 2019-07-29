@@ -37,4 +37,5 @@
     <string name="register_button">REGISTER</string>
     <string name="wrong_input">Wrong input</string>
     <string name="user_var">user</string>
+    <string name="session_timed_out">Session timed out, you need to log in again</string>
 </resources>

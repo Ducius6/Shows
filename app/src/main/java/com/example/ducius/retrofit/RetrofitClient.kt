@@ -19,7 +19,7 @@ object RetrofitClient {
 
     var client = OkHttpClient.Builder().addInterceptor { chain ->
         val newRequest = chain.request().newBuilder()
-            .addHeader(AUTHORIZATION, "$token")
+            .header(AUTHORIZATION, "$token")
             .build()
         chain.proceed(newRequest)
     }.build()

@@ -3,7 +3,6 @@ package com.example.ducius.model.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.ducius.model.PostEpisode
-import com.example.ducius.responses.EpisodeResponse
 import com.example.ducius.responses.PostEpisodeResponse
 import com.example.ducius.retrofit.Api
 import com.example.ducius.retrofit.RetrofitClient
@@ -16,12 +15,9 @@ object EpisodesRepository {
 
     private val apiService = RetrofitClient.retrofitInstance?.create(Api::class.java)
 
-    private val episodesLiveData = MutableLiveData<EpisodeResponse>()
-
-    private val postedEpisode = MutableLiveData<PostEpisodeResponse>()
+    private var postedEpisode = MutableLiveData<PostEpisodeResponse>()
 
     fun episodePosted(): LiveData<PostEpisodeResponse> = postedEpisode
-    fun episodesLiveData(): LiveData<EpisodeResponse> = episodesLiveData
 
     fun postEpisodeData(postEpisode: PostEpisode) {
         apiService?.addEpisode(postEpisode)?.enqueue(object : Callback<PostEpisodeResponse> {
@@ -38,27 +34,6 @@ object EpisodesRepository {
                             PostEpisodeResponse(returnedEpisode = body()?.returnedEpisode, isSuccessful = true)
                     } else {
                         postedEpisode.value = PostEpisodeResponse(isSuccessful = false)
-                    }
-                }
-            }
-        })
-    }
-
-    fun fetchEpisodesData(showId: String) {
-        apiService?.getShowEpisodes(showId)?.enqueue(object : Callback<EpisodeResponse> {
-            override fun onFailure(call: Call<EpisodeResponse>, t: Throwable) {
-                t.printStackTrace()
-                t.localizedMessage
-                episodesLiveData.value = EpisodeResponse(isSuccessful = false)
-            }
-
-            override fun onResponse(call: Call<EpisodeResponse>, response: Response<EpisodeResponse>) {
-                with(response) {
-                    if (isSuccessful && body() != null) {
-                        episodesLiveData.value =
-                            EpisodeResponse(listOfEpisodes = body()?.listOfEpisodes, isSuccessful = true)
-                    } else {
-                        episodesLiveData.value = EpisodeResponse(isSuccessful = false)
                     }
                 }
             }

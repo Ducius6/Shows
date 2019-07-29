@@ -31,6 +31,7 @@ import com.example.ducius.model.PostEpisode
 import com.example.ducius.shared.gone
 import com.example.ducius.shared.visible
 import com.example.ducius.ui.AddEpisodeViewModel
+import com.example.ducius.ui.LoginActivity
 import kotlinx.android.synthetic.main.camera_gallery_dialog_layout.view.*
 import kotlinx.android.synthetic.main.fragment_add_episode.*
 import kotlinx.android.synthetic.main.picker_layout.view.*
@@ -195,10 +196,16 @@ class AddEpisodeFragment : Fragment() {
                 )
             viewModel.postEpisodeData(episode)
             viewModel.liveData.observe(this, Observer {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     activity?.onBackPressed()
-                }else{
-                    Toast.makeText(context, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show()
+                } else {
+                    AlertDialog.Builder(requireContext())
+                        .setTitle(getString(R.string.session_timed_out))
+                        .setNeutralButton(getString(R.string.OK)) { dialog, _ ->
+                            dialog.dismiss()
+                            activity?.finishAffinity()
+                            startActivity(Intent(context, LoginActivity::class.java))
+                        }.show()
                 }
             })
         }

@@ -1,6 +1,5 @@
 package com.example.ducius.ui
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,7 @@ import kotlinx.android.synthetic.main.item_show.view.*
 
 private const val BASE_URL = "https://api.infinum.academy"
 
-class ShowsAdapter(private val clickListener: OnShowClicked, private val context: Context) :
+class ShowsAdapter(private val clickListener: OnShowClicked) :
     RecyclerView.Adapter<ShowsAdapter.ShowViewHolder>() {
 
     var selectedPosition = RecyclerView.NO_POSITION
@@ -34,9 +33,9 @@ class ShowsAdapter(private val clickListener: OnShowClicked, private val context
             rootView.setOnClickListener { clickListener.onClick(listOfShows.get(position), position) }
         }
         if (selectedPosition == position)
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.highlightgray))
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.highlightgray))
         else
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.white))
     }
 
     fun setData(shows: List<Show>) {

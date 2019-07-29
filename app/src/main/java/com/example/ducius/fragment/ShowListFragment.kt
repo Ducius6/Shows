@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.ducius.R
 import com.example.ducius.responses.ShowsResponse
 import com.example.ducius.model.Show
+import com.example.ducius.shared.gone
 import com.example.ducius.ui.ShowsAdapter
 import com.example.ducius.ui.ShowsViewModel
 import kotlinx.android.synthetic.main.fragment_show_list.*
@@ -35,7 +36,7 @@ class ShowListFragment : Fragment(), ShowsAdapter.OnShowClicked {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = ShowsAdapter(this, requireContext())
+        adapter = ShowsAdapter(this)
         showsRecyclerView.adapter = adapter
         twoPane = arguments?.getBoolean(ShowsContainerActivity.TWO_PANE)
         firstTime = arguments?.getBoolean(ShowsContainerActivity.FIRST_TIME)
@@ -63,6 +64,7 @@ class ShowListFragment : Fragment(), ShowsAdapter.OnShowClicked {
 
     private fun updateUI(showsResponse: ShowsResponse?) {
         if (showsResponse?.isSuccessful == true) {
+            showListProgressBar.gone()
             showsResponse.showsList?.let { adapter.setData(it) }
         } else {
             Toast.makeText(context, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show()
