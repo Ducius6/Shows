@@ -11,6 +11,7 @@ object RetrofitClient {
 
     private var retrofit: Retrofit? = null
     private const val BASE_URL = "https://api.infinum.academy/api/"
+    private const val AUTHORIZATION = "Authorization"
 
     val token =
         MyShowsApp.instance.getSharedPreferences(LoginActivity.PREFS_NAME, Context.MODE_PRIVATE)
@@ -18,7 +19,7 @@ object RetrofitClient {
 
     var client = OkHttpClient.Builder().addInterceptor { chain ->
         val newRequest = chain.request().newBuilder()
-            .addHeader("Authorization", "$token")
+            .addHeader(AUTHORIZATION, "$token")
             .build()
         chain.proceed(newRequest)
     }.build()

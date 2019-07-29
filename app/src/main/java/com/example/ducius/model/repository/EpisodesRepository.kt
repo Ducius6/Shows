@@ -18,7 +18,7 @@ object EpisodesRepository {
 
     private val episodesLiveData = MutableLiveData<EpisodeResponse>()
 
-    private var postedEpisode = MutableLiveData<PostEpisodeResponse>()
+    private val postedEpisode = MutableLiveData<PostEpisodeResponse>()
 
     fun episodePosted(): LiveData<PostEpisodeResponse> = postedEpisode
     fun episodesLiveData(): LiveData<EpisodeResponse> = episodesLiveData
