@@ -16,7 +16,6 @@ class ShowsContainerActivity : AppCompatActivity() {
     companion object {
         const val TWO_PANE = "twopane"
         const val FIRST_TIME = "firsttime"
-        lateinit var TOKEN: String
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,8 +27,6 @@ class ShowsContainerActivity : AppCompatActivity() {
         if (phoneFragmentContainer != null) {
             twoPane = false
         }
-
-        TOKEN = intent.getStringExtra(LoginActivity.TOKEN)
 
         with(bundle) {
             putBoolean(TWO_PANE, twoPane)

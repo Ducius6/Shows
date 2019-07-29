@@ -1,5 +1,6 @@
 package com.example.ducius.ui
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_login.*
@@ -8,13 +9,12 @@ import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.example.ducius.MyShowsApp
 import com.example.ducius.R
 import com.example.ducius.RegisterActivity
 import com.example.ducius.fragment.ShowsContainerActivity
 import com.example.ducius.model.RegisterInfo
 import kotlinx.android.synthetic.main.activity_register.*
-
-private const val MAX_PASSWORD_CHAR = 8
 
 class LoginActivity : AppCompatActivity() {
 
@@ -22,39 +22,37 @@ class LoginActivity : AppCompatActivity() {
 
     companion object{
         const val TOKEN = "token"
+        const val PREFS_NAME = "preferences"
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         viewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
-        if (intent.getSerializableExtra("user") != null) {
-            viewModel.getUserData(intent.getSerializableExtra("user") as RegisterInfo)
+        if (intent.getSerializableExtra(getString(R.string.user_var)) != null) {
+            viewModel.getUserData(intent.getSerializableExtra(getString(R.string.user_var)) as RegisterInfo)
             viewModel.liveData.observe(this, Observer {
                 if (it.isSucccessful) {
-                    val token = it.token
-                    val intent =
-                        Intent(this, ShowsContainerActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    intent.putExtra(TOKEN, token?.token)
-                    startActivity(intent)
+                    startActivity(Intent(this, ShowsContainerActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                     finish()
                 }
             })
         }
 
         loginButton.setOnClickListener {
-            if (android.util.Patterns.EMAIL_ADDRESS.matcher(usernameEditText.text).matches()) {
+            if (viewModel.isEmailValid(usernameEditText.text.toString())) {
                 if (rememberMeCheckBox.isChecked) {
                     viewModel.savePreferences(usernameEditText.text.toString(), passwordEditText.text.toString())
                 }
                 viewModel.getUserData(RegisterInfo(usernameEditText.text.toString(), passwordEditText.text.toString()))
                 viewModel.liveData.observe(this, Observer {
                     if (it.isSucccessful) {
-                        val token = it.token
-                        val intent =
-                            Intent(this, ShowsContainerActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        intent.putExtra(TOKEN, token?.token)
-                        startActivity(intent)
+                        with(MyShowsApp.instance.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit()) {
+                            putString(TOKEN, it.token?.token)
+                            apply()
+                        }
+                        startActivity(Intent(this, ShowsContainerActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                         finish()
                     }
                 })

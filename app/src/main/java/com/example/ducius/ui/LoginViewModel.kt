@@ -52,6 +52,8 @@ class LoginViewModel : ViewModel(), Observer<LoginResponse> {
         }
     }
 
+    fun isEmailValid(email: String): Boolean = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+
     fun loadUsernameFromPrefrences(): String? =
         MyShowsApp.instance.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).getString(
             PREF_USERNAME,

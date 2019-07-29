@@ -38,19 +38,10 @@ class ShowsDetailsActivity : AppCompatActivity() {
             supportActionBar?.title = show.name
         }
 
-        //showDesc.text = show.description
         episodeAdapter = EpisodeAdapter()
         episodesRecyclerView.adapter = episodeAdapter
 
         viewModel = ViewModelProviders.of(this).get(EpisodesViewModel::class.java)
-//        viewModel.liveData.observe(this, Observer { episodes ->
-//            if (episodes != null) {
-//                episodes.get(show.ID)?.let {
-//                    episodeAdapter.setData(episodes = it)
-//                    removeItems()
-//                }
-//            }
-//        })
 
         addEpisodeFloatingButton.setOnClickListener {
             startActivity(AddEpisodeActivity.newInstance(this, show.ID))

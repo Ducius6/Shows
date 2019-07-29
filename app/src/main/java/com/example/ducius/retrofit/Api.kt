@@ -24,6 +24,6 @@ interface Api {
     fun loginUser(@Body registerInfo: RegisterInfo): Call<LoginResponse>
 
     @POST("episodes")
-    fun addEpisode(@Body episode: PostEpisode, @Header("Authorization") authHeader: String): Call<PostEpisodeResponse>
+    fun addEpisode(@Body episode: PostEpisode): Call<PostEpisodeResponse>
 
 }

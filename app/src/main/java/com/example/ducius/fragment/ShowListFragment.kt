@@ -50,7 +50,7 @@ class ShowListFragment : Fragment(), ShowsAdapter.OnShowClicked {
         viewModel.liveData.observe(this, Observer {
             updateUI(it)
             if (twoPane!!) {
-                bundle.putString(SHOW_ID, it.showsList?.get(0)?.ID)
+                bundle.putString(SHOW_ID, it.showsList?.first()?.ID)
                 val fragmentDetails = ShowDetailsFragment()
                 fragmentDetails.arguments = bundle
                 fragmentManager?.beginTransaction()?.apply {

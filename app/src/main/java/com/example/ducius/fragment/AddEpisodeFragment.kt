@@ -68,8 +68,8 @@ class AddEpisodeFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(this).get(AddEpisodeViewModel::class.java)
 
-        arguments.let {
-            showID = it!!.getString(ShowDetailsFragment.SHOW_ID)
+        arguments?.let {
+            showID = it.getString(ShowDetailsFragment.SHOW_ID)
         }
 
         if (viewModel.episodeImageURi != null) {
@@ -193,7 +193,7 @@ class AddEpisodeFragment : Fragment() {
                     episode,
                     season
                 )
-            viewModel.postEpisodeData(episode, ShowsContainerActivity.TOKEN)
+            viewModel.postEpisodeData(episode)
             viewModel.liveData.observe(this, Observer {
                 if(it.isSuccessful){
                     activity?.onBackPressed()

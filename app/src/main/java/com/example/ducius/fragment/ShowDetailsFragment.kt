@@ -123,7 +123,7 @@ class ShowDetailsFragment : Fragment() {
         if (episodeResponse?.isSuccessful == true) {
             episodeResponse.listOfEpisodes?.let { episodeAdapter.setData(it) }
         } else {
-            Toast.makeText(context, "Something went wrong", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show()
         }
     }
 

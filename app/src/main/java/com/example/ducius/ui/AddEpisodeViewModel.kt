@@ -18,8 +18,8 @@ class AddEpisodeViewModel : ViewModel(), Observer<PostEpisodeResponse> {
             return episodeLiveData
         }
 
-    fun postEpisodeData(episode:PostEpisode, authHeader:String) {
-        EpisodesRepository.postEpisodeData(episode, authHeader)
+    fun postEpisodeData(episode: PostEpisode) {
+        EpisodesRepository.postEpisodeData(episode)
     }
 
     init {

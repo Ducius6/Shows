@@ -23,8 +23,8 @@ object EpisodesRepository {
     fun episodePosted(): LiveData<PostEpisodeResponse> = postedEpisode
     fun episodesLiveData(): LiveData<EpisodeResponse> = episodesLiveData
 
-    fun postEpisodeData(postEpisode: PostEpisode, authHeader:String) {
-        apiService?.addEpisode(postEpisode, authHeader)?.enqueue(object : Callback<PostEpisodeResponse> {
+    fun postEpisodeData(postEpisode: PostEpisode) {
+        apiService?.addEpisode(postEpisode)?.enqueue(object : Callback<PostEpisodeResponse> {
             override fun onFailure(call: Call<PostEpisodeResponse>, t: Throwable) {
                 t.printStackTrace()
                 t.localizedMessage
@@ -64,5 +64,4 @@ object EpisodesRepository {
             }
         })
     }
-
 }

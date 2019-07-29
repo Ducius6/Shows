@@ -36,18 +36,18 @@ class RegisterActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(RegisterUserViewModel::class.java)
 
         registerUserButton.setOnClickListener {
-            if (android.util.Patterns.EMAIL_ADDRESS.matcher(emailEditText.text).matches() && passwordFirstTime.text.toString().equals(
-                    passwordSecondTime.text.toString()) && passwordFirstTime.text.toString().isNotEmpty()
+            if (viewModel.isEntryValid(
+                    emailEditText.text.toString(),
+                    passwordFirstTime.text.toString(),
+                    passwordSecondTime.text.toString()
+                )
             ) {
                 val user =
                     RegisterInfo(email = emailEditText.text.toString(), password = passwordFirstTime.text.toString())
                 viewModel.getUserData(user)
                 viewModel.liveData.observe(this, Observer {
                     if (it.isSuccessful) {
-                        val intent =
-                            Intent(this, LoginActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        intent.putExtra("user", user)
-                        startActivity(intent)
+                        startActivity(Intent(this, LoginActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).putExtra(getString(R.string.user_var), user))
                         finish()
                     } else {
                         Toast.makeText(this, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show()

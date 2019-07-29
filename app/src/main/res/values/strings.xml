@@ -36,4 +36,5 @@
     <string name="password_again">Password again</string>
     <string name="register_button">REGISTER</string>
     <string name="wrong_input">Wrong input</string>
+    <string name="user_var">user</string>
 </resources>
