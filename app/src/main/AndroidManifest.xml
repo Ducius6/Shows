@@ -14,16 +14,17 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".RegisterActivity"
-                  android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
-                android:name=".ui.AddEpisodeActivity"
+                android:name=".RegisterActivity"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
-                android:name=".ui.ShowsDetailsActivity"
+                android:name=".oldstuff.AddEpisodeActivity"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
-                android:name=".ui.ShowsActivity"
+                android:name=".oldstuff.ShowsDetailsActivity"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+                android:name=".oldstuff.ShowsActivity"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
                 android:name=".WelcomeActivity"

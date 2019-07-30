@@ -1,4 +1,4 @@
-package com.example.ducius.ui
+package com.example.ducius.oldstuff
 
 import android.app.Activity
 import android.app.Dialog
@@ -25,9 +25,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProviders
 import com.example.ducius.R
-import com.example.ducius.model.Episode
 import com.example.ducius.shared.gone
 import com.example.ducius.shared.visible
+import com.example.ducius.ui.AddEpisodeViewModel
 import kotlinx.android.synthetic.main.camera_gallery_dialog_layout.view.*
 import kotlinx.android.synthetic.main.picker_layout.view.*
 import java.io.File
