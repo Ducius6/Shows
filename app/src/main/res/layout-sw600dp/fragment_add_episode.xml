@@ -141,16 +141,10 @@
                 android:text="@string/save"
                 android:id="@+id/saveButton"
                 android:enabled="false"
-                android:background="@drawable/rounded_button"
-                android:paddingTop="@dimen/dimens18dp"
-                android:paddingBottom="@dimen/dimens17dp"
-                android:layout_marginHorizontal="@dimen/dimens80dp"
-                android:textSize="@dimen/dimens16sp"
+                style="@style/ShowButton"
+                android:layout_marginHorizontal="@dimen/dimens16dp"
                 android:layout_marginTop="@dimen/dimens148dp"
-                android:textColor="@color/white"
-                android:letterSpacing="0.02"
-                android:lineSpacingExtra="@dimen/dimens4sp"
-                android:gravity="center_horizontal"
+                android:gravity="center_horizontal|bottom"
                 android:layout_marginBottom="@dimen/dimens32dp"/>
 
     </LinearLayout>
