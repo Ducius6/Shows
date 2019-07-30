@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.ducius.R
-import com.example.ducius.model.Show
+import com.example.ducius.model.CompleteShow
+import com.example.ducius.model.ShowDetails
 import com.example.ducius.shared.gone
 import com.example.ducius.ui.EpisodeAdapter
 import com.example.ducius.ui.EpisodesViewModel
@@ -18,11 +20,12 @@ import kotlinx.android.synthetic.main.fragment_show_details.*
 
 class ShowDetailsFragment : Fragment() {
 
-    private lateinit var show: Show
+    private var showDetails: ShowDetails? = null
     private lateinit var episodeAdapter: EpisodeAdapter
     private lateinit var viewModel: EpisodesViewModel
     private var twoPane: Boolean? = null
     private var firstTime: Boolean? = null
+    private lateinit var showId: String
 
     companion object {
         const val SHOW_ID = "showID"
@@ -40,10 +43,10 @@ class ShowDetailsFragment : Fragment() {
         twoPane = arguments?.getBoolean(ShowsContainerActivity.TWO_PANE)
         firstTime = arguments?.getBoolean(ShowsContainerActivity.FIRST_TIME)
         if (firstTime != null) {
-            show = if (firstTime!!) {
-                viewModel.getFirstShow()
+            if (firstTime!!) {
+                showId = arguments?.getString(ShowListFragment.SHOW_ID).toString()
             } else {
-                arguments?.getSerializable(ShowListFragment.SHOW) as Show
+                showId = arguments?.getString(ShowListFragment.SHOW_ID).toString()
             }
         }
 
@@ -52,35 +55,27 @@ class ShowDetailsFragment : Fragment() {
                 setHasOptionsMenu(true)
                 (activity as AppCompatActivity).setSupportActionBar(showsDetailsToolbar)
                 if ((activity as AppCompatActivity).supportActionBar != null) {
-                    with((activity as AppCompatActivity)){
+                    with((activity as AppCompatActivity)) {
                         supportActionBar?.setDisplayShowHomeEnabled(true)
                         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                        supportActionBar?.title = show.name
                     }
                 }
-            } else if (twoPaneShowName != null) {
-                twoPaneShowName.text = show.name
             }
         }
 
-        showDesc.text = show.description
         episodeAdapter = EpisodeAdapter()
         episodesRecyclerView.adapter = episodeAdapter
 
-        viewModel.liveData.observe(this, Observer { episodes ->
-            if (episodes != null) {
-                episodes.get(show.ID)?.let {
-                    episodeAdapter.setData(episodes = it)
-                    removeItems()
-                }
-            }
+        viewModel.getCompleteShow(showId)
+        viewModel.completeShowLiveData.observe(this, Observer {
+            updateShowAndEpisode(it)
         })
 
         addEpisodeFloatingButton.setOnClickListener {
             val addEpisodeFragment = AddEpisodeFragment()
             val bundle = Bundle()
-            with(bundle){
-                putInt(SHOW_ID, show.ID)
+            with(bundle) {
+                showDetails?.ID?.let { it1 -> putString(SHOW_ID, it1) }
                 putBoolean(ShowsContainerActivity.TWO_PANE, twoPane!!)
             }
             addEpisodeFragment.arguments = bundle
@@ -103,6 +98,22 @@ class ShowDetailsFragment : Fragment() {
 
         addSomeEpisodes.setOnClickListener {
             addEpisodeFloatingButton.performClick()
+        }
+    }
+
+    private fun updateShowAndEpisode(completeShow: CompleteShow) {
+        if (completeShow.isSuccessful) {
+            showDetailsProgressBar.gone()
+            (activity as AppCompatActivity).supportActionBar?.title = completeShow.showDetailsResponse?.show?.name
+            showDesc.text = completeShow.showDetailsResponse?.show?.description
+            showDetails = completeShow.showDetailsResponse?.show
+            if (twoPaneShowName != null) {
+                twoPaneShowName.text = completeShow.showDetailsResponse?.show?.name
+            }
+            completeShow.episodeResponse?.listOfEpisodes?.let { episodeAdapter.setData(it) }
+            removeItems()
+        }else{
+            Toast.makeText(context, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show()
         }
     }
 

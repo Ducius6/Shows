@@ -1,56 +1,42 @@
 package com.example.ducius.model.repository
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.ducius.MyShowsApp
-import com.example.ducius.model.Episode
-import java.io.ObjectInputStream
-import java.io.ObjectOutputStream
-import java.lang.Exception
+import com.example.ducius.model.PostEpisode
+import com.example.ducius.responses.PostEpisodeResponse
+import com.example.ducius.retrofit.Api
+import com.example.ducius.retrofit.RetrofitClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-private const val FILENAME = "show_episodes"
 
 object EpisodesRepository {
 
-    private val episodesLiveData = MutableLiveData<Map<Int, List<Episode>>>()
+    private val apiService = RetrofitClient.retrofitInstance?.create(Api::class.java)
 
-    fun getEpisodes(): LiveData<Map<Int, List<Episode>>> =
-        episodesLiveData
+    private var postedEpisode = MutableLiveData<PostEpisodeResponse>()
 
-    private val episodesMap = readEpisodesStorage()
+    fun episodePosted(): LiveData<PostEpisodeResponse> = postedEpisode
 
-    init {
-        episodesLiveData.value =
-            episodesMap
-    }
-
-    fun readEpisodesStorage(): MutableMap<Int, MutableList<Episode>> {
-        return try {
-            ObjectInputStream(MyShowsApp.instance.openFileInput(FILENAME)).use {
-                it.readObject() as MutableMap<Int, MutableList<Episode>>
+    fun postEpisodeData(postEpisode: PostEpisode) {
+        apiService?.addEpisode(postEpisode)?.enqueue(object : Callback<PostEpisodeResponse> {
+            override fun onFailure(call: Call<PostEpisodeResponse>, t: Throwable) {
+                t.printStackTrace()
+                t.localizedMessage
+                postedEpisode.value = PostEpisodeResponse(isSuccessful = false)
             }
-        } catch (ex: Exception) {
-            mutableMapOf()
-        }
-    }
 
-    fun addEpisode(episode: Episode, showId: Int) {
-        if (episodesMap.get(showId) == null) {
-            val list = mutableListOf<Episode>()
-            list.add(episode)
-            episodesMap.put(showId, list)
-        } else {
-            val list = episodesMap.get(showId)
-            list?.add(episode)
-            list?.let { episodesMap.put(showId, it) }
-        }
-
-        episodesLiveData.value =
-            episodesMap
-
-        ObjectOutputStream(MyShowsApp.instance.openFileOutput(FILENAME, Context.MODE_PRIVATE)).use {
-            it.writeObject(episodesMap)
-        }
+            override fun onResponse(call: Call<PostEpisodeResponse>, response: Response<PostEpisodeResponse>) {
+                with(response) {
+                    if (isSuccessful && body() != null) {
+                        postedEpisode.value =
+                            PostEpisodeResponse(returnedEpisode = body()?.returnedEpisode, isSuccessful = true)
+                    } else {
+                        postedEpisode.value = PostEpisodeResponse(isSuccessful = false)
+                    }
+                }
+            }
+        })
     }
 }

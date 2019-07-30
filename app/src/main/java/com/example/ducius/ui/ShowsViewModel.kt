@@ -4,31 +4,31 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
-import com.example.ducius.model.Show
+import com.example.ducius.responses.ShowsResponse
 import com.example.ducius.model.repository.ShowsRepository
 
-class ShowsViewModel : ViewModel(), Observer<List<Show>> {
+class ShowsViewModel : ViewModel(), Observer<ShowsResponse> {
 
-    private val showsLiveData = MutableLiveData<List<Show>>()
+    private val showsLiveData = MutableLiveData<ShowsResponse>()
 
-    val liveData: LiveData<List<Show>>
+    val liveData: LiveData<ShowsResponse>
         get() {
             return showsLiveData
         }
 
-    private var showsList = listOf<Show>()
-
-    init {
-        showsLiveData.value = showsList
-        ShowsRepository.getShows().observeForever(this)
+    fun getShowData(){
+        ShowsRepository.fetchShowsData()
     }
 
-    override fun onChanged(shows: List<Show>?) {
-        showsList = shows ?: listOf()
-        showsLiveData.value = showsList
+    init {
+        ShowsRepository.showsLiveData().observeForever(this)
+    }
+
+    override fun onChanged(showsResponseData: ShowsResponse?) {
+        showsLiveData.value = showsResponseData
     }
 
     override fun onCleared() {
-        ShowsRepository.getShows().removeObserver(this)
+        ShowsRepository.showsLiveData().removeObserver(this)
     }
 }

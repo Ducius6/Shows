@@ -30,4 +30,12 @@
     <string name="something_went_wrong">Something went wrong</string>
     <string name="username">Username</string>
     <string name="OK">OK</string>
+    <string name="or">or</string>
+    <string name="create_an_account">Create an account</string>
+    <string name="e_mail">e-mail</string>
+    <string name="password_again">Password again</string>
+    <string name="register_button">REGISTER</string>
+    <string name="wrong_input">Wrong input</string>
+    <string name="user_var">user</string>
+    <string name="session_timed_out">Session timed out, you need to log in again</string>
 </resources>

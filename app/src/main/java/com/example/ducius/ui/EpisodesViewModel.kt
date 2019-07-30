@@ -4,35 +4,34 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
-import com.example.ducius.model.Episode
+import com.example.ducius.model.CompleteShow
 import com.example.ducius.model.Show
-import com.example.ducius.model.repository.EpisodesRepository
 import com.example.ducius.model.repository.ShowsRepository
 
-class EpisodesViewModel : ViewModel(), Observer<Map<Int, List<Episode>>> {
+class EpisodesViewModel : ViewModel(), Observer<CompleteShow> {
 
-    private val episodesLiveData = MutableLiveData<Map<Int, List<Episode>>>()
+    private val showLiveData = MutableLiveData<CompleteShow>()
 
-    val liveData: LiveData<Map<Int, List<Episode>>>
+    val completeShowLiveData: LiveData<CompleteShow>
         get() {
-            return episodesLiveData
+            return showLiveData
         }
 
-    private var episodeMap = mapOf<Int, List<Episode>>()
-
-    init {
-        episodesLiveData.value = episodeMap
-        EpisodesRepository.getEpisodes().observeForever(this)
+    fun getCompleteShow(showId: String) {
+        ShowsRepository.fetchShowDetailsAndListOfEpisodes(showId)
     }
 
-    override fun onChanged(episodes: Map<Int, List<Episode>>?) {
-        episodeMap = episodes ?: mapOf()
-        episodesLiveData.value = episodeMap
+    init {
+        ShowsRepository.completeShowLiveData().observeForever(this)
+    }
+
+    override fun onChanged(completeShow: CompleteShow?) {
+        showLiveData.value = completeShow
     }
 
     override fun onCleared() {
-        EpisodesRepository.getEpisodes().removeObserver(this)
+        ShowsRepository.completeShowLiveData().removeObserver(this)
     }
 
-    fun getFirstShow(): Show = ShowsRepository.getListOfShows().first()
+    fun getFirstShow(): Show? = ShowsRepository.showsLiveData().value?.showsList?.first()
 }

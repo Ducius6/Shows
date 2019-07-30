@@ -1,6 +1,5 @@
 package com.example.ducius.ui
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,10 +7,12 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ducius.R
 import com.example.ducius.model.Show
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_show.view.*
 
+private const val BASE_URL = "https://api.infinum.academy"
 
-class ShowsAdapter(private val clickListener: OnShowClicked, private val context: Context) :
+class ShowsAdapter(private val clickListener: OnShowClicked) :
     RecyclerView.Adapter<ShowsAdapter.ShowViewHolder>() {
 
     var selectedPosition = RecyclerView.NO_POSITION
@@ -27,14 +28,14 @@ class ShowsAdapter(private val clickListener: OnShowClicked, private val context
     override fun onBindViewHolder(holder: ShowViewHolder, position: Int) {
         with(holder.itemView) {
             showName.text = listOfShows.get(position).name
-            showImageView.setImageResource(listOfShows.get(position).imageId)
-            showAirDate.text = listOfShows.get(position).airDate
+            Picasso.get().load(BASE_URL + listOfShows.get(position).imageURL)
+                .into(showImageView)
             rootView.setOnClickListener { clickListener.onClick(listOfShows.get(position), position) }
         }
         if (selectedPosition == position)
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.highlightgray))
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.highlightgray))
         else
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.white))
     }
 
     fun setData(shows: List<Show>) {

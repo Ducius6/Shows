@@ -5,9 +5,9 @@ import com.squareup.moshi.JsonClass
 import java.io.Serializable
 
 @JsonClass(generateAdapter = true)
-data class Episode(
+data class PostEpisode(
 
-    @Json(name = "_id")
+    @Json(name = "showId")
     val id: String,
 
     @Json(name = "title")
@@ -16,7 +16,7 @@ data class Episode(
     @Json(name = "description")
     val description: String,
 
-    @Json(name = "imageUrl")
+    @Json(name = "mediaId")
     val imageUrl: String,
 
     @Json(name = "episodeNumber")

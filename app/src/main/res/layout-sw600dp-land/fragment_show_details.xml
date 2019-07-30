@@ -57,6 +57,16 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="@dimen/dimens8dp"/>
 
+    <ProgressBar android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:id="@+id/showDetailsProgressBar"
+                 android:layout_marginTop="@dimen/dimens16dp"
+                 app:layout_constraintTop_toBottomOf="@id/wakeUpTextView"
+                 app:layout_constraintBottom_toBottomOf="parent"
+                 app:layout_constraintStart_toStartOf="parent"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 android:visibility="visible"/>
+
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
