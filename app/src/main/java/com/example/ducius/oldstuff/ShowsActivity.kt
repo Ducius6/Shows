@@ -1,4 +1,4 @@
-package com.example.ducius.ui
+package com.example.ducius.oldstuff
 
 import android.content.Context
 import android.content.Intent
@@ -8,8 +8,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.ducius.R
 import com.example.ducius.model.Show
+import com.example.ducius.ui.ShowsAdapter
+import com.example.ducius.ui.ShowsViewModel
 import kotlinx.android.synthetic.main.activity_shows.*
-import java.text.FieldPosition
 
 class ShowsActivity : AppCompatActivity(), ShowsAdapter.OnShowClicked {
 

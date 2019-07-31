@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:padding="@dimen/dimens80dp"
-        tools:context=".ui.ShowsDetailsActivity">
+        tools:context=".oldstuff.ShowsDetailsActivity">
 
     <TextView
             android:layout_width="wrap_content"

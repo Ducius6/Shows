@@ -10,7 +10,7 @@
     <LinearLayout
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
@@ -141,15 +141,9 @@
                 android:text="@string/save"
                 android:id="@+id/saveButton"
                 android:enabled="false"
-                android:background="@drawable/rounded_button"
-                android:paddingTop="@dimen/dimens18dp"
-                android:paddingBottom="@dimen/dimens17dp"
+                style="@style/ShowButton"
                 android:layout_marginHorizontal="@dimen/dimens16dp"
-                android:textSize="@dimen/dimens16sp"
-                android:textColor="@color/white"
-                android:letterSpacing="0.02"
                 android:layout_marginTop="@dimen/dimens148dp"
-                android:lineSpacingExtra="@dimen/dimens4sp"
                 android:gravity="center_horizontal|bottom"
                 android:layout_marginBottom="@dimen/dimens32dp"/>
 

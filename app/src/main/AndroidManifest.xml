@@ -14,28 +14,34 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".RegisterActivity"
-                  android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".SplashActivity"
+                  android:noHistory="true"
+                  android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
         <activity
-                android:name=".ui.AddEpisodeActivity"
+                android:name=".RegisterActivity"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
-                android:name=".ui.ShowsDetailsActivity"
+                android:name=".oldstuff.AddEpisodeActivity"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
-                android:name=".ui.ShowsActivity"
+                android:name=".oldstuff.ShowsDetailsActivity"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+                android:name=".oldstuff.ShowsActivity"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
                 android:name=".WelcomeActivity"
+                android:noHistory="true"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
                 android:name=".ui.LoginActivity"
+                android:noHistory="true"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity
                 android:name=".MainActivity"
@@ -53,6 +59,7 @@
                     android:name="android.support.FILE_PROVIDER_PATHS"
                     android:resource="@xml/file_paths"/>
         </provider>
+        <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
     </application>
 
 </manifest>

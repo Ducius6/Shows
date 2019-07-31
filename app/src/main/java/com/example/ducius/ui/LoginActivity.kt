@@ -50,10 +50,7 @@ class LoginActivity : AppCompatActivity() {
                 viewModel.getUserData(RegisterInfo(usernameEditText.text.toString(), passwordEditText.text.toString()))
                 viewModel.liveData.observe(this, Observer {
                     if (it.isSucccessful) {
-                        with(MyShowsApp.instance.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit()) {
-                            putString(TOKEN, it.token?.token)
-                            apply()
-                        }
+                        it.token?.token?.let { it1 -> viewModel.saveToken(it1) }
                         startActivity(
                             Intent(
                                 this,

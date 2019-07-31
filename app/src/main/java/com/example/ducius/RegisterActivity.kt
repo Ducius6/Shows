@@ -36,25 +36,28 @@ class RegisterActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(RegisterUserViewModel::class.java)
 
         registerUserButton.setOnClickListener {
-            if (viewModel.isEntryValid(
-                    emailEditText.text.toString(),
-                    passwordFirstTime.text.toString(),
-                    passwordSecondTime.text.toString()
-                )
-            ) {
+            if (viewModel.isEmailValid(emailEditText.text.toString()).not()) {
+                Toast.makeText(this, getString(R.string.wrong_input), Toast.LENGTH_LONG).show()
+            } else if(viewModel.arePasswordSame(passwordFirstTime.text.toString(), passwordSecondTime.text.toString()).not()){
+                secondTimeTextInputLayout.error = getString(R.string.password_dont_match)
+            }
+            else {
                 val user =
                     RegisterInfo(email = emailEditText.text.toString(), password = passwordFirstTime.text.toString())
                 viewModel.getUserData(user)
                 viewModel.liveData.observe(this, Observer {
                     if (it.isSuccessful) {
-                        startActivity(Intent(this, LoginActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).putExtra(getString(R.string.user_var), user))
+                        startActivity(
+                            Intent(
+                                this,
+                                LoginActivity::class.java
+                            ).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).putExtra(getString(R.string.user_var), user)
+                        )
                         finish()
                     } else {
                         Toast.makeText(this, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show()
                     }
                 })
-            } else {
-                Toast.makeText(this, getString(R.string.wrong_input), Toast.LENGTH_LONG).show()
             }
         }
     }

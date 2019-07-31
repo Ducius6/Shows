@@ -9,9 +9,8 @@ import com.example.ducius.MyShowsApp
 import com.example.ducius.model.RegisterInfo
 import com.example.ducius.model.repository.UserRepository
 import com.example.ducius.responses.LoginResponse
-import com.example.ducius.responses.RegisterUserResponse
 
-class LoginViewModel : ViewModel(), Observer<LoginResponse> {
+class SplashActivityViewModel : ViewModel(), Observer<LoginResponse> {
 
     private val loginLiveData = MutableLiveData<LoginResponse>()
 
@@ -43,23 +42,12 @@ class LoginViewModel : ViewModel(), Observer<LoginResponse> {
     private val PREF_USERNAME = "Username"
     private val PREF_PASSWORD = "Password"
 
-    fun savePreferences(username: String, password: String) {
-        val settings = MyShowsApp.instance.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        with(settings.edit()) {
-            putString(PREF_USERNAME, username)
-            putString(PREF_PASSWORD, password)
-            apply()
-        }
-    }
-
     fun saveToken(token: String) {
         with(MyShowsApp.instance.getSharedPreferences(LoginActivity.PREFS_NAME, Context.MODE_PRIVATE).edit()) {
             putString(LoginActivity.TOKEN, token)
             apply()
         }
     }
-
-    fun isEmailValid(email: String): Boolean = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
     fun loadUsernameFromPrefrences(): String? =
         MyShowsApp.instance.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).getString(
