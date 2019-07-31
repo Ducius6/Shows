@@ -1,6 +1,5 @@
 package com.example.ducius
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -33,6 +32,7 @@ class SplashActivity : AppCompatActivity() {
             override fun onAnimationEnd(animation: Animation?) {
                 loadUser()
             }
+
             override fun onAnimationStart(animation: Animation?) {}
         })
 
@@ -40,7 +40,8 @@ class SplashActivity : AppCompatActivity() {
             Animation.RELATIVE_TO_PARENT, 0f,
             Animation.RELATIVE_TO_PARENT, 0f,
             Animation.RELATIVE_TO_PARENT, 0f,
-            Animation.RELATIVE_TO_PARENT, 1f)
+            Animation.RELATIVE_TO_PARENT, 1f
+        )
 
         with(translateAnimation) {
             repeatCount = TranslateAnimation.ABSOLUTE
@@ -67,15 +68,10 @@ class SplashActivity : AppCompatActivity() {
         viewModel.getUserData(RegisterInfo(username, password))
         viewModel.liveData.observe(this, Observer {
             if (it.isSucccessful) {
-                with(MyShowsApp.instance.getSharedPreferences(LoginActivity.PREFS_NAME, Context.MODE_PRIVATE).edit()) {
-                    putString(LoginActivity.TOKEN, it.token?.token)
-                    apply()
-                }
-                startActivity(Intent(this, ShowsContainerActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                finish()
+                it.token?.token?.let { it1 -> viewModel.saveToken(it1) }
+                startActivity(Intent(this, ShowsContainerActivity::class.java))
             } else {
-                startActivity(Intent(this, LoginActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                finish()
+                startActivity(Intent(this, LoginActivity::class.java))
             }
         })
     }

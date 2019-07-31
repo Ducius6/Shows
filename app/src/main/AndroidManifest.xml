@@ -15,6 +15,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity android:name=".SplashActivity"
+                  android:noHistory="true"
                   android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -35,9 +36,11 @@
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
                 android:name=".WelcomeActivity"
+                android:noHistory="true"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
                 android:name=".ui.LoginActivity"
+                android:noHistory="true"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity

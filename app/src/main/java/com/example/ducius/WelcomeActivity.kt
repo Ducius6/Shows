@@ -29,12 +29,6 @@ class WelcomeActivity : AppCompatActivity() {
     }
 
     private fun doStuff() {
-        startActivity(
-            Intent(
-                this,
-                ShowsContainerActivity::class.java
-            ).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        )
-        finish()
+        startActivity(Intent(this, ShowsContainerActivity::class.java))
     }
 }

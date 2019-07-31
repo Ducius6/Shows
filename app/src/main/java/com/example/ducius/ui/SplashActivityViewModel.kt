@@ -42,6 +42,13 @@ class SplashActivityViewModel : ViewModel(), Observer<LoginResponse> {
     private val PREF_USERNAME = "Username"
     private val PREF_PASSWORD = "Password"
 
+    fun saveToken(token: String) {
+        with(MyShowsApp.instance.getSharedPreferences(LoginActivity.PREFS_NAME, Context.MODE_PRIVATE).edit()) {
+            putString(LoginActivity.TOKEN, token)
+            apply()
+        }
+    }
+
     fun loadUsernameFromPrefrences(): String? =
         MyShowsApp.instance.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).getString(
             PREF_USERNAME,

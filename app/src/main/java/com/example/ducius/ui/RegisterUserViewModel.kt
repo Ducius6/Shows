@@ -19,7 +19,7 @@ class RegisterUserViewModel : ViewModel(), Observer<RegisterUserResponse> {
 
     fun isEmailValid(email: String): Boolean = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
-    fun arePasswordSame(firstPassword: String, secondPassword: String): Boolean = firstPassword.equals(secondPassword)
+    fun arePasswordSame(firstPassword: String, secondPassword: String): Boolean = (firstPassword == secondPassword)
 
     fun getUserData(user: RegisterInfo) {
         UserRepository.fetchUserData(user)
