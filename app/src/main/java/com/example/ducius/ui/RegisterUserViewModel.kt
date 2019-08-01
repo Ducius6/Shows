@@ -8,6 +8,8 @@ import com.example.ducius.model.RegisterInfo
 import com.example.ducius.model.repository.UserRepository
 import com.example.ducius.responses.RegisterUserResponse
 
+private const val MIN_PASSWORD_LENGTH = 5
+
 class RegisterUserViewModel : ViewModel(), Observer<RegisterUserResponse> {
 
     private val userLiveData = MutableLiveData<RegisterUserResponse>()
@@ -36,4 +38,6 @@ class RegisterUserViewModel : ViewModel(), Observer<RegisterUserResponse> {
     override fun onCleared() {
         UserRepository.usersLiveData().removeObserver(this)
     }
+
+    fun isPassordLongEnough(password: String): Boolean = password.length >= MIN_PASSWORD_LENGTH
 }

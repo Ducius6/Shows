@@ -1,6 +1,5 @@
 package com.example.ducius.ui
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_login.*
@@ -9,13 +8,13 @@ import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.example.ducius.MyShowsApp
 import com.example.ducius.R
 import com.example.ducius.RegisterActivity
 import com.example.ducius.WelcomeActivity
 import com.example.ducius.fragment.ShowsContainerActivity
 import com.example.ducius.model.RegisterInfo
 
+private const val EMPTY_STRING = ""
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var viewModel: LoginViewModel
@@ -36,6 +35,7 @@ class LoginActivity : AppCompatActivity() {
             viewModel.getUserData(intent.getSerializableExtra(getString(R.string.user_var)) as RegisterInfo)
             viewModel.liveData.observe(this, Observer {
                 if (it.isSucccessful) {
+                    it.token?.token?.let { it1 -> viewModel.saveToken(it1) }
                     startActivity(user?.email?.let { it1 -> WelcomeActivity.newInstance(this, it1) })
                     finish()
                 }
@@ -43,7 +43,13 @@ class LoginActivity : AppCompatActivity() {
         }
 
         loginButton.setOnClickListener {
-            if (viewModel.isEmailValid(usernameEditText.text.toString())) {
+            usernameInputLayout.error = EMPTY_STRING
+            passwordInputLayout.error = EMPTY_STRING
+            if (viewModel.isEmailValid(usernameEditText.text.toString()).not()) {
+                usernameInputLayout.error = getString(R.string.wrong_email_input)
+            } else if (passwordEditText.text.toString().isEmpty()) {
+                passwordInputLayout.error = getString(R.string.invalid_password)
+            } else {
                 if (rememberMeCheckBox.isChecked) {
                     viewModel.savePreferences(usernameEditText.text.toString(), passwordEditText.text.toString())
                 }
@@ -60,8 +66,6 @@ class LoginActivity : AppCompatActivity() {
                         finish()
                     }
                 })
-            } else {
-                usernameInputLayout.error = getString(R.string.invalid_password)
             }
         }
 

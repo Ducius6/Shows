@@ -40,4 +40,11 @@
     <string name="session_timed_out">Session timed out, you need to log in again</string>
     <string name="password_dont_match">Passwords don\'t match</string>
     <string name="splash_shows">shows</string>
+    <string name="all_fields_must_be_filled">All fields must be filled!</string>
+    <string name="wrong_email_input">Wrong email input</string>
+    <string name="password_not_long_enough">Password not long enough!</string>
+    <string name="logout_question">Are you sure you want to logout?</string>
+    <string name="cancel">Cancel</string>
+    <string name="chose_photo">You must choose photo</string>
+    <string name="description_characters">Description must have at least 50 characters</string>
 </resources>

@@ -1,13 +1,13 @@
 package com.example.ducius.responses
 
-import com.example.ducius.model.EpisodeReturned
+import com.example.ducius.model.Media
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class PostEpisodeResponse(
+class MediaResponse(
 
     @Json(name = "data")
-    val returnedEpisode: EpisodeReturned? = null
+    val media: Media? = null
 
 )

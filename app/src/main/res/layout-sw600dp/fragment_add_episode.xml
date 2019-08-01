@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
-            android:fillViewport="true"
-            xmlns:app="http://schemas.android.com/apk/res-auto">
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="match_parent"
@@ -118,20 +118,28 @@
                     android:lineSpacingExtra="@dimen/dimens6sp"
                     android:textStyle="normal"/>
 
-            <EditText
-                    android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="@dimen/dimens0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/episodeDescEditText"
+                    android:id="@+id/episodeDescInputLayout"
                     app:layout_constraintTop_toBottomOf="@id/pickSeasonAndEp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="@dimen/dimens24dp"
-                    android:layout_marginHorizontal="@dimen/dimens80dp"
-                    android:paddingTop="@dimen/dimens30dp"
-                    android:paddingBottom="@dimen/dimens15dp"
-                    android:textSize="@dimen/dimens16sp"
-                    android:inputType="text"
-                    android:hint="@string/episode_description"/>
+                    android:layout_marginTop="@dimen/dimens3dp"
+                    android:layout_marginHorizontal="@dimen/dimens16dp"
+                    app:errorTextAppearance="@style/ErrorAppearance"
+                    app:errorEnabled="true">
+
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/episodeDescEditText"
+                        android:paddingTop="@dimen/dimens30dp"
+                        android:paddingBottom="@dimen/dimens15dp"
+                        android:textSize="@dimen/dimens16sp"
+                        android:hint="@string/episode_description"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

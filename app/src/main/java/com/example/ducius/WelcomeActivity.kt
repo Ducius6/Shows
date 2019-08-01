@@ -23,7 +23,7 @@ class WelcomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
 
-        welcomeText.text = String.format("Welcome %s", intent.getStringExtra(USERNAME))
+        welcomeText.text = String.format("Welcome %s", intent.getStringExtra(USERNAME).split("@")[0])
 
         handler.postDelayed({ doStuff() }, 3000)
     }

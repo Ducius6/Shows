@@ -3,6 +3,7 @@ package com.example.ducius.retrofit
 import com.example.ducius.model.PostEpisode
 import com.example.ducius.model.RegisterInfo
 import com.example.ducius.responses.*
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -25,5 +26,9 @@ interface Api {
 
     @POST("episodes")
     fun addEpisode(@Body episode: PostEpisode): Call<PostEpisodeResponse>
+
+    @POST("media")
+    @Multipart
+    fun uploadMedia(@Part("file\"; filename=\"image.webp\"") requestBody: RequestBody): Call<MediaResponse>
 
 }

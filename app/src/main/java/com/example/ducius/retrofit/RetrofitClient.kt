@@ -3,6 +3,7 @@ package com.example.ducius.retrofit
 import android.content.Context
 import com.example.ducius.MyShowsApp
 import com.example.ducius.ui.LoginActivity
+import com.readystatesoftware.chuck.ChuckInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -24,12 +25,17 @@ object RetrofitClient {
         chain.proceed(newRequest)
     }.build()
 
+    var clientChuck = OkHttpClient.Builder()
+        .addInterceptor(ChuckInterceptor(MyShowsApp.instance))
+        .build()
+
     val retrofitInstance: Retrofit?
         get() {
             if (retrofit == null) {
                 retrofit = Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(client)
+                    .client(clientChuck)
                     .addConverterFactory(MoshiConverterFactory.create())
                     .build()
             }

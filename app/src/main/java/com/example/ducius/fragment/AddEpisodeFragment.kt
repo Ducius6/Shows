@@ -38,6 +38,7 @@ import kotlinx.android.synthetic.main.picker_layout.view.*
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
+import java.nio.file.Files
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -55,6 +56,7 @@ class AddEpisodeFragment : Fragment() {
 
     private var uri: Uri? = null
     private var showID = ""
+    private var file: File? = null
     private var pathToFile: String? = null
     private lateinit var viewModel: AddEpisodeViewModel
     private var season: String = "1"
@@ -185,29 +187,37 @@ class AddEpisodeFragment : Fragment() {
         })
 
         saveButton.setOnClickListener {
-            val episode =
-                PostEpisode(
-                    showID,
-                    episodeTitleEditText.text.toString(),
-                    episodeDescEditText.text.toString(),
-                    "",
-                    episode,
-                    season
-                )
-            viewModel.postEpisodeData(episode)
-            viewModel.liveData.observe(this, Observer {
-                if (it.isSuccessful) {
-                    activity?.onBackPressed()
-                } else {
-                    AlertDialog.Builder(requireContext())
-                        .setTitle(getString(R.string.session_timed_out))
-                        .setNeutralButton(getString(R.string.OK)) { dialog, _ ->
-                            dialog.dismiss()
-                            activity?.finishAffinity()
-                            startActivity(Intent(context, LoginActivity::class.java))
-                        }.show()
-                }
-            })
+            if (viewModel.getImageUri() == null) {
+                Toast.makeText(context, getString(R.string.chose_photo), Toast.LENGTH_LONG).show()
+            } else if (episodeTitleEditText.text.isEmpty() || episodeDescEditText.text.isEmpty()) {
+                Toast.makeText(context, getString(R.string.all_fields_must_be_filled), Toast.LENGTH_LONG).show()
+            } else if (episodeDescEditText.text.length < 2) {
+                episodeDescInputLayout.error = getString(R.string.description_characters)
+            } else {
+                val episode =
+                    PostEpisode(
+                        showID,
+                        episodeTitleEditText.text.toString(),
+                        episodeDescEditText.text.toString(),
+                        "",
+                        episode,
+                        season
+                    )
+                viewModel.postEpisodeData(File(Uri.parse(viewModel.getImageUri()).path), episode)
+                viewModel.liveData.observe(this, Observer {
+                    if (it.isSuccessful) {
+                        activity?.onBackPressed()
+                    } else {
+                        AlertDialog.Builder(requireContext())
+                            .setTitle(getString(R.string.session_timed_out))
+                            .setNeutralButton(getString(R.string.OK)) { dialog, _ ->
+                                dialog.dismiss()
+                                activity?.finishAffinity()
+                                startActivity(Intent(context, LoginActivity::class.java))
+                            }.show()
+                    }
+                })
+            }
         }
     }
 
@@ -331,6 +341,7 @@ class AddEpisodeFragment : Fragment() {
         val takePic = Intent("android.media.action.IMAGE_CAPTURE")
         if (takePic.resolveActivity(activity?.packageManager) != null) {
             val photoFile = createPhotoFile()
+            file = photoFile
             if (photoFile != null) {
                 pathToFile = photoFile.absolutePath
                 uri = context?.let { FileProvider.getUriForFile(it, "com.example.ducius.fileprovider", photoFile) }
@@ -375,8 +386,7 @@ class AddEpisodeFragment : Fragment() {
     private fun createPhotoFile(): File? {
         var imageFile: File? = null
         try {
-            imageFile = File.createTempFile(
-                SimpleDateFormat(getString(R.string.date_format)).format(Date()),
+            imageFile = File.createTempFile("image",
                 ".webp",
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
             )

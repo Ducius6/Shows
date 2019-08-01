@@ -59,7 +59,6 @@ class SplashActivity : AppCompatActivity() {
             })
         }
         dropDownLogo.startAnimation(translateAnimation)
-
     }
 
     private fun loadUser() {

@@ -14,6 +14,11 @@ import com.example.ducius.responses.RegisterUserResponse
 class LoginViewModel : ViewModel(), Observer<LoginResponse> {
 
     private val loginLiveData = MutableLiveData<LoginResponse>()
+    private val defaultUsernameValue = ""
+    private val defaultPasswordValue = ""
+    private val PREFS_NAME = "preferences"
+    private val PREF_USERNAME = "Username"
+    private val PREF_PASSWORD = "Password"
 
     val liveData: LiveData<LoginResponse>
         get() {
@@ -36,12 +41,6 @@ class LoginViewModel : ViewModel(), Observer<LoginResponse> {
     override fun onChanged(loginResponse: LoginResponse?) {
         loginLiveData.value = loginResponse
     }
-
-    private val defaultUsernameValue = ""
-    private val defaultPasswordValue = ""
-    private val PREFS_NAME = "preferences"
-    private val PREF_USERNAME = "Username"
-    private val PREF_PASSWORD = "Password"
 
     fun savePreferences(username: String, password: String) {
         val settings = MyShowsApp.instance.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)

@@ -38,24 +38,15 @@ class ShowsContainerActivity : AppCompatActivity() {
             if (twoPane) {
                 addFragmentTwoPanelTablet()
             } else {
-                addFragmentSinglePanelTablet()
+                addFragmentSinglePanel()
             }
         } else if (savedInstanceState == null) {
-            addFragmentPhone()
+            addFragmentSinglePanel()
         }
     }
 
-    private fun addFragmentPhone() {
-        val fragment = ShowListFragment()
-        fragment.arguments = bundle
-        supportFragmentManager.beginTransaction().apply {
-            add(R.id.phoneFragmentContainer, fragment)
-            commit()
-        }
-    }
-
-    private fun addFragmentSinglePanelTablet() {
-        val fragment = ShowListFragment()
+    private fun addFragmentSinglePanel() {
+        val fragment = ShowGridFragment()
         fragment.arguments = bundle
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.phoneFragmentContainer, fragment)
@@ -64,7 +55,7 @@ class ShowsContainerActivity : AppCompatActivity() {
     }
 
     private fun addFragmentTwoPanelTablet() {
-        val fragmentMaster = ShowListFragment()
+        val fragmentMaster = ShowGridFragment()
         fragmentMaster.arguments = bundle
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.masterFragmentContainer, fragmentMaster)

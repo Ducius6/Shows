@@ -11,36 +11,32 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.example.ducius.GridViewAdapter
 import com.example.ducius.R
-import com.example.ducius.responses.ShowsResponse
 import com.example.ducius.model.Show
-import com.example.ducius.shared.gone
+import com.example.ducius.responses.ShowsResponse
 import com.example.ducius.ui.LoginActivity
-import com.example.ducius.ui.ShowsAdapter
 import com.example.ducius.ui.ShowsViewModel
-import kotlinx.android.synthetic.main.fragment_show_list.*
+import kotlinx.android.synthetic.main.fragment_show_grid.*
 
-class ShowListFragment : Fragment(), ShowsAdapter.OnShowClicked {
-
+class ShowGridFragment : Fragment(), GridViewAdapter.OnShowClicked {
+    private lateinit var adapter: GridViewAdapter
     private lateinit var viewModel: ShowsViewModel
-    private lateinit var adapter: ShowsAdapter
     private var twoPane: Boolean? = null
     private var bundle: Bundle = Bundle()
     private var firstTime: Boolean? = null
 
-    companion object {
-        const val SHOW_ID = "showId"
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_show_list, container, false)
+        return inflater.inflate(R.layout.fragment_show_grid, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = ShowsAdapter(this)
-        showsRecyclerView.adapter = adapter
+        adapter = GridViewAdapter(requireContext(), this)
+        gridView.adapter = adapter
+
         twoPane = arguments?.getBoolean(ShowsContainerActivity.TWO_PANE)
         firstTime = arguments?.getBoolean(ShowsContainerActivity.FIRST_TIME)
 
@@ -54,7 +50,7 @@ class ShowListFragment : Fragment(), ShowsAdapter.OnShowClicked {
         viewModel.liveData.observe(this, Observer {
             updateUI(it)
             if (twoPane!!) {
-                bundle.putString(SHOW_ID, it.showsList?.first()?.ID)
+                bundle.putString(ShowListFragment.SHOW_ID, it.showsList?.first()?.ID)
                 val fragmentDetails = ShowDetailsFragment()
                 fragmentDetails.arguments = bundle
                 fragmentManager?.beginTransaction()?.apply {
@@ -64,12 +60,26 @@ class ShowListFragment : Fragment(), ShowsAdapter.OnShowClicked {
             }
         })
 
-        showGridFloatingButton.setOnClickListener {
+        logOutButton.setOnClickListener {
+            AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.logout_question))
+                .setPositiveButton(getString(R.string.OK)) { dialog, _ ->
+                    dialog.dismiss()
+                    viewModel.clearUsernameAndPassword()
+                    activity?.finishAffinity()
+                    startActivity(Intent(context, LoginActivity::class.java))
+                }.setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
+
+        showListFloatingButton.setOnClickListener {
             with(bundle) {
                 putBoolean(ShowsContainerActivity.TWO_PANE, twoPane!!)
                 putBoolean(ShowsContainerActivity.FIRST_TIME, false)
             }
-            val fragment = ShowGridFragment()
+            val fragment = ShowListFragment()
             fragment.arguments = bundle
             if (twoPane != null) {
                 if (twoPane!!) {
@@ -85,25 +95,10 @@ class ShowListFragment : Fragment(), ShowsAdapter.OnShowClicked {
                 }
             }
         }
-
-        logOutButton.setOnClickListener {
-            AlertDialog.Builder(requireContext())
-                .setTitle(getString(R.string.logout_question))
-                .setPositiveButton(getString(R.string.OK)) { dialog, _ ->
-                    dialog.dismiss()
-                    viewModel.clearUsernameAndPassword()
-                    activity?.finishAffinity()
-                    startActivity(Intent(context, LoginActivity::class.java))
-                }.setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .show()
-        }
     }
 
     private fun updateUI(showsResponse: ShowsResponse?) {
         if (showsResponse?.isSuccessful == true) {
-            showListProgressBar.gone()
             showsResponse.showsList?.let { adapter.setData(it) }
         } else {
             Toast.makeText(context, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show()
@@ -112,12 +107,10 @@ class ShowListFragment : Fragment(), ShowsAdapter.OnShowClicked {
 
     override fun onClick(show: Show, position: Int) {
         fragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        adapter.selectedPosition = position
-        adapter.notifyDataSetChanged()
         val fragment = ShowDetailsFragment()
         val bundle = Bundle()
         with(bundle) {
-            putString(SHOW_ID, show.ID)
+            putString(ShowListFragment.SHOW_ID, show.ID)
             putBoolean(ShowsContainerActivity.TWO_PANE, twoPane!!)
             putBoolean(ShowsContainerActivity.FIRST_TIME, false)
         }

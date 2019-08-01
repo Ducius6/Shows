@@ -50,4 +50,5 @@
     <dimen name="dimens215dp">215dp</dimen>
     <dimen name="dimens148dp">148dp</dimen>
     <dimen name="dimens48dp">48dp</dimen>
+    <dimen name="dimens2sp">2sp</dimen>
 </resources>

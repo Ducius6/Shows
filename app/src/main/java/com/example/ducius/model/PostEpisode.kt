@@ -17,7 +17,7 @@ data class PostEpisode(
     val description: String,
 
     @Json(name = "mediaId")
-    val imageUrl: String,
+    var imageUrl: String,
 
     @Json(name = "episodeNumber")
     val episodeNumber: String,
