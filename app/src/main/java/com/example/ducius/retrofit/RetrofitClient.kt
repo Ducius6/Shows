@@ -35,7 +35,6 @@ object RetrofitClient {
                 retrofit = Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(client)
-                    .client(clientChuck)
                     .addConverterFactory(MoshiConverterFactory.create())
                     .build()
             }

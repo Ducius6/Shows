@@ -38,9 +38,7 @@ import kotlinx.android.synthetic.main.picker_layout.view.*
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
-import java.nio.file.Files
-import java.text.SimpleDateFormat
-import java.util.Date
+
 
 private const val MIN_SEASON_EPISODE = 1
 private const val MAX_SEASON = 20
@@ -203,7 +201,7 @@ class AddEpisodeFragment : Fragment() {
                         episode,
                         season
                     )
-                viewModel.postEpisodeData(File(Uri.parse(viewModel.getImageUri()).path), episode)
+                viewModel.postEpisodeData(file, episode)
                 viewModel.liveData.observe(this, Observer {
                     if (it.isSuccessful) {
                         activity?.onBackPressed()
@@ -341,7 +339,6 @@ class AddEpisodeFragment : Fragment() {
         val takePic = Intent("android.media.action.IMAGE_CAPTURE")
         if (takePic.resolveActivity(activity?.packageManager) != null) {
             val photoFile = createPhotoFile()
-            file = photoFile
             if (photoFile != null) {
                 pathToFile = photoFile.absolutePath
                 uri = context?.let { FileProvider.getUriForFile(it, "com.example.ducius.fileprovider", photoFile) }
@@ -356,11 +353,13 @@ class AddEpisodeFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == TAKE_PIC_REQUEST_CODE) {
+                file = File(pathToFile)
                 episodeBitmap = BitmapFactory.decodeFile(pathToFile)
                 episodeImageView.setImageBitmap(episodeBitmap)
                 changeViewsVisibility()
             } else if (requestCode == PIC_FROM_GALLERY_REQUEST_CODE) {
                 uri = data?.data
+                file = viewModel.createFileFromInputStream(createPhotoFile(),activity?.contentResolver?.openInputStream(data?.getData()))
                 viewModel.saveEpisodeImage(uri.toString())
                 try {
                     episodeBitmap =
@@ -386,8 +385,9 @@ class AddEpisodeFragment : Fragment() {
     private fun createPhotoFile(): File? {
         var imageFile: File? = null
         try {
-            imageFile = File.createTempFile("image",
-                ".webp",
+            imageFile = File.createTempFile(
+                "image",
+                ".jpg",
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
             )
         } catch (e: IOException) {

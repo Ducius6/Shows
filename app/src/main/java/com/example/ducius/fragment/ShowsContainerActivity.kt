@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import com.example.ducius.R
-import com.example.ducius.ui.LoginActivity
 import kotlinx.android.synthetic.main.activity_shows_container.*
 
 

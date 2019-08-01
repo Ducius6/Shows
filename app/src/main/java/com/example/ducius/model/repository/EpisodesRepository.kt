@@ -2,7 +2,6 @@ package com.example.ducius.model.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.ducius.model.Media
 import com.example.ducius.model.PostEpisode
 import com.example.ducius.responses.CompleteEpisodeResponse
 import com.example.ducius.responses.MediaResponse
@@ -54,7 +53,7 @@ object EpisodesRepository {
     }
 
     fun postMedia(imageFile: File?, episodeData: PostEpisode) {
-        apiService?.uploadMedia(RequestBody.create(MediaType.parse("image/webp"), imageFile))
+        apiService?.uploadMedia(RequestBody.create(MediaType.parse("image/jpeg"), imageFile))
             ?.enqueue(object : Callback<MediaResponse> {
                 override fun onFailure(call: Call<MediaResponse>, t: Throwable) {
                     t.localizedMessage
@@ -65,7 +64,7 @@ object EpisodesRepository {
                 override fun onResponse(call: Call<MediaResponse>, response: Response<MediaResponse>) {
                     with(response) {
                         if (isSuccessful && body() != null) {
-                            postMedia = MediaResponse(body()?.media)
+                            postMedia = MediaResponse(media = body()?.media)
                             episodeData.imageUrl = postMedia?.media?.path.toString()
                             postEpisodeData(postEpisode = episodeData)
                         } else {

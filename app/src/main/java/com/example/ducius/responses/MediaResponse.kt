@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-class MediaResponse(
+data class MediaResponse(
 
     @Json(name = "data")
     val media: Media? = null

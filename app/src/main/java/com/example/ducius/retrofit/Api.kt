@@ -29,6 +29,6 @@ interface Api {
 
     @POST("media")
     @Multipart
-    fun uploadMedia(@Part("file\"; filename=\"image.webp\"") requestBody: RequestBody): Call<MediaResponse>
+    fun uploadMedia(@Part("file\"; filename=\"image.jpg\"") requestBody: RequestBody): Call<MediaResponse>
 
 }
