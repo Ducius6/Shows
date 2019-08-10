@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_marginBottom="@dimen/dimens8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    <ImageView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/commentPlaceholder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_placeholder_user_3"/>
+
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/commentEmailTextView"
+              android:textSize="@dimen/dimens16sp"
+              app:layout_constraintTop_toTopOf="parent"
+              app:layout_constraintStart_toEndOf="@id/commentPlaceholder"
+              android:layout_marginStart="@dimen/dimens8dp"
+              android:textColor="@color/pink"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/commentCompleteText"
+            app:layout_constraintTop_toBottomOf="@id/commentEmailTextView"
+            app:layout_constraintStart_toEndOf="@id/commentPlaceholder"
+            android:layout_marginStart="@dimen/dimens55dp"
+            android:layout_marginTop="@dimen/dimens5dp"
+            android:layout_marginEnd="@dimen/dimens8dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

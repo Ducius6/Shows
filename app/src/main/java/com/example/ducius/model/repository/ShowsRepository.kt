@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.ducius.model.CompleteShow
 import com.example.ducius.responses.EpisodeResponse
+import com.example.ducius.responses.LikeResponse
 import com.example.ducius.responses.ShowDetailsResponse
 import com.example.ducius.retrofit.Api
 import com.example.ducius.retrofit.RetrofitClient
@@ -18,11 +19,15 @@ object ShowsRepository {
 
     private val showsResponseLiveData = MutableLiveData<ShowsResponse>()
 
+    private val likesResponseLiveData = MutableLiveData<LikeResponse>()
+
     private var completeShowData = MutableLiveData<CompleteShow>()
 
     private var showDetailsResponse = ShowDetailsResponse()
 
     private var episodeResponse = EpisodeResponse()
+
+    fun likesLiveData(): LiveData<LikeResponse> = likesResponseLiveData
 
     fun completeShowLiveData(): LiveData<CompleteShow> = completeShowData
 
@@ -86,6 +91,48 @@ object ShowsRepository {
                         completeShowData.value = CompleteShow(episodeResponse, showDetailsResponse, isSuccessful = true)
                     } else {
                         completeShowData.value = CompleteShow(isSuccessful = false)
+                    }
+                }
+            }
+        })
+    }
+
+    fun postLike(showId: String) {
+        apiService?.postLike(showId)?.enqueue(object : Callback<LikeResponse> {
+            override fun onFailure(call: Call<LikeResponse>, t: Throwable) {
+                t.printStackTrace()
+                t.localizedMessage
+                likesResponseLiveData.value = LikeResponse(isSuccessful = false)
+            }
+
+            override fun onResponse(call: Call<LikeResponse>, response: Response<LikeResponse>) {
+                with(response){
+                    if(isSuccessful && body()!=null){
+                        likesResponseLiveData.value = LikeResponse(type = body()?.type, title = body()?.title, mediaId = body()?.mediaId, description =  body()?.description, id = body()?.id, likesCount = body()?.likesCount, isSuccessful = true)
+                    }
+                    else{
+                        likesResponseLiveData.value = LikeResponse(isSuccessful = false)
+                    }
+                }
+            }
+        })
+    }
+
+    fun postDislike(showId: String) {
+        apiService?.postDislike(showId)?.enqueue(object : Callback<LikeResponse> {
+            override fun onFailure(call: Call<LikeResponse>, t: Throwable) {
+                t.printStackTrace()
+                t.localizedMessage
+                likesResponseLiveData.value = LikeResponse(isSuccessful = false)
+            }
+
+            override fun onResponse(call: Call<LikeResponse>, response: Response<LikeResponse>) {
+                with(response){
+                    if(isSuccessful && body()!=null){
+                        likesResponseLiveData.value = LikeResponse(type = body()?.type, title = body()?.title, mediaId = body()?.mediaId, description =  body()?.description, id = body()?.id, likesCount = body()?.likesCount, isSuccessful = true)
+                    }
+                    else{
+                        likesResponseLiveData.value = LikeResponse(isSuccessful = false)
                     }
                 }
             }

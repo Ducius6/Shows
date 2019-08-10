@@ -7,13 +7,17 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.lifecycle.ViewModelProviders
 import com.example.ducius.R
+import com.example.ducius.model.Episode
 import com.example.ducius.model.Show
 import com.example.ducius.shared.gone
 import com.example.ducius.ui.EpisodeAdapter
 import com.example.ducius.ui.EpisodesViewModel
 import kotlinx.android.synthetic.main.activity_shows_details.*
 
-class ShowsDetailsActivity : AppCompatActivity() {
+class ShowsDetailsActivity : AppCompatActivity(), EpisodeAdapter.OnEpisodeClicked {
+    override fun onClick(episode: Episode) {
+
+    }
 
     companion object {
         const val SHOW_REFERENCE = "show_reference"
@@ -39,7 +43,7 @@ class ShowsDetailsActivity : AppCompatActivity() {
             supportActionBar?.title = show.name
         }
 
-        episodeAdapter = EpisodeAdapter()
+        episodeAdapter = EpisodeAdapter(this)
         episodesRecyclerView.adapter = episodeAdapter
 
         viewModel = ViewModelProviders.of(this).get(EpisodesViewModel::class.java)

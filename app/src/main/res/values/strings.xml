@@ -17,12 +17,14 @@
     <string name="change_photo">Change photo</string>
     <string name="default_season_episode">S 01, E 01</string>
     <string name="episode_title">Episode title</string>
+    <string name="up_to_date">Everything is up to date</string>
     <string name="save">SAVE</string>
     <string name="season_episode">Season &amp; episode</string>
     <string name="gallery">Gallery</string>
     <string name="camera">Camera</string>
     <string name="season">Season</string>
     <string name="episode">Episode</string>
+    <string name="question_mark">\?</string>
     <string name="remember_me">Remember me</string>
     <string name="date_format">ddMMyyyy_HHmmss</string>
     <string name="add_episode">Add Episode</string>
@@ -47,4 +49,8 @@
     <string name="cancel">Cancel</string>
     <string name="chose_photo">You must choose photo</string>
     <string name="description_characters">Description must have at least 50 characters</string>
+    <string name="comments">Comments</string>
+    <string name="add_a_comment">Add a comment..</string>
+    <string name="sorry_we_don_t_have_comments_yet">Sorry, we don’t have comments yet.</string>
+    <string name="be_first_one">Be first who will write a review.</string>
 </resources>

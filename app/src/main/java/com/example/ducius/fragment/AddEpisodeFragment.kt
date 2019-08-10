@@ -189,7 +189,7 @@ class AddEpisodeFragment : Fragment() {
                 Toast.makeText(context, getString(R.string.chose_photo), Toast.LENGTH_LONG).show()
             } else if (episodeTitleEditText.text.isEmpty() || episodeDescEditText.text.isEmpty()) {
                 Toast.makeText(context, getString(R.string.all_fields_must_be_filled), Toast.LENGTH_LONG).show()
-            } else if (episodeDescEditText.text.length < 2) {
+            } else if (episodeDescEditText.text.length < 50) {
                 episodeDescInputLayout.error = getString(R.string.description_characters)
             } else {
                 val episode =

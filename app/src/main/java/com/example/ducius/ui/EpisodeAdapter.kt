@@ -8,7 +8,7 @@ import com.example.ducius.R
 import com.example.ducius.model.Episode
 import kotlinx.android.synthetic.main.item_episode.view.*
 
-class EpisodeAdapter :
+class EpisodeAdapter(private val clickListener: OnEpisodeClicked) :
     RecyclerView.Adapter<EpisodeAdapter.EpisodeViewHolder>() {
 
     private var listOfEpisodes = listOf<Episode>()
@@ -30,9 +30,14 @@ class EpisodeAdapter :
             seasonEpisodeNumber.text = String.format(
                 "S %s E %s",
                 listOfEpisodes.get(position).season,
-                listOfEpisodes.get(position).episodeNumber
+                listOfEpisodes.get(position).episodeNumber,
+                rootView.setOnClickListener { clickListener.onClick(listOfEpisodes.get(position)) }
             )
         }
+    }
+
+    interface OnEpisodeClicked {
+        fun onClick(episode: Episode)
     }
 
     inner class EpisodeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

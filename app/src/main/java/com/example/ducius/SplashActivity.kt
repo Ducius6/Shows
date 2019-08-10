@@ -67,6 +67,7 @@ class SplashActivity : AppCompatActivity() {
         viewModel.getUserData(RegisterInfo(username, password))
         viewModel.liveData.observe(this, Observer {
             if (it.isSucccessful) {
+                LoginActivity.token = it.token?.token.toString()
                 it.token?.token?.let { it1 -> viewModel.saveToken(it1) }
                 startActivity(Intent(this, ShowsContainerActivity::class.java))
             } else {

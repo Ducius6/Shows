@@ -38,7 +38,7 @@
             <EditText
                     android:id="@+id/usernameEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:freezesText="true"
                     android:textSize="@dimen/dimens16sp"
                     android:paddingTop="@dimen/dimens3dp"

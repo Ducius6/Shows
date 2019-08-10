@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:id="@+id/commentsToolbar"
+            app:title="@string/comments"
+            android:background="@color/white">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_gravity="end"
+                android:id="@+id/refreshIcon"
+                android:layout_marginEnd="@dimen/dimens16dp"
+                android:src="@drawable/refresh_icon"
+                android:layout_height="wrap_content"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/dimens8dp"
+            android:layout_height="match_parent">
+
+        <ProgressBar android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:id="@+id/commentsProgressBar"
+                     android:layout_marginTop="@dimen/dimens16dp"
+                     app:layout_constraintTop_toTopOf="parent"
+                     app:layout_constraintBottom_toBottomOf="parent"
+                     app:layout_constraintStart_toStartOf="parent"
+                     app:layout_constraintEnd_toEndOf="parent"
+                     android:visibility="visible"/>
+
+
+        <ImageView
+                android:layout_width="@dimen/dimens120dp"
+                android:layout_height="@dimen/dimens120dp"
+                android:id="@+id/emptyCommentPlaceholder"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="@dimen/dimens32dp"
+                android:src="@drawable/img_placehoder_comments"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:id="@+id/sorryTextView"
+            android:layout_marginTop="@dimen/dimens2dp"
+            android:text="@string/sorry_we_don_t_have_comments_yet"
+            android:gravity="center"
+            android:textColor="@color/text_color2"
+            app:layout_constraintTop_toBottomOf="@id/emptyCommentPlaceholder"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:id="@+id/addCommentTextView"
+                android:layout_marginTop="@dimen/dimens2dp"
+                android:text="@string/be_first_one"
+                android:gravity="center"
+                android:textColor="@color/text_color2"
+                app:layout_constraintTop_toBottomOf="@id/sorryTextView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:layout_marginStart="@dimen/dimens16dp"
+                android:layout_marginEnd="@dimen/dimens16dp"
+                android:id="@+id/commentsRecyclerView"
+                android:paddingBottom="@dimen/dimens50dp"
+                android:clipToPadding="false"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="@dimen/dimens8dp"
+                android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/commentsInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hintEnabled="false"
+                    android:layout_marginStart="@dimen/dimens16dp"
+                    android:layout_marginEnd="@dimen/dimens16dp"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                <EditText
+                        android:id="@+id/commentEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:freezesText="true"
+                        android:hint="@string/add_a_comment"
+                        android:textSize="@dimen/dimens16sp"
+                        android:paddingStart="@dimen/dimens8dp"
+                        android:paddingTop="@dimen/dimens13dp"
+                        android:paddingBottom="@dimen/dimens13dp"
+                        android:lineSpacingExtra="@dimen/dimens6sp"
+                        android:background="@drawable/round_edit_text"
+                        android:fontFamily="@font/karla_bold"
+                        android:textColor="@color/textColor"
+                        android:inputType="text"/>
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:elevation="@dimen/dimens5dp"
+                      android:id="@+id/postButton"
+                      android:textColor="@color/pink"
+                      android:textSize="@dimen/dimens14sp"
+                      app:layout_constraintEnd_toEndOf="parent"
+                      app:layout_constraintTop_toTopOf="parent"
+                      android:layout_marginEnd="@dimen/dimens32dp"
+                      app:layout_constraintBottom_toBottomOf="parent"
+                      android:text="Post"
+                      android:layout_gravity="end"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

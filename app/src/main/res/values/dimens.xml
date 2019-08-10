@@ -51,4 +51,9 @@
     <dimen name="dimens148dp">148dp</dimen>
     <dimen name="dimens48dp">48dp</dimen>
     <dimen name="dimens2sp">2sp</dimen>
+    <dimen name="dimens14sp">14sp</dimen>
+    <dimen name="dimens5dp">5dp</dimen>
+    <dimen name="dimens55dp">55dp</dimen>
+    <dimen name="dimens50dp">50dp</dimen>
+    <dimen name="dimens12dp">12dp</dimen>
 </resources>

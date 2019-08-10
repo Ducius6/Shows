@@ -12,14 +12,51 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/twoPaneShowName"
+            android:id="@+id/countTextView"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/dimens12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/textColor"
+            android:text="@string/question_mark"
+            android:textSize="@dimen/dimens16sp"/>
+
+    <ImageView
+            android:layout_width="@dimen/dimens32dp"
+            android:layout_height="@dimen/dimens32dp"
+            android:id="@+id/dislikeImageView"
+            android:layout_marginEnd="@dimen/dimens32dp"
+            android:layout_marginTop="@dimen/dimens8dp"
+            android:clickable="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/countTextView"
+            android:background="@drawable/circle"
+            android:src="@drawable/ic_thumbs_down"/>
+
+    <ImageView
+            android:layout_width="@dimen/dimens32dp"
+            android:layout_height="@dimen/dimens32dp"
+            android:id="@+id/likeImageView"
+            android:layout_marginStart="@dimen/dimens32dp"
+            android:layout_marginTop="@dimen/dimens8dp"
+            android:clickable="true"
+            android:background="@drawable/circle_black"
+            android:src="@drawable/ic_thumbs_up_white"
+            app:layout_constraintStart_toEndOf="@id/countTextView"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/twoPaneShowName"
+            app:layout_constraintTop_toBottomOf="@id/countTextView"
             app:layout_constraintStart_toStartOf="parent"
             android:textSize="@dimen/dimens28sp"
             android:textColor="@color/textColor"
             android:lineSpacingExtra="@dimen/dimens12sp"
             android:layout_marginHorizontal="@dimen/dimens24dp"
             android:layout_marginTop="@dimen/dimens1dp"/>
+
 
     <TextView
             android:layout_width="wrap_content"
