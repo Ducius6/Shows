@@ -1,12 +1,16 @@
 package com.example.ducius
 
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
+import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.BounceInterpolator
 import android.view.animation.TranslateAnimation
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.ducius.fragment.ShowsContainerActivity
@@ -64,7 +68,18 @@ class SplashActivity : AppCompatActivity() {
     private fun loadUser() {
         val username: String = viewModel.loadUsernameFromPrefrences()?.trim() ?: ""
         val password: String = viewModel.loadPasswordFromPrefrences()?.trim() ?: ""
-        viewModel.getUserData(RegisterInfo(username, password))
+        if (isNetworkAvailable() == true) {
+            viewModel.getUserData(RegisterInfo(username, password))
+
+        } else {
+            AlertDialog.Builder(this)
+                .setTitle(getString(R.string.no_internet))
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.OK), DialogInterface.OnClickListener { dialog, _ ->
+                    finishAffinity()
+                    dialog.cancel()
+                }).show()
+        }
         viewModel.liveData.observe(this, Observer {
             if (it.isSucccessful) {
                 LoginActivity.token = it.token?.token.toString()
@@ -74,5 +89,11 @@ class SplashActivity : AppCompatActivity() {
                 startActivity(Intent(this, LoginActivity::class.java))
             }
         })
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetworkInfo = connectivityManager.getActiveNetworkInfo()
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected()
     }
 }

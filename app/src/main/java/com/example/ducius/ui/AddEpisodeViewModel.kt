@@ -16,6 +16,12 @@ class AddEpisodeViewModel : ViewModel(), Observer<CompleteEpisodeResponse> {
 
     private val episodeLiveData = MutableLiveData<CompleteEpisodeResponse>()
 
+    var file: File? = null
+
+    fun saveFile(mFile: File) {
+        file = mFile
+    }
+
     val liveData: LiveData<CompleteEpisodeResponse>
         get() {
             return episodeLiveData

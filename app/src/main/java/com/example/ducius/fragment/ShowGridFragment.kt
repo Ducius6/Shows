@@ -1,6 +1,9 @@
 package com.example.ducius.fragment
 
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -36,6 +39,20 @@ class ShowGridFragment : Fragment(), GridViewAdapter.OnShowClicked {
 
         adapter = GridViewAdapter(requireContext(), this)
         gridView.adapter = adapter
+        viewModel = ViewModelProviders.of(this).get(ShowsViewModel::class.java)
+
+
+        if (isNetworkAvailable() == true) {
+            viewModel.getShowData()
+        } else {
+            AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.no_internet))
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.OK), DialogInterface.OnClickListener { dialog, _ ->
+                    activity?.finishAffinity()
+                    dialog.cancel()
+                }).show()
+        }
 
         twoPane = arguments?.getBoolean(ShowsContainerActivity.TWO_PANE)
         firstTime = arguments?.getBoolean(ShowsContainerActivity.FIRST_TIME)
@@ -45,8 +62,6 @@ class ShowGridFragment : Fragment(), GridViewAdapter.OnShowClicked {
             putBoolean(ShowsContainerActivity.FIRST_TIME, firstTime!!)
         }
 
-        viewModel = ViewModelProviders.of(this).get(ShowsViewModel::class.java)
-        viewModel.getShowData()
         viewModel.liveData.observe(this, Observer {
             updateUI(it)
             if (twoPane!!) {
@@ -129,5 +144,11 @@ class ShowGridFragment : Fragment(), GridViewAdapter.OnShowClicked {
                 }
             }
         }
+    }
+
+    private fun isNetworkAvailable():Boolean {
+        val connectivityManager =  context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetworkInfo = connectivityManager.getActiveNetworkInfo()
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected()
     }
 }

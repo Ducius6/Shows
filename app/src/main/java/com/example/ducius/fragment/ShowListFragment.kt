@@ -1,6 +1,10 @@
 package com.example.ducius.fragment
 
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -39,6 +43,20 @@ class ShowListFragment : Fragment(), ShowsAdapter.OnShowClicked {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel = ViewModelProviders.of(this).get(ShowsViewModel::class.java)
+
+        if (isNetworkAvailable() == true) {
+            viewModel.getShowData()
+        } else {
+            AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.no_internet))
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.OK), DialogInterface.OnClickListener { dialog, _ ->
+                    activity?.finishAffinity()
+                    dialog.cancel()
+                }).show()
+        }
+
         adapter = ShowsAdapter(this)
         showsRecyclerView.adapter = adapter
         twoPane = arguments?.getBoolean(ShowsContainerActivity.TWO_PANE)
@@ -49,8 +67,7 @@ class ShowListFragment : Fragment(), ShowsAdapter.OnShowClicked {
             putBoolean(ShowsContainerActivity.FIRST_TIME, firstTime!!)
         }
 
-        viewModel = ViewModelProviders.of(this).get(ShowsViewModel::class.java)
-        viewModel.getShowData()
+
         viewModel.liveData.observe(this, Observer {
             updateUI(it)
             if (twoPane!!) {
@@ -136,5 +153,11 @@ class ShowListFragment : Fragment(), ShowsAdapter.OnShowClicked {
                 }
             }
         }
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetworkInfo = connectivityManager.getActiveNetworkInfo()
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected()
     }
 }

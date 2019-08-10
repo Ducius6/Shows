@@ -1,11 +1,15 @@
 package com.example.ducius.fragment
 
+import android.content.Context
+import android.content.DialogInterface
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -54,6 +58,19 @@ class ShowDetailsFragment : Fragment(), EpisodeAdapter.OnEpisodeClicked {
             }
         }
 
+        if(isNetworkAvailable() == true){
+            getLikeAndDislike()
+            viewModel.getCompleteShow(showId)
+        }else {
+            AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.no_internet))
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.OK), DialogInterface.OnClickListener { dialog, _ ->
+                    activity?.finishAffinity()
+                    dialog.cancel()
+                }).show()
+        }
+
         twoPane.let {
             if (twoPane!!.not()) {
                 setHasOptionsMenu(true)
@@ -67,21 +84,12 @@ class ShowDetailsFragment : Fragment(), EpisodeAdapter.OnEpisodeClicked {
             }
         }
 
-        getLikeAndDislike()
-
         episodeAdapter = EpisodeAdapter(this)
         episodesRecyclerView.adapter = episodeAdapter
 
-        viewModel.getCompleteShow(showId)
+
         viewModel.completeShowLiveData.observe(this, Observer {
             updateShowAndEpisode(it)
-        })
-
-        viewModel.likeLiveData.observe(this, Observer {
-            if (it.isSuccessful && showId == it.id) {
-                countTextView.text = it.likesCount.toString()
-                viewModel.saveLikesCount(showId, it.likesCount!!)
-            }
         })
 
         likeImageView.setOnClickListener {
@@ -131,11 +139,7 @@ class ShowDetailsFragment : Fragment(), EpisodeAdapter.OnEpisodeClicked {
     }
 
     private fun getLikeAndDislike() {
-        val likeCount = viewModel.getLikeCount(showId)
         val liked = viewModel.getLikeorDislike(showId)
-        if (likeCount != -1000) {
-            countTextView.text = likeCount.toString()
-        }
         if (liked == 1) {
             likeImageView.setBackgroundResource(R.drawable.circle_pink)
             likeImageView.isEnabled = false
@@ -150,6 +154,7 @@ class ShowDetailsFragment : Fragment(), EpisodeAdapter.OnEpisodeClicked {
     private fun updateShowAndEpisode(completeShow: CompleteShow) {
         if (completeShow.isSuccessful) {
             showDetailsProgressBar.gone()
+            countTextView.text = completeShow.showDetailsResponse?.show?.likesCount.toString()
             (activity as AppCompatActivity).supportActionBar?.title = completeShow.showDetailsResponse?.show?.name
             showDesc.text = completeShow.showDetailsResponse?.show?.description
             showDetails = completeShow.showDetailsResponse?.show
@@ -200,5 +205,11 @@ class ShowDetailsFragment : Fragment(), EpisodeAdapter.OnEpisodeClicked {
             activity?.onBackPressed()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun isNetworkAvailable():Boolean {
+        val connectivityManager =  context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetworkInfo = connectivityManager.getActiveNetworkInfo()
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected()
     }
 }

@@ -2,11 +2,13 @@ package com.example.ducius.fragment
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -82,6 +84,10 @@ class AddEpisodeFragment : Fragment() {
 
         if (viewModel.seasonEpisode != null) {
             pickSeasonAndEp.text = viewModel.seasonEpisode
+        }
+
+        if (viewModel.file != null) {
+            file = viewModel.file
         }
 
         val cameraInflater = LayoutInflater.from(context).inflate(R.layout.camera_gallery_dialog_layout, null)
@@ -192,6 +198,7 @@ class AddEpisodeFragment : Fragment() {
             } else if (episodeDescEditText.text.length < 50) {
                 episodeDescInputLayout.error = getString(R.string.description_characters)
             } else {
+                addEpisodeProgressBar.visible()
                 val episode =
                     PostEpisode(
                         showID,
@@ -201,9 +208,20 @@ class AddEpisodeFragment : Fragment() {
                         episode,
                         season
                     )
-                viewModel.postEpisodeData(file, episode)
+                if (isNetworkAvailable() == true) {
+                    viewModel.postEpisodeData(file, episode)
+                } else {
+                    AlertDialog.Builder(requireContext())
+                        .setTitle(getString(R.string.no_internet))
+                        .setCancelable(false)
+                        .setPositiveButton(getString(R.string.OK), DialogInterface.OnClickListener { dialog, _ ->
+                            activity?.finishAffinity()
+                            dialog.cancel()
+                        }).show()
+                }
                 viewModel.liveData.observe(this, Observer {
                     if (it.isSuccessful) {
+                        addEpisodeProgressBar.gone()
                         activity?.onBackPressed()
                     } else {
                         AlertDialog.Builder(requireContext())
@@ -354,12 +372,17 @@ class AddEpisodeFragment : Fragment() {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == TAKE_PIC_REQUEST_CODE) {
                 file = File(pathToFile)
+                viewModel.saveFile(file!!)
                 episodeBitmap = BitmapFactory.decodeFile(pathToFile)
                 episodeImageView.setImageBitmap(episodeBitmap)
                 changeViewsVisibility()
             } else if (requestCode == PIC_FROM_GALLERY_REQUEST_CODE) {
                 uri = data?.data
-                file = viewModel.createFileFromInputStream(createPhotoFile(),activity?.contentResolver?.openInputStream(data?.getData()))
+                file = viewModel.createFileFromInputStream(
+                    createPhotoFile(),
+                    activity?.contentResolver?.openInputStream(data?.getData())
+                )
+                viewModel.saveFile(file!!)
                 viewModel.saveEpisodeImage(uri.toString())
                 try {
                     episodeBitmap =
@@ -395,5 +418,11 @@ class AddEpisodeFragment : Fragment() {
             e.printStackTrace()
         }
         return imageFile
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetworkInfo = connectivityManager.getActiveNetworkInfo()
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected()
     }
 }

@@ -24,7 +24,7 @@ class PasswordEditText @JvmOverloads constructor(
                 if ((text?.length ?: 0) <= 3) {
                     colorId = R.color.red
                 } else if ((text?.length ?: 0) <= 7) {
-                    colorId = R.color.yellow
+                    colorId = R.color.orange
                 } else {
                     colorId = R.color.green
                 }

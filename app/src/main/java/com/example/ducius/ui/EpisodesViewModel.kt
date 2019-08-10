@@ -78,17 +78,4 @@ class EpisodesViewModel : ViewModel(), Observer<Any> {
         val settings = MyShowsApp.instance.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         return settings.getInt(showId, 0)
     }
-
-    fun saveLikesCount(showId: String, likesCount: Int) {
-        val settings = MyShowsApp.instance.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        with(settings.edit()) {
-            putInt(showId + LIKES_COUNT, likesCount)
-            apply()
-        }
-    }
-
-    fun getLikeCount(showId: String):Int {
-        val settings = MyShowsApp.instance.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        return settings.getInt(showId + LIKES_COUNT, -1000)
-    }
 }

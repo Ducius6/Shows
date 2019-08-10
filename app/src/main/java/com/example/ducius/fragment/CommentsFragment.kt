@@ -1,11 +1,15 @@
 package com.example.ducius.fragment
 
+import android.content.Context
+import android.content.DialogInterface
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -43,7 +47,12 @@ class CommentsFragment : Fragment() {
             (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
 
-        episodeId?.let { viewModel.getAllComments(it) }
+        if (isNetworkAvailable() == true) {
+            episodeId?.let { viewModel.getAllComments(it) }
+        } else {
+            showInternetDialog()
+        }
+
         viewModel.commentsLiveData.observe(this, Observer {
             updateComments(it)
         })
@@ -54,25 +63,43 @@ class CommentsFragment : Fragment() {
         })
 
         refreshIcon.setOnClickListener {
-            episodeId?.let { viewModel.getAllComments(it) }
-            Toast.makeText(requireContext(), getString(R.string.up_to_date), Toast.LENGTH_LONG).show()
+            if (isNetworkAvailable() == true) {
+                episodeId?.let { viewModel.getAllComments(it) }
+                Toast.makeText(requireContext(), getString(R.string.up_to_date), Toast.LENGTH_LONG).show()
+            } else {
+                showInternetDialog()
+            }
         }
 
         postButton.setOnClickListener {
-            episodeId?.let { PostComment(commentEditText.text.toString(), it) }?.let {
-                viewModel.postComment(it)
+            if (isNetworkAvailable() == true) {
+                episodeId?.let { PostComment(commentEditText.text.toString(), it) }?.let {
+                    viewModel.postComment(it)
+                }
+            } else {
+                showInternetDialog()
             }
         }
+    }
+
+    private fun showInternetDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.no_internet))
+            .setCancelable(false)
+            .setPositiveButton(getString(R.string.OK), DialogInterface.OnClickListener { dialog, _ ->
+                activity?.finishAffinity()
+                dialog.cancel()
+            }).show()
     }
 
     private fun updateComments(commentsResponse: CommentsResponse?) {
         if (commentsResponse?.isSuccessful == true) {
             commentsProgressBar.gone()
-            if (commentsResponse?.listOfComments?.isNotEmpty()!!) {
+            if (commentsResponse?.listOfComments?.isNotEmpty()!! && commentsResponse.listOfComments.first().episodeId == episodeId) {
                 removeItems()
-            }
-            commentsResponse.listOfComments?.let {
-                commentAdapter.setData(comments = it)
+                commentsResponse.listOfComments?.let {
+                    commentAdapter.setData(comments = it)
+                }
             }
         } else {
             Toast.makeText(context, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show()
@@ -90,5 +117,11 @@ class CommentsFragment : Fragment() {
             activity?.onBackPressed()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetworkInfo = connectivityManager.getActiveNetworkInfo()
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected()
     }
 }
