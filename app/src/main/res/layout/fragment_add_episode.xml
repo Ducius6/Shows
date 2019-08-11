@@ -4,6 +4,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:fillViewport="true"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -87,6 +88,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/episodeTitleInputLayout"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:hintTextAppearance="@style/TextInputLayout"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="@dimen/dimens215dp"
@@ -96,6 +98,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/episodeTitleEditText"
+                        android:theme="@style/EditTextTheme"
                         android:paddingBottom="@dimen/dimens15dp"
                         android:textSize="@dimen/dimens16sp"
                         android:hint="@string/episode_title"/>
@@ -130,6 +133,7 @@
                     android:layout_width="@dimen/dimens0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/episodeDescInputLayout"
+                    app:hintTextAppearance="@style/TextInputLayout"
                     app:layout_constraintTop_toBottomOf="@id/pickSeasonAndEp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -142,6 +146,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/episodeDescEditText"
+                        android:theme="@style/EditTextTheme"
                         android:paddingBottom="@dimen/dimens15dp"
                         android:textSize="@dimen/dimens16sp"
                         android:hint="@string/episode_description"/>

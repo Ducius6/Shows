@@ -5,6 +5,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/white"
             android:fillViewport="true">
 
     <LinearLayout android:layout_width="match_parent"
@@ -82,26 +83,34 @@
                     android:textSize="@dimen/dimens15sp"
                     android:visibility="gone"/>
 
-            <EditText
-                    android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="@dimen/dimens0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/episodeTitleEditText"
+                    android:id="@+id/episodeTitleInputLayout"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:hintTextAppearance="@style/TextInputLayout"
+                    android:layout_marginHorizontal="@dimen/dimens80dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginHorizontal="@dimen/dimens80dp"
-                    android:layout_marginTop="@dimen/dimens215dp"
-                    android:paddingBottom="@dimen/dimens15dp"
-                    android:inputType="text"
-                    android:textSize="@dimen/dimens16sp"
-                    android:hint="@string/episode_title"/>
+                    android:layout_marginTop="@dimen/dimens215dp">
+
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/episodeTitleEditText"
+                        android:paddingBottom="@dimen/dimens15dp"
+                        android:theme="@style/EditTextTheme"
+                        android:textSize="@dimen/dimens16sp"
+                        android:hint="@string/episode_title"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/seasonAndEpisodeTextView"
-                    app:layout_constraintTop_toBottomOf="@id/episodeTitleEditText"
-                    app:layout_constraintStart_toStartOf="@id/episodeTitleEditText"
+                    app:layout_constraintTop_toBottomOf="@id/episodeTitleInputLayout"
+                    app:layout_constraintStart_toStartOf="@id/episodeTitleInputLayout"
                     android:layout_marginTop="@dimen/dimens24dp"
                     android:textSize="17sp"
                     android:text="@string/season_episode"/>
@@ -126,7 +135,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="@dimen/dimens3dp"
-                    android:layout_marginHorizontal="@dimen/dimens16dp"
+                    app:hintTextAppearance="@style/TextInputLayout"
+                    android:layout_marginHorizontal="@dimen/dimens80dp"
                     app:errorTextAppearance="@style/ErrorAppearance"
                     app:errorEnabled="true">
 
@@ -134,6 +144,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/episodeDescEditText"
+                        android:theme="@style/EditTextTheme"
                         android:paddingTop="@dimen/dimens30dp"
                         android:paddingBottom="@dimen/dimens15dp"
                         android:textSize="@dimen/dimens16sp"
@@ -150,7 +161,6 @@
                      android:layout_gravity="center"
                      android:visibility="invisible"/>
 
-
         <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -158,7 +168,7 @@
                 android:id="@+id/saveButton"
                 android:enabled="false"
                 style="@style/ShowButton"
-                android:layout_marginHorizontal="@dimen/dimens16dp"
+                android:layout_marginHorizontal="@dimen/dimens80dp"
                 android:layout_marginTop="@dimen/dimens148dp"
                 android:gravity="center_horizontal|bottom"
                 android:layout_marginBottom="@dimen/dimens32dp"/>

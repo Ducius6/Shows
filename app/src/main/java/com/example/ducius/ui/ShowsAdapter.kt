@@ -28,6 +28,7 @@ class ShowsAdapter(private val clickListener: OnShowClicked) :
     override fun onBindViewHolder(holder: ShowViewHolder, position: Int) {
         with(holder.itemView) {
             showName.text = listOfShows.get(position).name
+            showLikeCount.text = listOfShows.get(position).likesCount.toString()
             Picasso.get().load(BASE_URL + listOfShows.get(position).imageURL)
                 .into(showImageView)
             rootView.setOnClickListener { clickListener.onClick(listOfShows.get(position), position) }

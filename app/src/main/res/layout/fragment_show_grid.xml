@@ -19,15 +19,14 @@
             android:text="@string/shows"/>
 
     <ImageView
-            android:layout_width="@dimen/dimens32dp"
-            android:layout_height="@dimen/dimens32dp"
+            android:layout_width="@dimen/dimens40dp"
+            android:layout_height="@dimen/dimens40dp"
             android:id="@+id/logOutButton"
             android:layout_marginTop="@dimen/dimens16dp"
             android:layout_marginEnd="@dimen/dimens16dp"
-            android:src="@drawable/log_off"
+            android:src="@drawable/circle_placeholder"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:background="@drawable/circle"/>
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     <GridView
             android:layout_width="match_parent"

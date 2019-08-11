@@ -32,8 +32,8 @@
             android:textSize="@dimen/dimens16sp"/>
 
     <ImageView
-            android:layout_width="@dimen/dimens32dp"
-            android:layout_height="@dimen/dimens32dp"
+            android:layout_width="@dimen/dimens40dp"
+            android:layout_height="@dimen/dimens40dp"
             android:id="@+id/dislikeImageView"
             android:layout_marginEnd="@dimen/dimens32dp"
             android:layout_marginTop="@dimen/dimens8dp"
@@ -41,17 +41,17 @@
             app:layout_constraintTop_toBottomOf="@id/showsDetailsToolbar"
             app:layout_constraintEnd_toStartOf="@id/countTextView"
             android:background="@drawable/circle"
-            android:src="@drawable/ic_thumbs_down"/>
+            android:src="@drawable/ic_thumbs_down_black"/>
 
     <ImageView
-            android:layout_width="@dimen/dimens32dp"
-            android:layout_height="@dimen/dimens32dp"
+            android:layout_width="@dimen/dimens40dp"
+            android:layout_height="@dimen/dimens40dp"
             android:id="@+id/likeImageView"
             android:layout_marginStart="@dimen/dimens32dp"
             android:layout_marginTop="@dimen/dimens8dp"
             android:clickable="true"
-            android:background="@drawable/circle_black"
-            android:src="@drawable/ic_thumbs_up_white"
+            android:background="@drawable/circle"
+            android:src="@drawable/ic_thumbs_up_black"
             app:layout_constraintStart_toEndOf="@id/countTextView"
             app:layout_constraintTop_toBottomOf="@id/showsDetailsToolbar"/>
 
@@ -65,7 +65,7 @@
             app:layout_constraintTop_toBottomOf="@id/countTextView"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginHorizontal="@dimen/dimens24dp"
-            android:layout_marginTop="@dimen/dimens16dp"/>
+            android:layout_marginTop="@dimen/dimens32dp"/>
 
     <TextView
             android:layout_width="wrap_content"

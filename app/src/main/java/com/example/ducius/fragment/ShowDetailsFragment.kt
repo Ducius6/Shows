@@ -33,6 +33,10 @@ class ShowDetailsFragment : Fragment(), EpisodeAdapter.OnEpisodeClicked {
     private var twoPane: Boolean? = null
     private var firstTime: Boolean? = null
     private lateinit var showId: String
+    private var isLiked = false
+    private var isDisliked = false
+    private var likeCounter: Int = 0
+
 
     companion object {
         const val SHOW_ID = "showID"
@@ -58,10 +62,10 @@ class ShowDetailsFragment : Fragment(), EpisodeAdapter.OnEpisodeClicked {
             }
         }
 
-        if(isNetworkAvailable() == true){
+        if (isNetworkAvailable() == true) {
             getLikeAndDislike()
             viewModel.getCompleteShow(showId)
-        }else {
+        } else {
             AlertDialog.Builder(requireContext())
                 .setTitle(getString(R.string.no_internet))
                 .setCancelable(false)
@@ -94,18 +98,46 @@ class ShowDetailsFragment : Fragment(), EpisodeAdapter.OnEpisodeClicked {
 
         likeImageView.setOnClickListener {
             likeImageView.setBackgroundResource(R.drawable.circle_pink)
-            viewModel.saveLike(showId)
+            dislikeImageView.setBackgroundResource(R.drawable.circle)
+            dislikeImageView.setImageResource(R.drawable.ic_thumbs_down_black)
+            likeImageView.setImageResource(R.drawable.ic_thumbs_up_white)
+            if (isDisliked == true) {
+                viewModel.likeShow(showId)
+                viewModel.likeShow(showId)
+                countTextView.text = (likeCounter + 2).toString()
+                likeCounter += 2
+            } else {
+                viewModel.likeShow(showId)
+                countTextView.text = (likeCounter + 1).toString()
+                likeCounter += 1
+            }
             likeImageView.isEnabled = false
-            dislikeImageView.isEnabled = false
-            viewModel.likeShow(showId)
+            dislikeImageView.isEnabled = true
+            viewModel.saveLike(showId)
+            isLiked = true
+            isDisliked = false
         }
 
         dislikeImageView.setOnClickListener {
             dislikeImageView.setBackgroundResource(R.drawable.circle_pink)
-            viewModel.saveDislike(showId)
+            likeImageView.setBackgroundResource(R.drawable.circle)
+            dislikeImageView.setImageResource(R.drawable.ic_thumbs_down_white)
+            likeImageView.setImageResource(R.drawable.ic_thumbs_up_black)
+            if (isLiked == true) {
+                viewModel.dislikeShow(showId)
+                viewModel.dislikeShow(showId)
+                countTextView.text = (likeCounter - 2).toString()
+                likeCounter -= 2
+            } else {
+                viewModel.dislikeShow(showId)
+                countTextView.text = (likeCounter - 1).toString()
+                likeCounter -= 1
+            }
+            likeImageView.isEnabled = true
             dislikeImageView.isEnabled = false
-            likeImageView.isEnabled = false
-            viewModel.dislikeShow(showId)
+            viewModel.saveDislike(showId)
+            isLiked = false
+            isDisliked = true
         }
 
         addEpisodeFloatingButton.setOnClickListener {
@@ -141,19 +173,24 @@ class ShowDetailsFragment : Fragment(), EpisodeAdapter.OnEpisodeClicked {
     private fun getLikeAndDislike() {
         val liked = viewModel.getLikeorDislike(showId)
         if (liked == 1) {
+            isLiked = true
             likeImageView.setBackgroundResource(R.drawable.circle_pink)
-            likeImageView.isEnabled = false
-            dislikeImageView.isEnabled = false
+            dislikeImageView.setBackgroundResource(R.drawable.circle)
+            dislikeImageView.setImageResource(R.drawable.ic_thumbs_down_black)
+            likeImageView.setImageResource(R.drawable.ic_thumbs_up_white)
         } else if (liked == -1) {
+            isDisliked = true
             dislikeImageView.setBackgroundResource(R.drawable.circle_pink)
-            likeImageView.isEnabled = false
-            dislikeImageView.isEnabled = false
+            likeImageView.setBackgroundResource(R.drawable.circle)
+            dislikeImageView.setImageResource(R.drawable.ic_thumbs_down_white)
+            likeImageView.setImageResource(R.drawable.ic_thumbs_up_black)
         }
     }
 
     private fun updateShowAndEpisode(completeShow: CompleteShow) {
         if (completeShow.isSuccessful) {
             showDetailsProgressBar.gone()
+            likeCounter = completeShow.showDetailsResponse?.show?.likesCount!!
             countTextView.text = completeShow.showDetailsResponse?.show?.likesCount.toString()
             (activity as AppCompatActivity).supportActionBar?.title = completeShow.showDetailsResponse?.show?.name
             showDesc.text = completeShow.showDetailsResponse?.show?.description
@@ -207,8 +244,8 @@ class ShowDetailsFragment : Fragment(), EpisodeAdapter.OnEpisodeClicked {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun isNetworkAvailable():Boolean {
-        val connectivityManager =  context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetworkInfo = connectivityManager.getActiveNetworkInfo()
         return activeNetworkInfo != null && activeNetworkInfo.isConnected()
     }

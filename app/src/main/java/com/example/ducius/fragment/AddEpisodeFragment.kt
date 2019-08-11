@@ -277,9 +277,9 @@ class AddEpisodeFragment : Fragment() {
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
             ) {
-                AlertDialog.Builder(requireContext())
+                val dialog = AlertDialog.Builder(requireContext())
                     .setTitle(getString(R.string.external_storage_permission))
-                    .setNeutralButton(getString(R.string.OK)) { dialog, _ ->
+                    .setPositiveButton(getString(R.string.OK)) { dialog, _ ->
                         dialog.dismiss()
                         requestPermissions(
                             arrayOf(
@@ -288,7 +288,13 @@ class AddEpisodeFragment : Fragment() {
                             ),
                             REQUEST_CAMERA_PERMISSION
                         )
-                    }.create().show()
+                    }.setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                        dialog.dismiss()
+                    }.show()
+                dialog.getButton(Dialog.BUTTON_POSITIVE)
+                    .setTextColor(ContextCompat.getColor(requireContext(), R.color.pink))
+                dialog.getButton(Dialog.BUTTON_NEGATIVE)
+                    .setTextColor(ContextCompat.getColor(requireContext(), R.color.pink))
             } else {
                 requestPermissions(
                     arrayOf(android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
@@ -313,9 +319,9 @@ class AddEpisodeFragment : Fragment() {
                 )
             ) {
                 context?.let {
-                    AlertDialog.Builder(it)
+                    val dialog = AlertDialog.Builder(it)
                         .setTitle(getString(R.string.external_storage_permission))
-                        .setNeutralButton(getString(R.string.OK)) { dialog, _ ->
+                        .setPositiveButton(getString(R.string.OK)) { dialog, _ ->
                             dialog.dismiss()
                             requestPermissions(
                                 arrayOf(
@@ -323,7 +329,13 @@ class AddEpisodeFragment : Fragment() {
                                 ),
                                 REQUEST_GALLERY_PERMISSION
                             )
-                        }.create().show()
+                        }.setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                            dialog.dismiss()
+                        }.show()
+                    dialog.getButton(Dialog.BUTTON_POSITIVE)
+                        .setTextColor(ContextCompat.getColor(requireContext(), R.color.pink))
+                    dialog.getButton(Dialog.BUTTON_NEGATIVE)
+                        .setTextColor(ContextCompat.getColor(requireContext(), R.color.pink))
                 }
             } else {
                 requestPermissions(

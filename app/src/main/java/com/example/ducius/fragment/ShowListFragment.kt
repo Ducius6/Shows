@@ -1,5 +1,6 @@
 package com.example.ducius.fragment
 
+import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -11,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
@@ -104,17 +106,19 @@ class ShowListFragment : Fragment(), ShowsAdapter.OnShowClicked {
         }
 
         logOutButton.setOnClickListener {
-            AlertDialog.Builder(requireContext())
+            val dialog = AlertDialog.Builder(requireContext())
                 .setTitle(getString(R.string.logout_question))
                 .setPositiveButton(getString(R.string.OK)) { dialog, _ ->
                     dialog.dismiss()
                     viewModel.clearUsernameAndPassword()
                     activity?.finishAffinity()
-                    startActivity(Intent(context, LoginActivity::class.java))
+                    startActivity(Intent(context, LoginActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 }.setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                     dialog.dismiss()
-                }
-                .show()
+                }.show()
+            dialog.getButton(Dialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(requireContext(),R.color.pink))
+            dialog.getButton(Dialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(requireContext(),R.color.pink))
+
         }
     }
 
