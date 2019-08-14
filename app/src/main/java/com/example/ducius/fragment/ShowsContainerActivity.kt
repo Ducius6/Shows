@@ -63,7 +63,8 @@ class ShowsContainerActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount == 0) finish()
-        super.onBackPressed()
+        if (supportFragmentManager.backStackEntryCount == 0) finishAffinity()
+        else super.onBackPressed()
+
     }
 }
