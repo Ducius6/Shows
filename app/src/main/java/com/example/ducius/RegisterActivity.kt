@@ -57,6 +57,7 @@ class RegisterActivity : AppCompatActivity() {
             ) {
                 secondTimeTextInputLayout.error = getString(R.string.password_dont_match)
             } else {
+                registerUserButton.isEnabled = false
                 val user =
                     RegisterInfo(email = emailEditText.text.toString(), password = passwordFirstTime.text.toString())
                 if (isNetworkAvailable() == true) {

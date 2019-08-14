@@ -52,6 +52,7 @@ class LoginActivity : AppCompatActivity() {
             } else if (passwordEditText.text.toString().isEmpty()) {
                 passwordInputLayout.error = getString(R.string.invalid_password)
             } else {
+                loginButton.isEnabled = false
                 if (rememberMeCheckBox.isChecked) {
                     viewModel.savePreferences(usernameEditText.text.toString(), passwordEditText.text.toString())
                 }
