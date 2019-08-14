@@ -66,6 +66,7 @@ class LoginActivity : AppCompatActivity() {
                 viewModel.liveData.observe(this, Observer {
                     if (it.isSucccessful) {
                         if (isCalledLogin.not()) {
+                            isCalledLogin = true
                             token = it.token?.token.toString()
                             it.token?.token?.let { it1 -> viewModel.saveToken(it1) }
                             startActivity(
