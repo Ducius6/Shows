@@ -22,6 +22,7 @@ import com.example.ducius.model.Show
 import com.example.ducius.responses.ShowsResponse
 import com.example.ducius.ui.LoginActivity
 import com.example.ducius.ui.ShowsViewModel
+import kotlinx.android.synthetic.main.activity_shows_container.*
 import kotlinx.android.synthetic.main.fragment_show_grid.*
 
 class ShowGridFragment : Fragment(), GridViewAdapter.OnShowClicked {

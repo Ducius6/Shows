@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.activity_splash.*
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var viewModel: SplashActivityViewModel
+    private var isCalled = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,11 +83,14 @@ class SplashActivity : AppCompatActivity() {
         }
         viewModel.liveData.observe(this, Observer {
             if (it.isSucccessful) {
-                LoginActivity.token = it.token?.token.toString()
-                it.token?.token?.let { it1 -> viewModel.saveToken(it1) }
-                startActivity(Intent(this, ShowsContainerActivity::class.java))
+                if (isCalled.not()) {
+                    isCalled = true
+                    LoginActivity.token = it.token?.token.toString()
+                    it.token?.token?.let { it1 -> viewModel.saveToken(it1) }
+                    startActivity(Intent(this, ShowsContainerActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                }
             } else {
-                startActivity(Intent(this, LoginActivity::class.java))
+                startActivity(Intent(this, LoginActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
             }
         })
     }

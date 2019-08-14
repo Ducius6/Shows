@@ -15,15 +15,18 @@ import com.example.ducius.fragment.ShowsContainerActivity
 import com.example.ducius.model.RegisterInfo
 
 private const val EMPTY_STRING = ""
+
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var viewModel: LoginViewModel
     private var user: RegisterInfo? = null
+    private var isCalledRegister = false
+    private var isCalledLogin = false
 
     companion object {
         const val TOKEN = "token"
         const val PREFS_NAME = "preferences"
-        var token:String = ""
+        var token: String = ""
 
     }
 
@@ -36,10 +39,13 @@ class LoginActivity : AppCompatActivity() {
             viewModel.getUserData(intent.getSerializableExtra(getString(R.string.user_var)) as RegisterInfo)
             viewModel.liveData.observe(this, Observer {
                 if (it.isSucccessful) {
-                    token = it.token?.token.toString()
-                    it.token?.token?.let { it1 -> viewModel.saveToken(it1) }
-                    startActivity(user?.email?.let { it1 -> WelcomeActivity.newInstance(this, it1) })
-                    finish()
+                    if (isCalledRegister.not()) {
+                        isCalledRegister = true
+                        token = it.token?.token.toString()
+                        it.token?.token?.let { it1 -> viewModel.saveToken(it1) }
+                        startActivity(user?.email?.let { it1 -> WelcomeActivity.newInstance(this, it1) })
+                        finish()
+                    }
                 }
             })
         }
@@ -59,15 +65,17 @@ class LoginActivity : AppCompatActivity() {
                 viewModel.getUserData(RegisterInfo(usernameEditText.text.toString(), passwordEditText.text.toString()))
                 viewModel.liveData.observe(this, Observer {
                     if (it.isSucccessful) {
-                        token = it.token?.token.toString()
-                        it.token?.token?.let { it1 -> viewModel.saveToken(it1) }
-                        startActivity(
-                            Intent(
-                                this,
-                                ShowsContainerActivity::class.java
-                            ).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        )
-                        finish()
+                        if (isCalledLogin.not()) {
+                            token = it.token?.token.toString()
+                            it.token?.token?.let { it1 -> viewModel.saveToken(it1) }
+                            startActivity(
+                                Intent(
+                                    this,
+                                    ShowsContainerActivity::class.java
+                                ).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            )
+                            finish()
+                        }
                     }
                 })
             }
